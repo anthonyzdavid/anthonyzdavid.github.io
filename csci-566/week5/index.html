@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSCI 566 — Week 5 Study Notebook</title>
+  <style>
+    :root{--ink:#172033;--muted:#5d687b;--paper:#f4f6f7;--card:#fff;--line:#d7dde2;--navy:#17365d;--teal:#087f7a;--blue:#eaf2fb;--teal-bg:#e8f8f6;--gold:#e4a72d;--gold-bg:#fff7df;--green:#26755a;--green-bg:#e9f7f1;--red:#a23a3a;--red-bg:#fff0ef;--violet:#6a4fa3;--violet-bg:#f4effd;--shadow:0 10px 30px rgba(23,32,51,.08)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:#175d83}code,.eq{font-family:"SFMono-Regular",Consolas,monospace}.shell{display:grid;grid-template-columns:280px minmax(0,930px);gap:32px;max-width:1280px;margin:auto;padding:28px}.side{position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto;background:#0f3545;color:#e7f7f6;border-radius:18px;padding:22px}.side h2{font-size:1rem;margin:0 0 12px;color:white}.side a{display:block;color:#d7edee;text-decoration:none;padding:5px 8px;border-left:2px solid transparent}.side a:hover{background:#164b5c;border-left-color:#f1bc51}.side .mini{color:#a9cdd0;font-size:.82rem;margin:14px 0}.tools{display:flex;flex-wrap:wrap;gap:8px}.tools button{border:1px solid #78a7ad;border-radius:999px;background:transparent;color:white;padding:7px 11px;cursor:pointer}.main{min-width:0}.hero{background:linear-gradient(135deg,#0e3444,#0b7a76);color:#fff;padding:42px;border-radius:24px;box-shadow:var(--shadow)}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:#bfe4e2;font-weight:750}.hero h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.05;margin:.25em 0}.hero p{max-width:70ch;color:#e5f4f3}.meta{display:flex;gap:10px;flex-wrap:wrap}.pill{border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 10px;font-size:.85rem}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;margin:22px 0;box-shadow:var(--shadow)}h2{font-size:1.55rem;line-height:1.2;margin:0 0 14px;color:#174354}h3{font-size:1.08rem;margin:24px 0 8px;color:#256172}p{margin:.7em 0}ul,ol{padding-left:1.35rem}.map{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.map span{background:var(--teal-bg);border:1px solid #b9dedb;border-radius:999px;padding:7px 11px}.map b{color:#7a8d94}.callout{border-left:5px solid var(--teal);background:var(--teal-bg);padding:14px 16px;margin:16px 0;border-radius:0 12px 12px 0}.exam{border-color:var(--gold);background:var(--gold-bg)}.context{border-color:var(--violet);background:var(--violet-bg)}.boundary{border-color:var(--red);background:var(--red-bg)}.check{border-color:var(--green);background:var(--green-bg)}.label{font-size:.75rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:4px}.equation{background:#10242e;color:#f4ffff;padding:16px 18px;border-radius:12px;overflow:auto;margin:14px 0}.equation .muted{color:#b8d1d5}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tile{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}.tile h3{margin-top:0}.steps{counter-reset:step;display:grid;gap:10px}.step{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}.step:before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800}table{border-collapse:collapse;width:100%;font-size:.93rem;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:#eaf3f4;color:#174354}details{border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin:10px 0;background:#fcfcfb}summary{font-weight:700;cursor:pointer;color:#174354}textarea{width:100%;min-height:110px;border:1px solid #b9c1cb;border-radius:12px;padding:12px;font:inherit;background:#fffefb;resize:vertical}.prompt{font-weight:720;color:#263b56}.small{font-size:.88rem;color:var(--muted)}.recall>li{margin:18px 0;padding-left:5px}.recall>li::marker{font-weight:800;color:var(--teal)}.source{font-size:.85rem;color:var(--muted);overflow-wrap:anywhere}.top{position:fixed;right:18px;bottom:18px;text-decoration:none;background:#0f4e5a;color:#fff;border-radius:999px;padding:10px 14px;box-shadow:var(--shadow)}
+    @media(max-width:900px){.shell{display:block;padding:14px}.side{position:relative;max-height:none;margin-bottom:18px}.grid{grid-template-columns:1fr}.hero{padding:30px 24px}.card{padding:20px}}
+    @media print{body{background:#fff;font-size:11pt}.shell{display:block;max-width:none;padding:0}.side,.tools,.top{display:none}.hero{box-shadow:none;border:1px solid #777;color:#111;background:#fff;break-after:avoid}.hero p,.eyebrow{color:#333}.card{box-shadow:none;break-inside:avoid;border-color:#aaa;margin:12px 0}details{break-inside:avoid}details>*{display:block}textarea{min-height:70px}.pill{border-color:#777}}
+  </style>
+</head>
+<body id="top">
+<div class="shell">
+  <aside class="side" aria-label="Notebook navigation">
+    <a href="../" aria-label="Back to CSCI 566 notebooks">← CSCI 566 home</a>\n    <h2>Week 5 navigation</h2>
+    <a href="#use">How to use</a><a href="#map">Lecture map</a><a href="#logistics">1. Logistics</a><a href="#physical">2. Physical AI</a><a href="#data">3. Robotics data</a><a href="#synthetic">4. Synthetic data</a><a href="#policies">5. Policy learning</a><a href="#sim2real">6. Sim-to-real</a><a href="#evaluation">7. Evaluation + deployment</a><a href="#career">8. Project/career advice</a><a href="#cnn">9. CNN architecture</a><a href="#convolution">10. Convolution math</a><a href="#pooling">11. Pooling + softmax</a><a href="#batchnorm">12. Batch normalization</a><a href="#clip">13. Contrastive learning</a><a href="#boundary">14. Boundaries</a><a href="#priority">15. Study priorities</a><a href="#recall">16. Recall bank</a><a href="#missed">What did I miss?</a>
+    <p class="mini">Your note boxes save locally in this browser.</p>
+    <div class="tools"><button type="button" onclick="toggleAll(true)">Open answers</button><button type="button" onclick="toggleAll(false)">Close answers</button><button type="button" onclick="window.print()">Print</button></div>
+  </aside>
+
+  <main class="main">
+    <header class="hero">
+      <div class="eyebrow">CSCI 566 · Deep Learning and Applications</div>
+      <h1>Week 5 Study Notebook</h1>
+      <p>Physical-AI guest lecture → robotics data and policy stacks → convolution mechanics → pooling and softmax → batch normalization → CLIP-style contrastive learning.</p>
+      <div class="meta"><span class="pill">Lecture: September 21, 2026</span><span class="pill">Guest + core lecture</span><span class="pill">Offline + print friendly</span></div>
+    </header>
+
+    <section class="card" id="use">
+      <h2>How to use this notebook</h2>
+      <ol><li>Keep the two halves separate: the robotics talk is current industry/project context; the CNN block contains the classical mechanics Zhao explicitly marked as foundational.</li><li>Work every convolution output-size and parameter-count example by hand.</li><li>After each major section, explain the idea without looking and then open the answer check.</li><li>Use the note boxes for your own reconstruction; they persist locally.</li></ol>
+      <div class="callout exam"><span class="label">Exam signal</span>Zhao said students do not need to memorize the convolution formulas because the midterm is open-resource, but they do need to understand stride, padding, and how to calculate output size. That is an understanding requirement, not a license to skip the calculation.</div>
+    </section>
+
+    <section class="card" id="map">
+      <h2>Lecture map</h2>
+      <div class="map"><span>project assignments</span><b>→</b><span>physical AI</span><b>→</b><span>data pyramid</span><b>→</b><span>simulation + world models</span><b>→</b><span>VLA / world-action policies</span><b>→</b><span>sim-to-real + edge</span><b>→</b><span>CNNs</span><b>→</b><span>pooling + softmax</span><b>→</b><span>batch normalization</span><b>→</b><span>contrastive learning</span></div>
+    </section>
+
+    <section class="card" id="logistics">
+      <h2>1. Project logistics</h2>
+      <ul><li>TAs review proposals and are assigned to groups, usually by topic fit. A group may state a preference, including office-hour compatibility.</li><li>There will be project checkpoints during the semester; most project questions should go to the assigned TA.</li><li>The guest speaker emphasized treating the final project as a real 16-week build, not a three-week exercise stretched to fill a semester.</li></ul>
+      <div class="callout context"><span class="label">Project opportunity</span>The course project can become a research paper, benchmark, open-source tool, or startup prototype. The consistent advice was to use the available time, collaborators, faculty guidance, and compute as leverage.</div>
+    </section>
+
+    <section class="card" id="physical">
+      <h2>2. Guest lecture: what physical AI is trying to build</h2>
+      <p>Guest speaker Aiden, a USC alumnus working at NVIDIA, organized the robotics stack around <strong>data generation, training, evaluation, and deployment</strong>. The talk focused mainly on data and training.</p>
+      <h3>From stitched specialists to end-to-end models</h3>
+      <table><thead><tr><th>System type</th><th>Strength</th><th>Weakness</th></tr></thead><tbody>
+        <tr><td><strong>Specialist</strong></td><td>Fast and precise on one preprogrammed task in a controlled setting.</td><td>New tasks/environments require new engineering; hard to scale.</td></tr>
+        <tr><td><strong>Generalist</strong></td><td>Learns a broader range of tasks and adapts beyond one rigid program.</td><td>Often weaker than a specialist at any one task.</td></tr>
+        <tr><td><strong>Generalist-specialist goal</strong></td><td>Broad world understanding plus high proficiency on specialized tasks.</td><td>Requires far more diverse data, reliable training, and safe deployment.</td></tr>
+      </tbody></table>
+      <h3>Why physical AI is unusually difficult</h3>
+      <ul><li><strong>Multimodality:</strong> cameras, depth, LiDAR, touch, force, proprioception, language, and actions must align.</li><li><strong>Data scarcity:</strong> real robot demonstrations require costly hardware, teleoperation, controlled environments, and supervision.</li><li><strong>Sim-to-real mismatch:</strong> small errors in contact, friction, joints, lighting, or sensors can invalidate a policy.</li><li><strong>Edge latency:</strong> a physical system may need millisecond reactions; cloud round trips are often too slow.</li><li><strong>Evaluation risk:</strong> a failed test can damage expensive hardware or injure someone.</li></ul>
+      <details><summary>Recall check: What does “end to end” change?</summary><p>Instead of separately training perception, planning, and control modules and hand-stitching them, a unified model maps sensory/task inputs more directly toward actions. The promised benefit is easier adaptation and broader generalization, though safety and reliability become central.</p></details>
+    </section>
+
+    <section class="card" id="data">
+      <h2>3. The robotics data pyramid</h2>
+      <div class="grid"><div class="tile"><h3>Top: real robot data</h3><p>Highest fidelity but small, expensive, and slow. A human controls a real robot and records demonstrations.</p></div><div class="tile"><h3>Middle: synthetic data</h3><p>Scales with compute and can be generated in simulation or by world models. The strategic goal is to expand this middle layer.</p></div><div class="tile"><h3>Base: web video/data</h3><p>Enormous and multimodal but unstructured, not robot-action-labeled, and often physically or visually noisy.</p></div><div class="tile"><h3>Central conversion</h3><p>Turn the data bottleneck into a compute problem: use scarce real data to ground a pipeline that produces much more useful synthetic experience.</p></div></div>
+      <h3>Real-data collection and video-to-data</h3>
+      <div class="steps"><div class="step"><div><strong>Unified teleoperation:</strong> connect headsets/controllers, middleware, sensors, simulators, and robot embodiments through a common interface.</div></div><div class="step"><div><strong>Ingest demonstrations:</strong> segment long videos into actions, identify entities/relations, construct a scene graph, and create searchable embeddings.</div></div><div class="step"><div><strong>Reconstruct:</strong> convert multi-view human/object footage into simulation-ready assets.</div></div><div class="step"><div><strong>Robot-ground:</strong> retarget human joint/motion relationships to the target robot embodiment.</div></div></div>
+      <p>The result is not merely a video archive; it is a queryable action database and a path from human demonstrations to robot training signals.</p>
+      <p class="prompt">Reconstruct the data pyramid and explain why the middle layer is strategically important.</p><textarea data-note="w5-data" placeholder="Write this from memory..."></textarea>
+    </section>
+
+    <section class="card" id="synthetic">
+      <h2>4. Two synthetic-data routes</h2>
+      <h3>A. Physics-based simulation</h3>
+      <p>Neural reconstruction can bring captured environments into an interactive 3-D simulator. Visual fidelity matters because vision-conditioned policies can fail when simulation lighting, texture, or camera output differs from reality.</p>
+      <h3>B. World foundation models</h3>
+      <p>The talk presented Cosmos as a model trained on realistic video so that video generation implicitly captures aspects of physical dynamics. Its lecture-described architecture paired a reasoning tower with a diffusion-based generation tower, connected through joint attention.</p>
+      <div class="grid"><div class="tile"><h3>Reasoner</h3><p>Embodied planning: turn a high-level goal into likely next actions. Video critic: inspect generated videos for quality and hallucinated physics.</p></div><div class="tile"><h3>Transfer / augmentation</h3><p>Condition generation on edges, segmentation, blur/color, or depth to preserve selected structure while changing objects, lighting, texture, or background.</p></div></div>
+      <h3>Worked lecture result: visual augmentation</h3>
+      <p>For a two-hand pick-and-place task, the speaker compared three policies:</p>
+      <table><thead><tr><th>Training data</th><th>Reported success</th><th>Interpretation</th></tr></thead><tbody><tr><td>100 real demonstrations</td><td>3%</td><td>Narrow visual coverage.</td></tr><tr><td>Real + standard augmentations</td><td>16%</td><td>Some robustness from ordinary image transforms.</td></tr><tr><td>Real + 5× Cosmos-generated augmentations</td><td>80%</td><td>Much broader conditions in the presented experiment.</td></tr></tbody></table>
+      <p class="small">These percentages are lecture-reported results for the shown example, not a universal guarantee.</p>
+      <h3>Neural simulation</h3>
+      <p>Condition on an initial frame, task description, and action sequence; generate the future video that would result. If the model predicts both future frames and actions, it functions as a <strong>world-action model</strong>. This can create training data or evaluate a candidate policy without first risking a physical robot.</p>
+      <div class="callout context"><span class="label">Research caveat from Q&amp;A</span>Synthetic data are still probabilistic and can hallucinate. Filtering, realistic source data, task-specific validation, and critics/guardrails remain necessary. Whether pure synthetic, mixed, or real-only data works best depends on the task.</div>
+    </section>
+
+    <section class="card" id="policies">
+      <h2>5. Three policy-learning paradigms</h2>
+      <table><thead><tr><th>Paradigm</th><th>Core idea</th><th>Lecture role</th></tr></thead><tbody>
+        <tr><td><strong>World-action model</strong></td><td>Learn physical evolution from large video corpora; reason counterfactually about what happens after an action.</td><td>Predict future observations/actions without requiring only explicit robot demonstrations.</td></tr>
+        <tr><td><strong>Vision-language-action (VLA)</strong></td><td>Start from broad vision-language knowledge and add an action output head.</td><td>Use general semantic understanding to plan and act across tasks/embodiments.</td></tr>
+        <tr><td><strong>Reinforcement learning</strong></td><td>Improve a policy through trial, error, and reward.</td><td>Learn control behavior in fast simulated environments.</td></tr>
+      </tbody></table>
+      <h3>Dynamics vocabulary</h3>
+      <div class="grid"><div class="tile"><h3>Forward dynamics</h3><p>Given the current state and an action, predict the future state/observation.</p></div><div class="tile"><h3>Inverse dynamics</h3><p>Given a desired resulting motion/state, infer the action that could produce it.</p></div><div class="tile"><h3>Policy generation</h3><p>Post-train a general world model on action-labeled data so it can choose actions.</p></div><div class="tile"><h3>Adaptation</h3><p>Pretraining across embodiments should reduce the amount of new data needed for a particular robot.</p></div></div>
+      <h3>Slow planning + fast action</h3>
+      <p>The presented GR00T-style VLA used a dual-system analogy:</p>
+      <ul><li><strong>System 2:</strong> a slower VLM handles high-level reasoning and planning.</li><li><strong>System 1:</strong> a faster diffusion-transformer action system turns the high-level plan into continuous robot actions.</li></ul>
+      <p>A whole-body controller coordinates joints, balance, reaching, and locomotion. The presented Sonic controller learns motion tracking from large human-motion corpora rather than relying only on hand-written reward descriptions of “good walking.”</p>
+      <details><summary>Recall check: Why separate slow and fast systems?</summary><p>High-level task reasoning can run at a slower cadence, while stable physical control needs rapid actions. The split mirrors thinking “what should I do?” separately from executing fine motor details.</p></details>
+    </section>
+
+    <section class="card" id="sim2real">
+      <h2>6. The sim-to-real gap</h2>
+      <p>A policy exploits whatever physics the simulator provides. If simulated torque, friction, contact, inertia, damping, or joint compliance is wrong, the learned compensation can fail catastrophically on real hardware.</p>
+      <h3>Two requirements emphasized</h3>
+      <ol><li><strong>Contact/collision solving:</strong> normal forces, friction, penetration, and which bodies actually interact.</li><li><strong>Joint dynamics:</strong> how torque commands translate into motion, including inertia and compliance.</li></ol>
+      <p>The guest introduced the Newton physics engine, developed with collaborators, as a robotics-oriented alternative to a game-optimized engine. Efficient solvers can avoid computing interactions for every possible pair when only a subset of particles actually collide.</p>
+      <h3>Rendering is part of the model’s input distribution</h3>
+      <p>A proprioceptive controller may not care what an image looks like, but a VLA policy does. If simulated images look unlike real camera inputs, the vision model is out of distribution even when the mechanics are correct.</p>
+      <div class="callout check"><span class="label">Key connection</span>Sim-to-real is both a <em>physics gap</em> and a <em>perception gap</em>. A good robotics simulator must model what the robot feels and what it sees.</div>
+    </section>
+
+    <section class="card" id="evaluation">
+      <h2>7. Evaluation, edge deployment, and safety</h2>
+      <h3>Evaluation before hardware</h3>
+      <p>A modular arena can vary objects, backgrounds, task conditions, and definitions of success, then run large-scale tests before a physical deployment. For “pick up the microphone,” success could mean merely grasping it or bringing it to the correct location—the metric must be explicit.</p>
+      <h3>Edge deployment</h3>
+      <p>Robots and autonomous vehicles often cannot wait for cloud inference. Policies are converted to deployable formats, compressed/quantized when needed, tested in simulation, then run on local edge GPUs for millisecond response.</p>
+      <h3>Safety stack</h3>
+      <p>In Q&amp;A, the speaker described a probabilistic learned policy paired with a faster deterministic fallback. If the learned system violates hard constraints—distance, speed, workspace, or another domain-specific boundary—the deterministic layer intervenes.</p>
+      <div class="equation">learned policy proposes action<br>↓<br>hard safety constraints validate it<br>↓<br>execute OR switch to deterministic safe behavior</div>
+      <div class="callout boundary"><span class="label">Important limit</span>The speaker explicitly said current systems are not ready for autonomous surgery. Safety mechanisms are domain specific; the lecture gave a design principle, not a claim of solved safety.</div>
+    </section>
+
+    <section class="card" id="career">
+      <h2>8. Project and career guidance</h2>
+      <ul><li>A poor first interview is normal and not a permanent judgment. Treat early roles as an optimization path rather than requiring the first job to be the final destination.</li><li>Use an existing domain advantage—mechanical engineering, finance, healthcare, etc.—as an entry point for applied AI.</li><li>Zhao’s strongest project recommendation was a useful <strong>open-source tool or benchmark</strong>, because public utility can attract community and hiring attention.</li><li>Start from a real problem you personally face; maintain the work over time. The professor’s long-lived anomaly-detection library was the example.</li><li>Agents can multiply implementation throughput, but the student still supplies problem selection, scope, verification, and judgment.</li></ul>
+      <p class="prompt">What real problem could your group solve in a way another person would actually reuse?</p><textarea data-note="w5-project" placeholder="Problem, user, current pain, proposed reusable output..."></textarea>
+    </section>
+
+    <section class="card" id="cnn">
+      <h2>9. Core lecture: the four pieces of a CNN classifier</h2>
+      <table><thead><tr><th>Component</th><th>Job</th><th>Learnable parameters?</th></tr></thead><tbody>
+        <tr><td><strong>Convolution</strong></td><td>Apply shared local filters to extract spatial patterns.</td><td>Yes: filter weights + usually one bias per filter.</td></tr>
+        <tr><td><strong>Nonlinear activation</strong></td><td>Prevent stacked layers from collapsing to one linear map.</td><td>Usually no for plain ReLU; variants may have parameters.</td></tr>
+        <tr><td><strong>Pooling</strong></td><td>Summarize neighborhoods and reduce spatial resolution.</td><td>No in the max/average/L2 examples shown.</td></tr>
+        <tr><td><strong>Fully connected + softmax</strong></td><td>Combine learned features into class scores, then normalize to probabilities.</td><td>FC: yes. Softmax: no new learned weight in the operation itself.</td></tr>
+      </tbody></table>
+      <p>AlexNet was used as the canonical assembly: image → repeated convolution/activation (sometimes pooling) → fully connected layers → softmax. Pooling is optional; filter sizes, filter counts, pooling type, and layer ordering are architectural choices. This design space motivated neural architecture search.</p>
+      <h3>Why convolution instead of dense connectivity?</h3>
+      <ul><li>Images have local spatial correlation.</li><li>Dense flattening creates too many parameters and destroys 2-D organization.</li><li>Locally connected layers reduce connections, but convolution goes farther by sharing a detector across locations.</li><li>Early filters often learn simple edges/colors; later layers compose them into more complex patterns.</li></ul>
+    </section>
+
+    <section class="card" id="convolution">
+      <h2>10. Convolution math: filter, stride, padding, shape</h2>
+      <p>Let the input be <code>W × H × C</code>. Use <code>K</code> filters, each <code>F × F × C</code>, stride <code>S</code>, and zero-padding <code>P</code> on each side.</p>
+      <div class="equation">W<sub>out</sub> = floor((W − F + 2P) / S) + 1<br>H<sub>out</sub> = floor((H − F + 2P) / S) + 1<br>output depth = K<br><br>learnable parameters = F²CK + K</div>
+      <ul><li><strong>Filter/kernel:</strong> shared learned weights applied at each local position. Its depth must span all input channels.</li><li><strong>Stride:</strong> number of pixels moved per application. Larger stride samples fewer positions and creates a smaller output.</li><li><strong>Padding:</strong> added border values, often zeros. Padding can make a filter fit, preserve edge information, or control output size.</li><li><strong>Activation map:</strong> one filter’s spatial output. <code>K</code> filters create <code>K</code> maps.</li></ul>
+      <h3>Worked example from lecture</h3>
+      <div class="equation">input = 32 × 32 × 3<br>K = 6 filters, F = 5, S = 1, P = 0<br><br>W<sub>out</sub> = (32 − 5)/1 + 1 = 28<br>output = 28 × 28 × 6<br>parameters = 5²·3·6 + 6 = 456</div>
+      <h3>Stride comparison on a 7×7 input with a 3×3 filter, no padding</h3>
+      <table><thead><tr><th>Stride</th><th>Output width</th><th>Meaning</th></tr></thead><tbody><tr><td>1</td><td><code>(7−3)/1+1=5</code></td><td>Dense sampling; less compression.</td></tr><tr><td>2</td><td><code>floor((7−3)/2)+1=3</code></td><td>Fewer positions; more compression.</td></tr><tr><td>3</td><td>Not an exact tiling without a design decision</td><td>Add padding or accept/drop an incomplete edge position, depending on the framework/settings.</td></tr></tbody></table>
+      <div class="callout exam"><span class="label">Exam priority</span>Know what <code>F, C, K, S, P</code> mean and be able to derive the resulting output shape. The professor specifically described this as a fundamental calculation commonly tested.</div>
+      <p class="prompt">Create and solve your own convolution-shape problem. Include parameter count.</p><textarea data-note="w5-convolution" placeholder="Input shape, filter count/size, stride, padding, output, parameters..."></textarea>
+    </section>
+
+    <section class="card" id="pooling">
+      <h2>11. Pooling and softmax</h2>
+      <h3>Pooling</h3>
+      <p>Pooling operates independently on each activation map. It has a spatial window and stride but, in the forms shown, no weights to learn.</p>
+      <table><thead><tr><th>Type</th><th>Neighborhood summary</th><th>Effect</th></tr></thead><tbody><tr><td>Max pooling</td><td>Largest value</td><td>Retains the strongest/extreme response.</td></tr><tr><td>Average pooling</td><td>Arithmetic mean</td><td>Smooths the region; an extreme response can be diluted.</td></tr><tr><td>L2 pooling</td><td>L2 magnitude</td><td>Summarizes overall response energy.</td></tr></tbody></table>
+      <p>Example: a 4×4 map with 2×2 max pooling and stride 2 becomes 2×2—one representative maximum per nonoverlapping block. Compression discards information; that is the tradeoff for reduced computation, lower parameter pressure downstream, and some robustness.</p>
+      <div class="callout boundary"><span class="label">Not an exam focus</span>The lecture’s observation that max pooling may shift the apparent location of a response slightly was explicitly marked “not on the exam.” Know what pooling does and why; do not over-study that aside.</div>
+      <h3>Softmax</h3>
+      <div class="equation">pᵢ = exp(zᵢ) / Σⱼ exp(zⱼ)</div>
+      <p>The final fully connected layer produces one logit per class; softmax converts those logits to a distribution summing to one. Prediction usually selects the largest-probability class.</p>
+      <details><summary>Recall check: Convolution vs. pooling</summary><p>Convolution learns shared local filters and creates feature maps. Pooling applies a fixed local summary such as max or average and contains no learned filter weights in the versions taught.</p></details>
+    </section>
+
+    <section class="card" id="batchnorm">
+      <h2>12. Batch normalization for stable optimization</h2>
+      <p>Deep-network optimization is harder when activations at different layers or features live on wildly different scales. The lecture framed batch normalization as making a batch approximately zero mean and unit variance so optimization proceeds over more comparable ranges.</p>
+      <div class="equation">μ<sub>B</sub> = (1/m) Σᵢ xᵢ<br>σ²<sub>B</sub> = (1/m) Σᵢ (xᵢ − μ<sub>B</sub>)²<br>x̂ᵢ = (xᵢ − μ<sub>B</sub>) / √(σ²<sub>B</sub> + ε)</div>
+      <h3>What to remember</h3>
+      <ul><li>Compute mean and variance over the chosen batch/channel dimensions; the axis choice is an architectural choice.</li><li>Apply normalization around layers with learned parameters, such as convolutional or fully connected layers, to keep scales manageable.</li><li>At test time, use the training-time statistics retained for inference so training and test inputs/activations are processed consistently.</li><li>The larger goal is easier, more stable training—not changing the semantic class label.</li></ul>
+      <div class="callout"><span class="label">Scope note</span>The lecture emphasized zero-mean/unit-variance normalization and saved training statistics. It did not develop the full learned affine re-scaling derivation, so it is intentionally not treated as professor-taught material here.</div>
+      <details><summary>Recall check: Why not recompute arbitrary statistics on one test example?</summary><p>The model was trained under a particular normalization distribution. Retained training statistics give consistent preprocessing and avoid unstable estimates from a tiny or different test batch.</p></details>
+    </section>
+
+    <section class="card" id="clip">
+      <h2>13. CLIP-style contrastive learning</h2>
+      <p>The closing research concept was learning transferable visual representations from natural-language supervision. The key idea is not to require a hard class label for every image; instead, learn which image-text pairs should be close and which mismatched pairs should be far apart.</p>
+      <div class="steps"><div class="step"><div>Encode a batch of images into vectors.</div></div><div class="step"><div>Encode their paired texts into vectors.</div></div><div class="step"><div>Build all pairwise image-text similarity scores.</div></div><div class="step"><div>Treat the matching pairs (the diagonal of the score matrix) as positives and other batch pairings as negatives.</div></div><div class="step"><div>Optimize both encoders so correct pairs rank above incorrect pairs.</div></div></div>
+      <div class="equation">similarity matrix S<sub>ij</sub> = sim(image embedding i, text embedding j)<br>Goal: S<sub>ii</sub> &gt; S<sub>ij</sub> for mismatched j</div>
+      <p>At inference, compare an image embedding with candidate text embeddings and use softmax over the similarity scores to choose the best match. This extends image classification into a multimodal matching problem.</p>
+      <div class="callout boundary"><span class="label">Professor’s boundary</span>Zhao called the paper-specific details nonessential and said the topic would be revisited with the text/sequential material. Learn the positive-vs.-negative pairing idea, not every paper detail yet.</div>
+      <p class="prompt">Explain the diagonal of the image-text similarity matrix and why the off-diagonal entries are useful.</p><textarea data-note="w5-clip" placeholder="Write this from memory..."></textarea>
+    </section>
+
+    <section class="card" id="boundary">
+      <h2>14. Lecture boundary and next structures</h2>
+      <p>This week completed the main CNN vocabulary: convolution, activation, pooling, fully connected layers, softmax, and normalization. It introduced contrastive image-text learning but did not fully derive it.</p>
+      <div class="grid"><div class="tile"><h3>Covered now: grids</h3><p>Images have fixed local neighborhoods on a lattice. CNNs encode locality and repeated patterns through shared filters.</p></div><div class="tile"><h3>Next: sequences</h3><p>Language and time series have order and state across positions. Recurrent/sequential architectures reuse update rules through time.</p></div><div class="tile"><h3>Later: graphs</h3><p>Molecules, social networks, transactions, and interacting agents have irregular neighborhoods. Graph models aggregate from connected neighbors.</p></div><div class="tile"><h3>Modern context</h3><p>Video adds time to images; physical AI additionally constrains predictions with real-world dynamics. Large visual models often wrap these fundamentals in broader systems.</p></div></div>
+    </section>
+
+    <section class="card" id="priority">
+      <h2>15. Tiered study priorities</h2>
+      <div class="grid"><div class="tile"><h3>Tier 1 — drill</h3><ul><li>convolution output shape</li><li>parameter count</li><li>filter/channel/depth relationships</li><li>stride and padding effects</li><li>pooling vs. convolution</li><li>softmax’s role</li><li>batch-normalization purpose and train/test handling</li></ul></div><div class="tile"><h3>Tier 2 — understand</h3><ul><li>CNN hierarchy and parameter sharing</li><li>AlexNet-style composition</li><li>contrastive positives/negatives</li><li>forward vs. inverse dynamics</li><li>sim-to-real physics + rendering gaps</li></ul></div><div class="tile"><h3>Project / industry context</h3><ul><li>robotics data pyramid</li><li>world-action models and VLA systems</li><li>synthetic augmentation pipeline</li><li>edge inference and deterministic safety fallbacks</li></ul></div><div class="tile"><h3>Do not over-study yet</h3><ul><li>specific NVIDIA product internals</li><li>CLIP paper details</li><li>diffusion architecture</li><li>RNN/GNN mechanics, previewed for later</li></ul></div></div>
+    </section>
+
+    <section class="card" id="recall">
+      <h2>16. Active-recall bank</h2>
+      <ol class="recall">
+        <li>An input is 64×64×3. Apply 16 filters of size 5×5, stride 2, padding 2. What is the output and parameter count?<details><summary>Check</summary><p><code>floor((64−5+4)/2)+1 = 32</code>. Output <code>32×32×16</code>. Parameters <code>5²·3·16+16=1,216</code>.</p></details></li>
+        <li>Why does a convolution filter’s depth match the input depth?<details><summary>Check</summary><p>At each spatial location the filter combines all input channels to produce one scalar response. An RGB input therefore requires each spatial filter to include weights for all three channels.</p></details></li>
+        <li>Design a case where max pooling is preferable to average pooling, and one where average is preferable.<details><summary>Check</summary><p>Max is useful when a strong detector firing anywhere in a patch should survive. Average is useful when the overall regional response matters and isolated extremes should not dominate.</p></details></li>
+        <li>Explain the difference between a world-action model and a VLA.<details><summary>Check</summary><p>A world-action model emphasizes learned physical evolution/counterfactual prediction from video and actions. A VLA starts from broad vision-language representations and adds action generation. A real system can combine both ideas.</p></details></li>
+        <li>Why can visually unrealistic simulation break a policy even when joint physics is accurate?<details><summary>Check</summary><p>A vision-conditioned policy receives pixels. Unrealistic rendering shifts those inputs out of the training distribution, so its perception/planning can fail before mechanics matter.</p></details></li>
+        <li>How does contrastive supervision avoid requiring a hand-written class label for every image?<details><summary>Check</summary><p>Paired image/text data supply relative supervision: matching pairs should be more similar than mismatched pairs. The model learns an embedding space from these comparisons.</p></details></li>
+        <li>State the batch-normalization train/test distinction.<details><summary>Check</summary><p>Training computes normalization statistics from batches and retains running/training statistics. Inference uses the retained training statistics for consistent, stable processing.</p></details></li>
+        <li>Give a three-layer safety/evaluation plan before a robot action reaches real hardware.<details><summary>Check</summary><p>Evaluate across varied simulated scenarios and explicit success criteria; validate the proposed action against deterministic constraints; deploy locally with hardware/physical safeguards and monitoring.</p></details></li>
+      </ol>
+    </section>
+
+    <section class="card" id="missed">
+      <h2>What did I miss?</h2>
+      <p>After a closed-notes pass, list the formulas, vocabulary, or examples you could not reconstruct.</p>
+      <textarea data-note="w5-missed" placeholder="I need to revisit..."></textarea>
+      <p class="source">Primary source: “CSCI 566 - Zhao Lecture Recording on 09_21_2026_Captions_English (United States).txt”. Obvious caption renderings of technical names were normalized for readability. Product/version claims and reported experimental figures are recorded as lecture content, not independently verified specifications.</p>
+    </section>
+  </main>
+</div>
+<a class="top" href="#top" aria-label="Back to top">↑ Top</a>
+<script>
+  const storePrefix='csci566-w5-';
+  document.querySelectorAll('textarea[data-note]').forEach(el=>{
+    const key=storePrefix+el.dataset.note;
+    try{el.value=localStorage.getItem(key)||'';el.addEventListener('input',()=>localStorage.setItem(key,el.value));}catch(e){}
+  });
+  function toggleAll(open){document.querySelectorAll('details').forEach(d=>d.open=open)}
+</script>
+</body>
+</html>
+

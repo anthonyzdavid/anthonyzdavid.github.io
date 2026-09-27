@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSCI 566 — Week 4 Study Notebook</title>
+  <style>
+    :root{--ink:#172033;--muted:#5d687b;--paper:#f7f4ee;--card:#fff;--line:#d8d4ca;--navy:#17365d;--blue:#eaf2fb;--gold:#f2b84b;--gold-bg:#fff7df;--green:#26755a;--green-bg:#e9f7f1;--red:#a23a3a;--red-bg:#fff0ef;--violet:#6a4fa3;--violet-bg:#f4effd;--shadow:0 10px 30px rgba(23,32,51,.08)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif} a{color:#174f8a} code,.eq{font-family:"SFMono-Regular",Consolas,monospace} .shell{display:grid;grid-template-columns:270px minmax(0,920px);gap:32px;max-width:1260px;margin:auto;padding:28px}.side{position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow:auto;background:#102846;color:#eaf2fb;border-radius:18px;padding:22px}.side h2{font-size:1rem;margin:0 0 12px}.side a{display:block;color:#dce9f8;text-decoration:none;padding:6px 8px;border-left:2px solid transparent}.side a:hover{background:#18385f;border-left-color:var(--gold)}.side .mini{color:#aec0d5;font-size:.82rem;margin:14px 0}.tools{display:flex;flex-wrap:wrap;gap:8px}.tools button{border:1px solid #89a1be;border-radius:999px;background:transparent;color:white;padding:7px 11px;cursor:pointer}.main{min-width:0}.hero{background:linear-gradient(135deg,#102846,#245787);color:white;padding:42px;border-radius:24px;box-shadow:var(--shadow)}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:#bad2eb;font-weight:750}.hero h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.05;margin:.25em 0}.hero p{max-width:68ch;color:#e7eff8}.meta{display:flex;gap:10px;flex-wrap:wrap}.pill{border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:5px 10px;font-size:.85rem}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;margin:22px 0;box-shadow:var(--shadow)}h2{font-size:1.55rem;line-height:1.2;margin:0 0 14px;color:var(--navy)}h3{font-size:1.08rem;margin:24px 0 8px;color:#274f77}p{margin:.7em 0}ul,ol{padding-left:1.35rem}.map{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.map span{background:var(--blue);border:1px solid #c7d8eb;border-radius:999px;padding:7px 11px}.map b{color:#76859a}.callout{border-left:5px solid var(--navy);background:var(--blue);padding:14px 16px;margin:16px 0;border-radius:0 12px 12px 0}.exam{border-color:var(--gold);background:var(--gold-bg)}.context{border-color:var(--violet);background:var(--violet-bg)}.boundary{border-color:var(--red);background:var(--red-bg)}.check{border-color:var(--green);background:var(--green-bg)}.label{font-size:.75rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:4px}.equation{background:#101d30;color:#f7fbff;padding:16px 18px;border-radius:12px;overflow:auto;margin:14px 0}.equation .muted{color:#b8c8da}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tile{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}.tile h3{margin-top:0}table{border-collapse:collapse;width:100%;font-size:.94rem;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}th{background:#edf3f9;color:var(--navy)}details{border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin:10px 0;background:#fcfcfb}summary{font-weight:700;cursor:pointer;color:var(--navy)}textarea{width:100%;min-height:110px;border:1px solid #b9c1cb;border-radius:12px;padding:12px;font:inherit;background:#fffefb;resize:vertical}.prompt{font-weight:720;color:#263b56}.small{font-size:.88rem;color:var(--muted)}.recall{counter-reset:q}.recall>li{margin:18px 0;padding-left:5px}.recall>li::marker{font-weight:800;color:var(--navy)}.source{font-size:.85rem;color:var(--muted);overflow-wrap:anywhere}.top{position:fixed;right:18px;bottom:18px;text-decoration:none;background:var(--navy);color:#fff;border-radius:999px;padding:10px 14px;box-shadow:var(--shadow)}
+    @media(max-width:900px){.shell{display:block;padding:14px}.side{position:relative;max-height:none;margin-bottom:18px}.grid{grid-template-columns:1fr}.hero{padding:30px 24px}.card{padding:20px}}
+    @media print{body{background:#fff;font-size:11pt}.shell{display:block;max-width:none;padding:0}.side,.tools,.top{display:none}.hero{box-shadow:none;border:1px solid #777;color:#111;background:#fff;break-after:avoid}.hero p,.eyebrow{color:#333}.card{box-shadow:none;break-inside:avoid;border-color:#aaa;margin:12px 0}details{break-inside:avoid}details>*{display:block}textarea{min-height:70px}.pill{border-color:#777}}
+  </style>
+</head>
+<body id="top">
+<div class="shell">
+  <aside class="side" aria-label="Notebook navigation">
+    <a href="../" aria-label="Back to CSCI 566 notebooks">← CSCI 566 home</a>\n    <h2>Week 4 navigation</h2>
+    <a href="#use">How to use</a><a href="#map">Lecture map</a><a href="#logistics">1. Logistics</a><a href="#function">2. Function approximation</a><a href="#network">3. Neural networks</a><a href="#forward">4. Forward propagation</a><a href="#nonlinear">5. Nonlinearity</a><a href="#activations">6. Activations</a><a href="#capacity">7. Capacity</a><a href="#softmax">8. Softmax and loss</a><a href="#backprop">9. Backpropagation</a><a href="#memory">10. Training cost</a><a href="#gradients">11. Gradient failures</a><a href="#cnn">12. CNN opening</a><a href="#priority">13. Study priorities</a><a href="#recall">14. Recall bank</a><a href="#missed">What did I miss?</a>
+    <p class="mini">Notes typed in this page are saved in this browser using local storage.</p>
+    <div class="tools"><button type="button" onclick="toggleAll(true)">Open answers</button><button type="button" onclick="toggleAll(false)">Close answers</button><button type="button" onclick="window.print()">Print</button></div>
+  </aside>
+
+  <main class="main">
+    <header class="hero">
+      <div class="eyebrow">CSCI 566 · Deep Learning and Applications</div>
+      <h1>Week 4 Study Notebook</h1>
+      <p>General neural networks → forward and backward propagation → activation functions → gradient pathologies → the motivation and first mechanics of convolutional networks.</p>
+      <div class="meta"><span class="pill">Lecture: September 14, 2026</span><span class="pill">Source-grounded</span><span class="pill">Offline + print friendly</span></div>
+    </header>
+
+    <section class="card" id="use">
+      <h2>How to use this notebook</h2>
+      <ol><li>Read a section once, then hide it and answer its recall prompt aloud.</li><li>Work the forward/backward and convolution examples without copying.</li><li>Use the yellow boxes for professor-signaled exam material; purple boxes are modern/project context.</li><li>Write your own reconstruction in each note box. It persists when this file is reopened in the same browser.</li></ol>
+      <div class="callout exam"><span class="label">Exam posture stated in lecture</span>Zhao said the midterm would be straightforward, would include a review of major points, and would not require students to review every research-oriented aside. The core mathematical and conceptual mechanics below deserve the most attention.</div>
+    </section>
+
+    <section class="card" id="map">
+      <h2>Lecture map</h2>
+      <div class="map"><span>course/project logistics</span><b>→</b><span>f(x) as approximation</span><b>→</b><span>layered networks</span><b>→</b><span>forward pass</span><b>→</b><span>nonlinear activations</span><b>→</b><span>softmax + loss</span><b>→</b><span>computational graphs</span><b>→</b><span>backpropagation</span><b>→</b><span>gradient failures</span><b>→</b><span>CNN motivation</span></div>
+    </section>
+
+    <section class="card" id="logistics">
+      <h2>1. Course and project logistics</h2>
+      <ul><li>Piazza is the main communication platform; lecture recordings are on Brightspace.</li><li>Students needing USC computing resources were directed to add their names through the project spreadsheet.</li><li>The project proposal is submitted once per group, not once per person. Normal group size is <strong>4–6</strong>; seven or fewer than four were described as exceptional cases.</li><li>Projects may be open research, a benchmark, an open-source tool, or a large experiment. The project is intentionally open ended and may pivot later.</li><li>The proposal deadline was treated flexibly for groups still forming: the lecture-day target could extend to later that week.</li><li>The lecture preview was general neural networks, optimization, and LLM connections; backpropagation and CNNs would continue into the following weeks, with an industry guest speaker next week.</li></ul>
+      <div class="callout context"><span class="label">Project / industry context</span>The professor strongly encouraged using modern agents and computer-use tools, but warned later in the lecture that agent work can silently drift away from the original scope. Define what the project is—and is not—before delegating work.</div>
+      <p class="prompt">Write the project constraints and one project form that would suit you.</p><textarea data-note="w4-logistics" placeholder="Write this from memory..."></textarea>
+    </section>
+
+    <section class="card" id="function">
+      <h2>2. Return to the core idea: learning a function</h2>
+      <p>The course’s base formulation remains a mapping from input <code>x</code> to output <code>y</code>. There may be an ideal target function <code>f*</code>, but in practice the learner seeks a good approximation <code>f(x; W)</code>.</p>
+      <div class="equation">y ≈ f(x; W)<br><span class="muted">Choose W so that a loss measuring prediction error is small.</span></div>
+      <p>Historically, different applications trained different specialized functions. Foundation models change the scale of the idea: one large model may support many mappings. Zhao nevertheless returned to the specialized case first so students could see what is inside a weighted nonlinear function.</p>
+      <h3>Why deep learning was attractive</h3>
+      <ul><li><strong>Approximation capacity:</strong> the universal approximation result motivates neural networks as flexible function approximators, while remaining a theoretical guarantee rather than a promise that any finite network will train successfully.</li><li><strong>Nonlinearity:</strong> stacked linear maps alone cannot represent the complex boundaries desired.</li><li><strong>Hierarchy:</strong> layers can transform low-level signals into progressively more condensed representations.</li><li><strong>End-to-end feature learning:</strong> unlike much classical ML, deep learning can learn useful features together with the predictor instead of depending entirely on hand-engineered features.</li></ul>
+      <div class="callout"><span class="label">Continuity with earlier weeks</span>Training still means choosing weights by minimizing a loss. Random search and an analytical solution work only in limited cases; gradient-based numerical optimization is the practical route for larger nonlinear models.</div>
+      <details><summary>Recall check: What is automated feature extraction?</summary><p>The network learns intermediate representations from the input while learning the final prediction. The practitioner does not have to manually specify every useful feature before fitting the model.</p></details>
+    </section>
+
+    <section class="card" id="network">
+      <h2>3. What a neural network is</h2>
+      <p>Zhao’s compact description was a set of neurons connected in a nonlinear way. Biological neurons are a historical motivation, not a close scientific equivalence.</p>
+      <div class="grid"><div class="tile"><h3>Neuron</h3><p>Receives inputs, combines them with learned weights and a bias, then applies a transformation.</p><div class="equation">z = Wx + b<br>a = φ(z)</div></div><div class="tile"><h3>Layered network</h3><p>The activations produced by one layer become the inputs to the next. “Deep” means multiple representation layers, though modern models are vastly larger than early two-layer examples.</p><div class="equation">h₁ = φ(W₁x+b₁)<br>h₂ = φ(W₂h₁+b₂)<br>ŷ = W₃h₂+b₃</div></div></div>
+      <p>A diagram drawn symmetrically often shows a <strong>fully connected</strong> network: every unit in one layer connects to every unit in the next. Real networks need not be fully connected; connections can be removed, localized, or skipped.</p>
+      <p class="prompt">Draw a two-hidden-layer network and annotate each weight matrix, bias, preactivation, and activation.</p><textarea data-note="w4-network" placeholder="Write or describe your diagram here..."></textarea>
+    </section>
+
+    <section class="card" id="forward">
+      <h2>4. Forward propagation = prediction / inference</h2>
+      <p>The forward pass executes the graph from inputs to outputs, one layer at a time. It produces the prediction and caches intermediate values that may later be needed for gradient computation.</p>
+      <ol><li>Feed <code>x</code> into the first layer.</li><li>Compute each layer’s weighted combination and nonlinear activation.</li><li>Use the previous layer’s output as the next layer’s input.</li><li>At the output, obtain scores, probabilities, or another task-specific prediction.</li></ol>
+      <h3>LLM connection: autoregressive decoding</h3>
+      <p>For a prompt such as “the light is,” the model repeatedly predicts one next token, appends it, and predicts again. Zhao used the transformer’s saved key/value representations as an example of how a forward pass produces reusable intermediate results. The detailed transformer mechanism was explicitly deferred to a later week.</p>
+      <div class="callout boundary"><span class="label">Do not over-study yet</span>Know the idea that transformer inference caches intermediate representations to avoid recomputing the whole prefix. The lecture did not yet teach attention, Q/K/V derivations, or transformer internals.</div>
+      <details><summary>Recall check: Why is the forward pass sequential across layers?</summary><p>Layer ℓ cannot be evaluated until the activation from layer ℓ−1 is available. Each layer transforms the preceding representation into the next one.</p></details>
+    </section>
+
+    <section class="card" id="nonlinear">
+      <h2>5. Why the network needs nonlinearity</h2>
+      <div class="callout exam"><span class="label">Exam priority</span>Zhao explicitly said this question is regularly used on the midterm: without nonlinear activations, many stacked layers collapse into one linear transformation.</div>
+      <div class="equation">h = W₂(W₁x+b₁)+b₂<br>= (W₂W₁)x + (W₂b₁+b₂)</div>
+      <p>The composition is still of the form <code>W′x+b′</code>. Adding depth without nonlinear activation therefore does not buy a nonlinear decision boundary. A function such as ReLU creates a bend/piecewise behavior that a single straight linear map cannot absorb.</p>
+      <details><summary>Answer check: Explain this without algebra.</summary><p>Chaining operations that only stretch, rotate, rescale, and shift remains one combined stretch/rotate/rescale/shift. A nonlinear activation changes the shape of the mapping so later layers can build more complex boundaries.</p></details>
+    </section>
+
+    <section class="card" id="activations">
+      <h2>6. Activation functions and their tradeoffs</h2>
+      <table><thead><tr><th>Activation</th><th>Form / range</th><th>Why use it</th><th>Main problem from lecture</th></tr></thead><tbody>
+        <tr><td><strong>Sigmoid</strong></td><td><code>σ(x)=1/(1+e<sup>−x</sup>)</code>, range (0,1)</td><td>Probability-like interpretation; derivative has the convenient form <code>σ(x)(1−σ(x))</code>.</td><td>Saturates quickly outside a modest input range, so local gradients approach zero and can create vanishing gradients.</td></tr>
+        <tr><td><strong>tanh</strong></td><td>Bounded S-shaped output</td><td>Another historical smooth nonlinearity.</td><td>Zhao mentioned it but did not prioritize it in this lecture.</td></tr>
+        <tr><td><strong>ReLU</strong></td><td><code>max(0,x)</code></td><td>Cheap; derivative is 1 on the positive side; avoids sigmoid-style positive-side saturation; strong practical default.</td><td>Negative inputs receive zero gradient. A unit can become a “dying ReLU.”</td></tr>
+        <tr><td><strong>Leaky ReLU</strong></td><td><code>max(αx,x)</code>, small <code>α&gt;0</code></td><td>Keeps a small signal in the negative region.</td><td>Adds computation and a design choice; still piecewise.</td></tr>
+        <tr><td><strong>ELU / related variants</strong></td><td>Nonzero nonlinear negative branch</td><td>Keep negative-side learning signal while remaining nonlinear.</td><td>More complex than plain ReLU; details were not derived.</td></tr>
+      </tbody></table>
+      <div class="callout check"><span class="label">Professor’s practical suggestion</span>If unsure, use ReLU as a starting point, monitor the learning rate and gradient behavior, and consider leaky ReLU for a more stable negative-side signal. Do not default blindly to sigmoid in hidden layers.</div>
+      <p class="prompt">From memory, compare sigmoid, ReLU, and leaky ReLU in terms of range, derivative, and failure mode.</p><textarea data-note="w4-activations" placeholder="Write this from memory..."></textarea>
+    </section>
+
+    <section class="card" id="capacity">
+      <h2>7. Width, depth, capacity, and overfitting</h2>
+      <p>Adding neurons and layers increases the variety and complexity of functions the network can express. In lecture visuals, more hidden units created more intricate decision boundaries.</p>
+      <div class="grid"><div class="tile"><h3>Benefit</h3><p>Greater model capacity can fit more complex patterns.</p></div><div class="tile"><h3>Risk</h3><p>Greater capacity can overfit when the available data and regularization do not support it.</p></div></div>
+      <p>Regularization adds a preference for simpler/smaller weights. The combined training objective was framed as:</p>
+      <div class="equation">L<sub>total</sub> = L<sub>data</sub> + λR(W)</div>
+      <p><code>Ldata</code> measures mismatch between prediction and ground truth; <code>R(W)</code> penalizes model complexity; <code>λ</code> controls that tradeoff.</p>
+    </section>
+
+    <section class="card" id="softmax">
+      <h2>8. From output scores to probabilities</h2>
+      <p>The network’s last layer may output raw scores (logits). Softmax exponentiates and normalizes them so the values are positive and sum to one.</p>
+      <div class="equation">p(y=i|x) = exp(zᵢ) / Σⱼ exp(zⱼ)</div>
+      <p>Zhao connected this to next-token prediction: given candidate continuations such as red, blue, and green, the model produces a probability distribution. If the training continuation is “red,” the loss should drive the model to assign “red” a higher probability next time.</p>
+      <ol><li>Forward pass produces logits.</li><li>Softmax turns logits into probabilities.</li><li>Compare the predicted distribution with the ground-truth target.</li><li>Backpropagation computes how each weight contributed to the loss.</li><li>An optimizer updates weights to reduce future loss.</li></ol>
+      <details><summary>Recall check: Does softmax itself train the model?</summary><p>No. Softmax converts scores into a normalized distribution. The loss and backward/optimization process determine how weights change.</p></details>
+    </section>
+
+    <section class="card" id="backprop">
+      <h2>9. Computational graphs and backpropagation</h2>
+      <p>A computational graph breaks a composite computation into elementary nodes. Modern frameworks need the forward computation; automatic differentiation then applies local derivative rules backward through the graph.</p>
+      <h3>Mini-example: <code>f=(x+y)z</code></h3>
+      <div class="equation">q = x + y<br>f = qz<br><br>∂f/∂q = z &nbsp;&nbsp; ∂q/∂x = 1<br>∂f/∂x = (∂f/∂q)(∂q/∂x) = z</div>
+      <p>The pattern generalizes: at a node, multiply the <strong>upstream gradient</strong> by that node’s <strong>local gradient</strong>. The result flows farther toward the input.</p>
+      <div class="callout exam"><span class="label">Conceptual — understand</span>Backpropagation proceeds from the final loss toward earlier layers because the chain rule requires the derivative of later computations before earlier parameters’ effects can be assembled. Zhao said students would not be tested on laborious hand calculation of the full example.</div>
+      <h3>Training cycle</h3>
+      <ol><li>Forward: compute activations, prediction, and loss.</li><li>Backward: propagate gradients from the loss to every learnable weight.</li><li>Update: move parameters in a direction that lowers the loss.</li><li>Repeat on further data.</li></ol>
+      <p>A graph is not necessarily unique: algebraically equivalent computations can be arranged differently. A practical graph should be easy to express and optimize.</p>
+      <p class="prompt">Explain “upstream gradient × local gradient” using a two-operation computation of your own.</p><textarea data-note="w4-backprop" placeholder="Build a tiny graph and propagate one derivative..."></textarea>
+    </section>
+
+    <section class="card" id="memory">
+      <h2>10. Why training costs more than inference</h2>
+      <p>Inference mostly performs the forward computation. Training must also retain activations/checkpoints needed by the backward pass, compute gradients, and update parameters. For billions of parameters—even at reduced precision—the memory burden is much larger.</p>
+      <div class="grid"><div class="tile"><h3>External memory</h3><p>Keep useful information outside model weights and retrieve it when needed. Agent memory was the modern example: adaptation may happen through stored/retrieved context rather than weight updates.</p></div><div class="tile"><h3>Partial parameter update</h3><p>Freeze most parameters and update only a smaller subset. LoRA (low-rank adaptation) was previewed as a prominent approach; its mechanism was deferred.</p></div></div>
+      <div class="callout boundary"><span class="label">Lecture boundary</span>Agent memory and LoRA were motivating previews, not full technical treatments. Know the two resource-saving ideas; do not invent a LoRA derivation from this lecture.</div>
+    </section>
+
+    <section class="card" id="gradients">
+      <h2>11. Vanishing and exploding gradients</h2>
+      <table><thead><tr><th>Failure</th><th>What happens</th><th>Why it matters</th><th>Lecture remedies</th></tr></thead><tbody>
+        <tr><td><strong>Vanishing gradient</strong></td><td>Repeated chain-rule multiplication makes the signal to early layers extremely small; saturated sigmoid derivatives are a major example.</td><td>Early layers barely update, so credit assignment across a deep network fails.</td><td>Prefer ReLU-family activations; batch normalization was previewed as another aid.</td></tr>
+        <tr><td><strong>Exploding gradient</strong></td><td>Gradient norms grow extremely large.</td><td>A single update can jump far away, destabilize loss, or produce infinity/NaN.</td><td>Gradient clipping: preserve the direction while limiting the step/norm; use checkpointing and tune cautiously.</td></tr>
+        <tr><td><strong>Dying ReLU</strong></td><td>A ReLU remains in its negative, zero-gradient region.</td><td>The unit stops contributing learning signal.</td><td>Leaky ReLU / ELU variants; avoid overly aggressive updates.</td></tr>
+      </tbody></table>
+      <div class="callout exam"><span class="label">Likely comparison question</span>Be able to connect activation choice to derivative behavior: sigmoid saturation → vanishing gradient; ReLU’s negative branch → dying units; very large updates → exploding gradients and clipping.</div>
+      <details><summary>Recall check: Why is clipping easier than “un-vanishing” a gradient?</summary><p>An overly large vector can be rescaled or capped while retaining a useful direction. Once repeated multiplications have reduced a learning signal almost to zero, little information remains to recover; the architecture/activation/normalization must prevent that collapse.</p></details>
+    </section>
+
+    <section class="card" id="cnn">
+      <h2>12. Opening motivation for convolutional networks</h2>
+      <p>The lecture then shifted from generic feed-forward networks to data-specific architectures. CNNs exploit image structure: nearby pixels are correlated, visual patterns are local, and the same kind of pattern may appear at many positions.</p>
+      <h3>Why not flatten everything into a fully connected layer?</h3>
+      <ul><li>Parameter count becomes enormous. Zhao’s 200×200-image example illustrated how quickly dense connections can reach billions of parameters.</li><li>Flattening treats pixels independently and discards their 2-D spatial organization.</li><li>A locally connected layer helps, but assigning separate weights to every location still misses the efficiency of sharing one detector across positions.</li></ul>
+      <h3>Convolution’s design idea</h3>
+      <p>A small learnable filter slides over the image. At every location it computes a local weighted sum. Reusing the same filter weights across locations is <strong>parameter sharing</strong>; applying several filters produces several activation maps.</p>
+      <div class="equation">input: 32 × 32 × 3<br>filter: 5 × 5 × 3, stride 1, no padding<br>one filter output: 28 × 28<br>six filters output: 28 × 28 × 6</div>
+      <p>The filter depth matches the input depth (RGB gives three channels). Each filter has its own learned weights and detects a different pattern. This section introduced the mechanism; stride, padding, pooling, and exact output-size calculations continue in Week 5.</p>
+      <div class="callout context"><span class="label">Conceptual framing</span>CNN hierarchy mirrors the lecture’s broader story of learned representation: early filters can respond to simple edges/colors; deeper layers can combine them into more complex patterns. Biological vision was motivation, not proof of equivalence.</div>
+      <details><summary>Recall check: What is gained by sharing a filter?</summary><p>The network can detect the same local pattern anywhere in the image with one set of weights. That preserves spatial reasoning while using far fewer parameters than separate weights for every location.</p></details>
+    </section>
+
+    <section class="card" id="priority">
+      <h2>13. Tiered study priorities</h2>
+      <div class="grid"><div class="tile"><h3>Tier 1 — drill</h3><ul><li>forward pass vs. backward pass</li><li>why nonlinearity is necessary</li><li>sigmoid, ReLU, leaky ReLU tradeoffs</li><li>softmax’s role</li><li>computational graph + chain rule</li><li>vanishing vs. exploding gradients</li><li>dense vs. local vs. convolutional connections</li></ul></div><div class="tile"><h3>Tier 2 — understand</h3><ul><li>capacity, overfitting, and regularization</li><li>why training uses more memory than inference</li><li>parameter sharing and activation maps</li><li>automated feature extraction</li></ul></div><div class="tile"><h3>Tier 3 — context only</h3><ul><li>KV-cache details</li><li>agent-memory implementation</li><li>LoRA derivation</li><li>specific contemporary agent products and career anecdotes</li></ul></div><div class="tile"><h3>Next lecture</h3><ul><li>stride and padding</li><li>pooling</li><li>complete CNN architecture</li><li>normalization</li></ul></div></div>
+    </section>
+
+    <section class="card" id="recall">
+      <h2>14. Active-recall bank</h2>
+      <ol class="recall">
+        <li>Prove algebraically that two affine layers without an activation collapse to one affine layer.<details><summary>Check</summary><p><code>W₂(W₁x+b₁)+b₂=(W₂W₁)x+(W₂b₁+b₂)</code>, which is another affine map.</p></details></li>
+        <li>Classify each symptom: early layers barely change; the loss becomes infinity; many ReLU units output zero forever.<details><summary>Check</summary><p>Vanishing gradient; exploding gradient; dying ReLU.</p></details></li>
+        <li>Describe one forward pass and one backward pass for a three-layer classifier.<details><summary>Check</summary><p>Forward computes affine transforms, activations, logits/probabilities, then loss. Backward starts at the loss and applies the chain rule through output and hidden layers to obtain parameter gradients.</p></details></li>
+        <li>Why are multiple filters useful in a convolutional layer?<details><summary>Check</summary><p>Each learned filter can respond to a different local pattern; their separate activation maps give the next layer a richer representation.</p></details></li>
+        <li>Explain two ways mentioned for reducing adaptation/training memory.<details><summary>Check</summary><p>Store knowledge externally and retrieve it as context; or freeze most model weights and update a small subset, as previewed by LoRA.</p></details></li>
+        <li>Distinguish an exam fundamental from a modern-context aside in this lecture.<details><summary>Check</summary><p>Example: the necessity of nonlinear activation is a repeatedly signaled fundamental; transformer KV-cache internals were explicitly deferred context.</p></details></li>
+      </ol>
+    </section>
+
+    <section class="card" id="missed">
+      <h2>What did I miss?</h2>
+      <p>After a closed-notes recall session, record the concepts, equations, or examples you could not reproduce.</p>
+      <textarea data-note="w4-missed" placeholder="I need to revisit..."></textarea>
+      <p class="source">Primary source: “CSCI 566 - Zhao Lecture Recording on 09_14_2026_Captions_English (United States).txt”. Explanatory organization and compact algebra have been added for study; contemporary product/research remarks are preserved only as lecture context and are not independently verified here.</p>
+    </section>
+  </main>
+</div>
+<a class="top" href="#top" aria-label="Back to top">↑ Top</a>
+<script>
+  const storePrefix='csci566-w4-';
+  document.querySelectorAll('textarea[data-note]').forEach(el=>{
+    const key=storePrefix+el.dataset.note;
+    try{el.value=localStorage.getItem(key)||'';el.addEventListener('input',()=>localStorage.setItem(key,el.value));}catch(e){}
+  });
+  function toggleAll(open){document.querySelectorAll('details').forEach(d=>d.open=open)}
+</script>
+</body>
+</html>
+
