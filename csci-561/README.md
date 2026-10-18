@@ -11,7 +11,7 @@ Buildless HTML/CSS/JavaScript for GitHub Pages. Open `index.html` through a stat
 - Week 5 captions, September 22, 2026: propositional logic and Midterm 1 review.
 - Week 5 `wk5-Midterm1-Review.pptx.pdf`: scope and review traps. Its 2025 exam date is not presented as a current deadline.
 - Week 5 `9-10-P-Logic.pptx`: propositional concepts, models, inference, soundness/completeness, truth tables, normal forms.
-- Week 6 captions, October 6, 2026: first-order logic, quantifiers, translation, situations, entailment practice. No Week 6 slides were supplied.
+- Week 7 captions, October 6, 2026: first-order logic, quantifiers, translation, situations, entailment practice. No Week 7 slides were supplied.
 
 The notebooks are concise study reconstructions, not exhaustive transcripts. Formal clarifications and constructed recall exercises support the lecture topics. They are not official exam questions. Raw class files, homework, and exam papers are excluded from this repository.
 
@@ -22,3 +22,9 @@ Notes and module review marks use `localStorage` under `csci561-fieldnotes-v1`. 
 ## Design reference
 
 Inspired by the course-map and lecture-card structure of https://tylermichael06.github.io/my-study-guide/. The implementation, artwork, and CSCI 561 study explanations were created separately for this site.
+
+## Week 8 update
+
+- October 13, 2026 captions: quantifier rules, unification, generalized modus ponens, forward/backward chaining, Horn restrictions, resolution refutation, CNF conversion, and worked proof exercises. No Week 8 slide deck supplied.
+- Week numbering follows the local exam note: Week 6 was the exam; October 6 is Week 7. Its legacy `#lecture-6` URL and note keys remain stable. Week 8 uses `#lecture-8`; adjacent navigation follows module order rather than consecutive IDs.
+- Formal clarifications are labeled separately from lecture reconstructions. Original source captions remain local.

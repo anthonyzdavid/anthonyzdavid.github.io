@@ -32,7 +32,8 @@ const lectures = [
         "question": "Formulate a route-planning problem. What changes when you minimize tolls rather than distance?",
         "answer": "States can be locations; the initial state is the departure point; the goal is the destination; actions follow roads. The cost function changes, so the optimal route may change even with the same states and actions."
       }
-    ]
+    ],
+    "week": 1
   },
   {
     "id": 2,
@@ -67,7 +68,8 @@ const lectures = [
         "question": "Why is the “path” treated differently in route search and tour optimization?",
         "answer": "In route search the action path is the solution. In local tour optimization the final candidate already encodes a complete tour; the history of swaps is usually incidental."
       }
-    ]
+    ],
+    "week": 2
   },
   {
     "id": 3,
@@ -102,7 +104,8 @@ const lectures = [
         "question": "After MAX has a value of 5, a new MIN branch reveals a child of 3. Can you stop examining that MIN branch?",
         "answer": "Yes. Its final value is at most 3, so MAX already has a better alternative of 5. The unseen children cannot make that branch preferable."
       }
-    ]
+    ],
+    "week": 3
   },
   {
     "id": 4,
@@ -137,7 +140,8 @@ const lectures = [
         "question": "Q=2, α=0.5, r=1, γ=0.9, and max next Q=4. What is the updated Q?",
         "answer": "The target is 1+0.9×4=4.6. The error is 2.6. The new value is 2+0.5×2.6=3.3."
       }
-    ]
+    ],
+    "week": 4
   },
   {
     "id": 5,
@@ -172,7 +176,8 @@ const lectures = [
         "question": "Convert ¬(P⇒Q) into a conjunction.",
         "answer": "P∧¬Q. Negate ¬P∨Q and apply De Morgan’s law."
       }
-    ]
+    ],
+    "week": 5
   },
   {
     "id": 6,
@@ -218,6 +223,93 @@ const lectures = [
         "body": "<p>False entails True because the empty model set is a subset of every model set. True does not entail False. A∧B entails A↔B, but the converse fails when both are false.</p><div class=\"formula\">KB ⊨ α ⇔ (KB⇒α) is valid ⇔ KB∧¬α is unsatisfiable</div><p>Use these equivalent tests to verify a conclusion. “Not valid” is different from “unsatisfiable”: a sentence may be true in some models and false in others.</p>",
         "question": "Give a formula that is satisfiable but not valid, and explain both properties.",
         "answer": "P is true in interpretations where P=true, so it is satisfiable. It is false where P=false, so it is not valid."
+      }
+    ],
+    "week": 7,
+    "source": "Week 7 lecture captions · October 6, 2026 · No accompanying slide deck supplied"
+  },
+  {
+    "id": 8,
+    "week": 8,
+    "date": "Oct 13, 2026",
+    "unit": "Logic",
+    "title": "First-order inference & resolution",
+    "desc": "Build proofs with unification, chaining, clause conversion, and resolution refutation.",
+    "map": "proof → quantifier rules → unification → GMP → chaining → resolution → CNF",
+    "boundary": "Week 8 continues the introductory first-order logic lecture from October 6 (Week 7). Source: October 13 captions only; no Week 8 slides supplied. Worked examples are reconstructed from the spoken descriptions, with formal clarifications labeled separately. The professor emphasizes reproducing examples without their solutions. No new exam date is supplied.",
+    "source": "Week 8 lecture captions · October 13, 2026 · No accompanying slide deck supplied",
+    "sections": [
+      {
+        "title": "A proof is a path through legal inference steps",
+        "body": "<p>Start with sentences in KB, apply valid inference rules, and reach the target α. The lecture compares this to search: KB is the starting point, rule applications are actions, and the derivation is the path.</p><p>Soundness means every derived sentence is entailed. Completeness means every entailed sentence has a derivation. Ten available rule types do not imply ten possible next steps: each rule may apply to many sentences and substitutions.</p><p><strong>Professor priority:</strong> memorize the seven propositional inference rules and practice the lecture examples as questions before inspecting solutions. For resolution answers, show the two parent clauses and their resolvent at each step.</p>",
+        "question": "Why can proof search branch widely even when the rule inventory is small?",
+        "answer": "Each rule can be applied to different premises and many different term substitutions. The number of rule types is not the branching factor."
+      },
+      {
+        "title": "Three quantifier rules, with restrictions",
+        "body": "<div class=\"formula\">Universal elimination: ∀x P(x) ⟹ P(t)<br>Existential witness: ∃x P(x) ⟹ P(k), with fresh k<br>Existential introduction: P(t) ⟹ ∃x P(x)</div><p>Universal elimination instantiates a universally quantified variable with an appropriate term. A fresh existential witness names an unspecified object; it does not identify that object with an already named individual. In a formal existential-elimination proof, the fresh witness must not escape into the final conclusion.</p><p><strong>Formal clarification:</strong> when existential witnesses depend on surrounding universal variables during clause conversion, use fresh Skolem functions. Do not replace every existential variable with one arbitrary old constant.</p>",
+        "question": "From ∃x Student(x), can you conclude Student(Bob)? Explain how to name a witness safely.",
+        "answer": "No. The student need not be Bob. Introduce a fresh witness k and reason with Student(k), respecting witness restrictions; do not assert that k is Bob."
+      },
+      {
+        "title": "Unification: one consistent substitution",
+        "body": "<p>Unification finds a substitution θ that makes expressions identical so an inference rule can apply. Substitute variables, preserving predicate/function symbols, constants, argument order, and repeated-variable consistency.</p><div class=\"table-wrap\"><table><tr><th>Expressions</th><th>Result</th></tr><tr><td>Knows(John,x), Knows(John,Jane)</td><td>{x↦Jane}</td></tr><tr><td>Knows(John,x), Knows(y,Mother(y))</td><td>{y↦John, x↦Mother(John)}</td></tr><tr><td>Sells(Bob,x), Sells(x,Coke)</td><td>Fails if x is the same variable and Bob/Coke are distinct constant symbols</td></tr><tr><td>Sells(Bob,x), Sells(y,Coke)</td><td>{y↦Bob, x↦Coke}</td></tr></table></div><p>Standardize independent rule variables apart before matching. Two occurrences of one variable in the same expression must receive the same substitution.</p><p><strong>Formal clarification:</strong> the occurs check rejects x↦Father(x) for ordinary finite first-order terms. Unification is syntactic matching, not a claim that different constant symbols denote different objects in every interpretation.</p><p class=\"source-info\">Formal clarification reference: <a href=\"https://aima.eecs.berkeley.edu/4th-ed/pdfs/newchap09.pdf\">AIMA, Inference in First-Order Logic</a>.</p>",
+        "question": "Unify P(x,x) with P(A,B), treating A and B as distinct constant symbols. Then try P(x,y).",
+        "answer": "The first fails: x would need to be both A and B syntactically. The second succeeds with {x↦A,y↦B}."
+      },
+      {
+        "title": "Generalized modus ponens: match all premises together",
+        "body": "<p>Given facts matching p₁,…,pₙ and a rule (p₁∧…∧pₙ)⇒q, find one compatible substitution θ for every premise. Then derive qθ. Do not select incompatible substitutions independently for different premises.</p><p>The lecture’s animal-speed example combines Buffalo(Bob), Pig(Pat), and a rule saying buffalo outrun pigs. Substituting x↦Bob and y↦Pat yields Faster(Bob,Pat).</p><p>Why is this sound? Instantiate the universally quantified rule, combine its satisfied premises, and apply ordinary modus ponens. Each step preserves entailment.</p>",
+        "question": "Given Parent(Ana,Ben), Parent(Ben,Cara), and Parent(x,y)∧Parent(y,z)⇒Grandparent(x,z), give the substitution and conclusion.",
+        "answer": "θ={x↦Ana,y↦Ben,z↦Cara}; derive Grandparent(Ana,Cara). Both premises must use the same binding for y. This is a constructed study example."
+      },
+      {
+        "title": "Forward and backward chaining",
+        "body": "<p><strong>Forward:</strong> begin with known facts and fire rules to derive new facts. <strong>Backward:</strong> begin with a query, find rule conclusions that unify with it, then try to establish those rules’ premises as subgoals. Backward chaining does not reverse an implication into a new factual rule.</p><p>Lecture reconstruction: Buffalo(Bob), Pig(Pat), Slug(Steve), buffalo-faster-than-pig and pig-faster-than-slug rules, plus transitivity, support Faster(Bob,Steve). Forward chaining derives intermediate speed facts. Backward chaining starts from the target and seeks supporting subgoals.</p><p>Backward search is goal-focused; this does not guarantee faster termination. Recursive rules and infinitely many terms can cause nontermination.</p>",
+        "question": "If P⇒Q and your goal is Q, what does backward chaining ask? Does observing Q prove P?",
+        "answer": "It asks whether P can be established as a sufficient route to Q. Q by itself does not prove P; other routes to Q may exist."
+      },
+      {
+        "title": "Where Horn-rule chaining stops",
+        "body": "<p>Definite clauses have an atomic conclusion and a conjunction of positive atomic premises. Generalized-modus-ponens chaining is suited to these knowledge bases; it is not a complete method for arbitrary first-order sentences.</p><p>Lecture case-analysis pattern: P⇒H, ¬P⇒E, H⇒R, E⇒R. Classically R follows because either P or ¬P holds. A positive-fact chaining engine with neither P nor ¬P initially established cannot simply fire its way to R.</p><p><strong>Formal clarification:</strong> a Horn clause has at most one positive literal; a definite clause has exactly one. The negative antecedent in ¬P⇒E becomes P∨E, which is not Horn. Fair search and the permitted query language matter when stating completeness for chaining.</p>",
+        "question": "Why is “chaining is incomplete for arbitrary first-order logic” compatible with completeness results for definite-clause reasoning?",
+        "answer": "The results concern different classes of knowledge bases and queries. A method can be complete on a restricted class without covering every first-order theory."
+      },
+      {
+        "title": "Resolution refutation: add the negated goal",
+        "body": "<div class=\"formula\">KB ⊨ α ⇔ KB ∧ ¬α is unsatisfiable<br>(L ∨ C), (¬L′ ∨ D) ⟹ (C ∨ D)θ when Lθ=L′θ</div><p>Negate the query, combine it with KB, convert to clauses, and resolve complementary literals using compatible substitutions. Deriving the empty clause □ proves contradiction and therefore the original entailment.</p><p><strong>Formal clarification:</strong> first-order resolution is refutation-complete with the required machinery, including factoring and a fair search strategy. A naive search may run forever when no refutation exists. Completeness does not mean every query has a terminating yes/no test.</p><p class=\"source-info\">Formal clarification reference: <a href=\"https://airr.mit.edu/_static/fall23/lectures/lec22/L22-FOL-Proof.pdf\">MIT, First-order Logic Proof</a>.</p>",
+        "question": "What must you add to prove Parent(Art,Jon) by refutation? If no contradiction has appeared after five steps, is the query disproved?",
+        "answer": "Add ¬Parent(Art,Jon). Five unsuccessful steps do not disprove entailment; the search may not yet have reached a refutation."
+      },
+      {
+        "title": "Worked resolution: a cat eats fish",
+        "body": "<p>The lecture uses a cat, a food preference, and an eating rule. This reconstruction makes the clauses and substitutions explicit:</p><ol><li>¬Cat(x) ∨ Likes(x,Fish)</li><li>¬Cat(y) ∨ ¬Likes(y,z) ∨ Eats(y,z)</li><li>Cat(Josephine)</li><li>¬Eats(Josephine,Fish) — negated query</li></ol><p>Resolve (2),(4), θ={y↦Josephine,z↦Fish}: <strong>¬Cat(Josephine)∨¬Likes(Josephine,Fish)</strong> (5). Resolve (5),(3): <strong>¬Likes(Josephine,Fish)</strong> (6). Resolve (1),(6), θ={x↦Josephine}: <strong>¬Cat(Josephine)</strong> (7). Resolve (7),(3): <strong>□</strong>.</p><p>Each line records two parents, complementary literals, and the remaining clause. This is the written format the professor recommends when drawing a proof tree is cumbersome.</p>",
+        "question": "Rebuild the proof without looking. Which query was negated, and where does the final contradiction occur?",
+        "answer": "The query is Eats(Josephine,Fish). Its negation is clause 4. The final pair is ¬Cat(Josephine) and Cat(Josephine), producing the empty clause."
+      },
+      {
+        "title": "CNF conversion: preserve scope and dependencies",
+        "body": "<ol><li>Eliminate ⇒ and ⇔.</li><li>Move negations inward, using De Morgan’s laws and swapping quantifiers under negation.</li><li>Standardize bound variables so independent quantifiers use different names.</li><li>Skolemize existential variables with fresh constants or functions of the universal variables in scope.</li><li>Drop remaining universal quantifiers, treating clause variables as implicitly universal.</li><li>Distribute ∨ over ∧.</li><li>Separate the conjunction into clauses; standardize variables apart when clauses are reused.</li></ol><p>The lecture emphasizes Skolem dependencies: ∀x∃y R(x,y) becomes R(x,f(x)), not R(x,k) with one fixed witness. In contrast, ∃y∀x R(x,y) uses a fresh constant k.</p><p><strong>Formal clarification:</strong> Skolemization preserves satisfiability with fresh symbols; it is not ordinary logical equivalence in the original vocabulary. This is sufficient for refutation.</p><p class=\"source-info\">Formal clarification reference: <a href=\"https://www.cs.cmu.edu/~mheule/15311-s26/slides/resolution.pdf\">CMU, Logic and Mechanized Reasoning</a>.</p>",
+        "question": "Skolemize ∀x∀z∃y Helps(y,x,z). What are the arguments of the fresh function?",
+        "answer": "Helps(f(x,z),x,z), with x and z implicitly universal afterward. The witness may depend on both universally quantified variables in its scope."
+      },
+      {
+        "title": "Worked CNF: everyone who loves all animals",
+        "body": "<p>Lecture sentence: everyone who loves all animals is loved by someone. Let Loves(a,b) mean a loves b:</p><div class=\"formula\">∀x [(∀y (Animal(y)⇒Loves(x,y))) ⇒ ∃z Loves(z,x)]</div><p>Eliminate implications and push negation inward:</p><div class=\"formula\">∀x [(∃y (Animal(y)∧¬Loves(x,y))) ∨ ∃z Loves(z,x)]</div><p>Use independent fresh functions f(x), g(x), then distribute:</p><div class=\"formula\">Animal(f(x)) ∨ Loves(g(x),x)<br>¬Loves(x,f(x)) ∨ Loves(g(x),x)</div><p>These clauses form an equisatisfiable Skolemized representation. Keeping y and z distinct avoids conflating an animal with the person who loves x.</p>",
+        "question": "Why does negating “x loves all animals” produce an existential claim with a conjunction?",
+        "answer": "¬∀y(Animal(y)⇒Loves(x,y)) ≡ ∃y(Animal(y)∧¬Loves(x,y)): there is an animal x does not love."
+      },
+      {
+        "title": "English stories: translate, then prove",
+        "body": "<p>The lecture also discusses ancestry, animal lovers and a cat’s killer, and a ski/mountaineering club. The reusable method is: define predicate argument order, translate every premise and the target, negate the target for resolution, convert to clauses, then track substitutions through the proof.</p><p>Club reconstruction: every member is a skier or climber (possibly both); skiers like snow; Alan dislikes what Tony likes; Tony likes snow; Alan is a member. Alan therefore does not like snow. A skier would like snow, so Alan cannot be a skier; the member disjunction forces Alan to be a climber.</p><p>“Dislikes” is represented here as explicit ¬Likes, following the lecture exercise. It is not inferred from missing knowledge. To answer “who?”, retain the witness binding rather than reporting only that someone exists.</p>",
+        "question": "Write the member rule and the skier/snow rule, then state the witness for “a climber who is not a skier.”",
+        "answer": "∀x(Member(x)⇒(Skier(x)∨Climber(x))); ∀x(Skier(x)⇒Likes(x,Snow)). Together with the reconstructed facts and negative preference, Alan is a witness: Climber(Alan)∧¬Skier(Alan)."
+      },
+      {
+        "title": "Why contradiction trivializes classical entailment",
+        "body": "<p>If KB contains P and ¬P, no model satisfies all of KB. Thus M(KB)=∅, a subset of the model set of any sentence α. In classical logic an inconsistent knowledge base therefore entails every sentence.</p><p>The lecture closes with this warning about contradictory premises. Distinguish a contradiction already in KB from a contradiction obtained after deliberately adding ¬α to a consistent KB for a proof.</p><p><strong>Study boundary:</strong> the lecture’s paradox/completeness discussion provides motivation. It does not establish that every mathematical truth is decidable, or that every true arithmetic statement is provable in one fixed formal theory.</p>",
+        "question": "Why is deriving □ from KB∪{¬α} useful, while deriving □ from KB alone is a problem?",
+        "answer": "The first can show α follows from KB by refutation. The second shows KB itself is inconsistent; classically it then entails every query and cannot discriminate conclusions."
       }
     ]
   }
