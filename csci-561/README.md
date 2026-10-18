@@ -28,3 +28,7 @@ Inspired by the course-map and lecture-card structure of https://tylermichael06.
 - October 13, 2026 captions: quantifier rules, unification, generalized modus ponens, forward/backward chaining, Horn restrictions, resolution refutation, CNF conversion, and worked proof exercises. No Week 8 slide deck supplied.
 - Week numbering follows the local exam note: Week 6 was the exam; October 6 is Week 7. Its legacy `#lecture-6` URL and note keys remain stable. Week 8 uses `#lecture-8`; adjacent navigation follows module order rather than consecutive IDs.
 - Formal clarifications are labeled separately from lecture reconstructions. Original source captions remain local.
+
+## Guided teaching redesign
+
+All 38 sections include a concrete story, numbered reasoning steps, a plain-language takeaway, and a small question with an explained answer. The default reader shows one idea at a time, with previous/next controls and stable deep links. Formal course content is available in a separate expandable panel after the teaching explanation. Existing section note keys and review marks are preserved. Everyday stories are explanatory additions, not claims of verbatim lecture examples. Assets use content hashes to refresh cached versions after updates.
