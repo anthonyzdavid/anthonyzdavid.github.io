@@ -691,7 +691,7 @@ const lectures = [
     "date": "Oct 13, 2026",
     "unit": "Logic",
     "title": "First-order inference & resolution",
-    "desc": "Build proofs with unification, chaining, clause conversion, and resolution refutation.",
+    "desc": "Build proofs with unification and resolution, then study Russell’s paradox and the limits of proof search.",
     "map": "proof → quantifier rules → unification → GMP → chaining → Russell’s paradox → completeness → resolution → CNF",
     "boundary": "Week 8 continues the October 6 first-order logic lecture. Coverage is cross-checked against the October 13 captions, the full 13-14 FOL-Inference deck, and the Week 8 discussion deck. Worked examples are reconstructed from the supplied sources, with formal clarifications labeled separately. The paradox slides are motivation about naive self-referential set formation; they are not a claim that ordinary FOL itself is inconsistent. No new exam date is supplied.",
     "source": "Week 8 lecture captions · October 13, 2026 · 13-14-FOL-Inference.pptx · wk8-inference.pptx",
@@ -816,17 +816,18 @@ const lectures = [
         "question": "In the librarian story, what happens if the master catalog lists itself, and what happens if it does not?",
         "answer": "If it lists itself, it violates its rule to list only catalogs that do not list themselves. If it does not, it meets that rule and therefore should list itself. Each choice reverses itself.",
         "teaching": {
-          "title": "The catalog that cannot decide about itself",
-          "story": "A master catalog lists every catalog that does not include its own title. Then the librarian asks whether the master catalog should include its own title.",
+          "title": "Russell’s paradox: the catalog that cannot classify itself",
+          "story": "Russell’s paradox is the lecture’s example of how self-reference plus negation can create a contradiction. Picture a master catalog that lists every catalog that does not list itself. Now it must classify itself.",
           "steps": [
-            "Assume it includes itself.",
-            "Its rule says it may include only catalogs that do not include themselves, so it must be removed.",
-            "Assume instead that it does not include itself.",
-            "Then it fits the rule for inclusion, so it must be added. The definition creates a contradiction."
+            "Formal version: let R contain exactly the sets that are not members of themselves. This unrestricted definition makes R talk about its own membership.",
+            "Assume R contains itself. Then R fails its own entry rule, so R must not contain itself.",
+            "Assume R does not contain itself. Then R satisfies its entry rule, so R must contain itself.",
+            "The catalog story has the same structure: either answer forces the opposite answer.",
+            "The lesson is not that every use of first-order logic is inconsistent. The problem is unrestricted self-referential set construction, which modern axiomatic set theories restrict."
           ],
-          "takeaway": "Russell’s paradox comes from an unrestricted self-referential collection defined with negation. The lecture uses it as a caution before discussing the power and limits of logic.",
-          "question": "Is the problem merely that the catalog is very large?",
-          "answer": "No. The contradiction comes from how membership is defined, not from size."
+          "takeaway": "Russell’s paradox combines unrestricted collection-building, self-reference, and negation: R∈R if and only if R∉R. The lecture uses it to motivate care about the foundations, expressiveness, and limits of logical systems.",
+          "question": "What creates Russell’s paradox: the collection’s size, or the rule it uses to classify itself?",
+          "answer": "The rule. It classifies objects by non-self-membership and then applies that same rule to the collection itself, making either answer reverse itself."
         }
       },
       {
