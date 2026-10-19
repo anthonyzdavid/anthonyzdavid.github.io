@@ -5,8 +5,9 @@ const lectures = [
     "unit": "Foundations",
     "title": "Intelligence, agents & problems",
     "desc": "Build the vocabulary: rationality, PAGE, environments, and problem formulation.",
-    "map": "intelligence → agents → PAGE → environments → problems",
-    "boundary": "This lecture establishes the problem and agent vocabulary. Detailed search strategy comparisons belong to Week 2.",
+    "map": "intelligence → Turing tests → agents → PAGE → environments → problems → state spaces",
+    "boundary": "This lecture establishes the problem and agent vocabulary. The simple and full Turing tests are behavioral tests, not definitions of intelligence. Detailed search strategy comparisons belong to Week 2.",
+    "source": "Week 1 lecture captions · August 25, 2026 · cross-checked against the complete Week 1 study notebook",
     "sections": [
       {
         "title": "What makes an agent intelligent?",
@@ -24,6 +25,25 @@ const lectures = [
           "takeaway": "An agent is something that takes in information and chooses actions. A rational agent chooses what seems best with the information it has. It can still get unlucky.",
           "question": "A robot chooses the safest path, but a falling branch blocks it. Does that automatically make its choice irrational?",
           "answer": "No. Judge the choice using what the robot could know when it chose. A good decision does not guarantee a good outcome."
+        }
+      },
+      {
+        "title": "Simple and full Turing tests",
+        "body": "<p>The <strong>simple Turing test</strong> asks whether a text-only interrogator can reliably distinguish a machine from a human through conversation. The lecture’s <strong>full Turing test</strong> adds perceptual and physical interaction, requiring capabilities such as vision and robotics.</p><p>Passing either is evidence about observable behavior, not a proof that the system thinks like a human or a complete definition of intelligence. The lecture separates four viewpoints: acting humanly, thinking humanly, thinking rationally, and acting rationally.</p>",
+        "question": "A chatbot fools a judge in a text conversation. What has it demonstrated, and what has it not demonstrated?",
+        "answer": "It has demonstrated human-like conversational behavior under that test. It has not proved consciousness, human-like internal reasoning, or rational action in every environment.",
+        "teaching": {
+          "title": "A behavior test is not a mind reader",
+          "story": "A judge exchanges messages with two hidden partners and guesses which one is a person.",
+          "steps": [
+            "The judge sees behavior, not the machinery or thought process behind it.",
+            "If the machine is hard to distinguish from the person, it performs well on the text test.",
+            "A full version also asks the machine to perceive and act in the physical world.",
+            "Neither result by itself defines every kind of intelligence or reveals consciousness."
+          ],
+          "takeaway": "The Turing test evaluates human-like performance under specified interaction conditions; rational-agent design asks a different question about choosing effective actions.",
+          "question": "Would a chess program that plays brilliantly but chats poorly necessarily fail to be useful AI?",
+          "answer": "No. It may be highly capable at its task even though it does not imitate broad human conversation."
         }
       },
       {
@@ -67,7 +87,7 @@ const lectures = [
       },
       {
         "title": "Turn a wish into a search problem",
-        "body": "<p>A problem specifies a <strong>state space, initial state, goal condition, and actions/operators</strong>. A solution is an action sequence leading from the initial state to a goal. An optimal solution minimizes the chosen cost.</p><p>A state describes the world. A search node records a state in an exploration, together with information such as parent, action, depth, and path cost.</p>",
+        "body": "<p>A problem specifies a <strong>state space, initial state, goal condition, actions/operators, and path-cost function</strong>. A solution is an action sequence leading from the initial state to a goal. An optimal solution minimizes the chosen cost.</p><p>A <strong>state</strong> describes the world. A <strong>search node</strong> records a state in an exploration, together with parent, generating action, depth, and path cost. The same state can appear in multiple nodes if reached by different paths; graph search detects repeated states.</p><p>Lecture examples include the three-water-bucket problem, Romania route finding, the two-room vacuum world, the eight puzzle, robot-arm motion, circuit layout, and Tower of Hanoi. Each forces you to choose a useful representation. A single-state problem assumes the agent knows its state; multiple-state or contingency problems represent uncertainty about state or outcomes.</p>",
         "question": "Formulate a route-planning problem. What changes when you minimize tolls rather than distance?",
         "answer": "States can be locations; the initial state is the departure point; the goal is the destination; actions follow roads. The cost function changes, so the optimal route may change even with the same states and actions.",
         "teaching": {
@@ -93,8 +113,9 @@ const lectures = [
     "unit": "Search",
     "title": "Search strategies & heuristics",
     "desc": "Compare frontier rules, guarantees, memory, and local optimization.",
-    "map": "graph search → uninformed search → heuristics → A* → local search",
-    "boundary": "The lecture introduces many search methods. Guarantees depend on assumptions; do not memorize “always” claims without those assumptions.",
+    "map": "graph search → evaluation criteria → uninformed search → heuristics → A* → local search",
+    "boundary": "The lecture introduces many search methods. Judge each by completeness, optimality, time, and space. Guarantees depend on assumptions; do not memorize “always” claims without those assumptions.",
+    "source": "Week 2 lecture captions · September 1, 2026 · cross-checked against the complete Week 2 study notebook",
     "sections": [
       {
         "title": "One skeleton, different frontier rules",
@@ -182,7 +203,8 @@ const lectures = [
     "title": "Constraints & adversarial decisions",
     "desc": "Reason with domains, propagate restrictions, and back up game trees.",
     "map": "CSP formulation → backtracking → propagation → minimax → α–β",
-    "boundary": "This notebook groups the Week 3 CSP and game-search material. Probabilistic decision-making continues in Week 4.",
+    "boundary": "This notebook groups the Week 3 CSP and game-search material. Constraint propagation prunes possibilities but does not generally replace search. Cutoff evaluation is an estimate, not a terminal utility. Probabilistic decision-making continues in Week 4.",
+    "source": "Week 3 lecture captions · September 8, 2026",
     "sections": [
       {
         "title": "CSP: complete and consistent",
@@ -242,6 +264,25 @@ const lectures = [
         }
       },
       {
+        "title": "Cut off deep games without confusing estimate and outcome",
+        "body": "<p>Real game trees are often too large to reach every terminal state. A <strong>cutoff test</strong> stops search at a chosen depth or condition, and an <strong>evaluation function</strong> estimates the usefulness of the nonterminal position.</p><p>The backed-up value is then only as reliable as the evaluation and search depth. The <strong>horizon effect</strong> occurs when an important event lies just beyond the cutoff. Iterative deepening, good move ordering, and extending tactically unstable positions can help, but do not turn estimates into guaranteed terminal utilities.</p>",
+        "question": "Why can a depth-limited minimax agent choose a move that full minimax would reject?",
+        "answer": "It evaluates nonterminal cutoff states with estimates. A decisive consequence may be beyond the horizon, or the evaluation function may rank the position inaccurately.",
+        "teaching": {
+          "title": "Stop the forecast, then label the position",
+          "story": "A chess player cannot calculate every move to the end of the game, so she looks several moves ahead and scores the positions she reaches.",
+          "steps": [
+            "Choose when the look-ahead stops: the cutoff test.",
+            "Score each cutoff position with an evaluation function.",
+            "Back those estimated values up through MIN and MAX layers.",
+            "Remember that an estimated leaf is not the same as an actual win, loss, or draw."
+          ],
+          "takeaway": "Depth-limited minimax replaces unreachable terminal utilities with estimates; alpha–beta can reduce work on the same searched tree.",
+          "question": "If a forced loss occurs one move beyond the cutoff, might the search miss it?",
+          "answer": "Yes. That is a horizon problem: the crucial consequence was outside the searched depth."
+        }
+      },
+      {
         "title": "Alpha–beta: same decision, less work",
         "body": "<p>α is the best bound MAX can already secure; β is the best bound MIN can already secure. Stop considering a branch when it cannot improve the relevant ancestor’s choice, typically when α ≥ β.</p><p>Alpha–beta pruning preserves the minimax value for the same tree and evaluation. Move ordering changes how much work can be pruned; it does not make the method an approximation.</p>",
         "question": "After MAX has a value of 5, a new MIN branch reveals a child of 3. Can you stop examining that MIN branch?",
@@ -270,7 +311,8 @@ const lectures = [
     "title": "Uncertainty, MDPs & learning",
     "desc": "Connect transitions, rewards, policies, Bellman backups, and Q updates.",
     "map": "chance → MDP → utility → policy → reinforcement learning",
-    "boundary": "Use the reward convention specified in each problem. State-reward and transition-reward equations must not be mixed.",
+    "boundary": "Use the reward convention specified in each problem. State-reward and transition-reward equations must not be mixed. Reinforcement learning also requires an exploration policy; a greedy value update alone does not say how experience is collected.",
+    "source": "Week 4 lecture captions · September 15, 2026",
     "sections": [
       {
         "title": "Chance is not an adversary",
@@ -347,6 +389,25 @@ const lectures = [
           "question": "Your old guess is 2, the target is 6, and alpha is one half. What is the new guess?",
           "answer": "4. The error is 6−2=4. Take half of that error, 2, and add it to the old guess."
         }
+      },
+      {
+        "title": "Exploration changes the data you get",
+        "body": "<p>Reinforcement-learning experience is generated by the agent’s own behavior. <strong>Exploitation</strong> chooses the action currently believed best; <strong>exploration</strong> tries alternatives that may reveal better rewards or improve uncertain estimates.</p><p>An ε-greedy behavior policy usually chooses a greedy action but chooses a random action with probability ε. Q-learning is <strong>off-policy</strong> because its target uses maxₐ′Q(s′,a′) even if the behavior policy explored. SARSA is <strong>on-policy</strong> because its target uses the next action actually selected. The update rule and the data-collection policy are related but distinct.</p>",
+        "question": "Why can a purely greedy learner remain stuck with a poor action estimate?",
+        "answer": "If it never tries alternatives, it receives no evidence that another action is better. Its own choices determine which transitions it observes.",
+        "teaching": {
+          "title": "Try the favorite, but sometimes test another door",
+          "story": "A robot knows one route gives a small reward. It has barely tried the other routes.",
+          "steps": [
+            "Exploitation uses the best current guess.",
+            "Exploration gathers information about less-tested actions.",
+            "Epsilon-greedy balances the two with a simple probability.",
+            "Q-learning learns toward the best next value; SARSA learns from the next action its current policy actually takes."
+          ],
+          "takeaway": "Learning an action value and choosing actions are separate design choices. Without exploration, important evidence may never be collected.",
+          "question": "If epsilon is zero from the beginning, is the policy guaranteed to discover the best action?",
+          "answer": "No. It may exploit an early mistaken estimate forever."
+        }
       }
     ],
     "week": 4
@@ -357,8 +418,9 @@ const lectures = [
     "unit": "Logic",
     "title": "Knowledge & propositional logic",
     "desc": "Separate semantic truth from symbolic proof, then practice representations.",
-    "map": "knowledge base → models → entailment → inference → truth tables",
-    "boundary": "Midterm 1 review included CSP and reinforcement learning but excluded logic. Logic begins here and continues in Week 6. The reused review PDF contains a 2025 exam date; check current course announcements for logistics.",
+    "map": "knowledge base → models → entailment → inference → truth tables → normal forms → limits",
+    "boundary": "Midterm 1 review included CSP and reinforcement learning but excluded logic. Logic begins here and continues after the exam. The reused review PDF contains a 2025 exam date; check current course announcements for logistics.",
+    "source": "Week 5 lecture captions · September 22, 2026 · 9-10-P-Logic.pptx · midterm review PDF",
     "sections": [
       {
         "title": "TELL and ASK: the knowledge-based agent",
@@ -435,6 +497,25 @@ const lectures = [
           "question": "“If it rains, the ground is wet.” The ground is wet. Must it have rained?",
           "answer": "No. A sprinkler might explain it. The rule lets you go from rain to wet ground, not automatically backward."
         }
+      },
+      {
+        "title": "Why propositional logic does not scale gracefully",
+        "body": "<p>The slide deck closes with two limitations. First, propositional logic has limited expressiveness: a general statement such as “a square without stench has no adjacent Wumpus” must be duplicated for every relevant square. The deck’s example expands one general idea into many location-specific rules.</p><p>Second, representing change requires time- or step-indexed copies of propositions. Multiplying many spatial rules by many time steps produces a large, difficult-to-maintain knowledge base and can make inference expensive. First-order logic addresses repeated object structure with variables and quantifiers; situation calculus later addresses actions and situations.</p>",
+        "question": "Why is writing NoStench11⇒¬Wumpus12, NoStench21⇒¬Wumpus22, and so on a warning sign?",
+        "answer": "The same relationship is being copied for individual locations. A quantified rule can express the shared structure more compactly.",
+        "teaching": {
+          "title": "One rule should not need hundreds of copies",
+          "story": "A safety rule applies to every room in a building, but the language only lets you name one room at a time.",
+          "steps": [
+            "You write one proposition for room 1, another for room 2, and so on.",
+            "To track time, you make another full copy for step 1, step 2, and every later step.",
+            "The rule base grows even though the underlying idea has not changed.",
+            "Variables, quantifiers, and situation arguments let later lessons state reusable patterns."
+          ],
+          "takeaway": "Propositional logic is precise but treats each atomic proposition separately. FOL adds reusable structure over objects and relations.",
+          "question": "Does FOL remove every reasoning difficulty?",
+          "answer": "No. It improves expressiveness, but inference becomes more complex and can be nonterminating for negative cases."
+        }
       }
     ],
     "week": 5
@@ -445,8 +526,8 @@ const lectures = [
     "unit": "Logic",
     "title": "First-order logic & translation",
     "desc": "Represent objects and relations, control quantifiers, and test your claims.",
-    "map": "propositional recap → objects → predicates → quantifiers → translation → situations",
-    "boundary": "This is the introductory first-order lecture. More complicated first-order inference is deferred. The provided slides are the Week 5 propositional deck; Week 6 is grounded in captions.",
+    "map": "propositional recap → objects → predicates/functions → semantics → quantifiers → equality → translation → situations",
+    "boundary": "This is the October 6 introductory first-order lecture (course Week 7). More complicated first-order inference is deferred to October 13. Coverage is cross-checked against both Week 7 discussion decks and the full 11-12 FO-Logic lecture deck.",
     "sections": [
       {
         "title": "Objects, predicates, functions",
@@ -465,6 +546,25 @@ const lectures = [
           "takeaway": "Functions return objects. Predicates form claims that can be true or false. A variable is a placeholder for an object.",
           "question": "Is FatherOf(Mary) by itself a true/false statement?",
           "answer": "No. It picks out an object. Kind(FatherOf(Mary)) would make a true/false claim about that object."
+        }
+      },
+      {
+        "title": "Syntax names symbols; semantics gives them a world",
+        "body": "<p>FOL syntax tells you which strings are legal. A model supplies a <strong>domain of objects</strong> and an interpretation: each constant denotes an object, each function symbol maps objects to an object, and each predicate denotes a relation that is true of some object tuples.</p><p>Different models can interpret the same symbol differently. A predicate such as Above(x,y) is not automatically geometry; its argument order and extension come from the intended interpretation. A <strong>closed sentence</strong> has no free variables and receives a truth value in a model. A formula with free variables needs an assignment before it can be evaluated.</p>",
+        "question": "Why can the same sentence Red(A) be true in one model and false in another?",
+        "answer": "The models can assign A to different objects or interpret Red as containing different objects. Syntax alone does not fix those meanings.",
+        "teaching": {
+          "title": "A symbol needs a legend",
+          "story": "A map uses the letter A and a red outline. Without a legend, you know the marks but not what place or property they represent.",
+          "steps": [
+            "Syntax is the allowed arrangement of marks.",
+            "The domain is the collection of objects being discussed.",
+            "An interpretation connects names, functions, and predicates to that domain.",
+            "Truth is then evaluated under that interpretation, not from the spelling of the symbols."
+          ],
+          "takeaway": "FOL separates the formal language from the world that interprets it—the same semantic wall introduced in propositional logic.",
+          "question": "Does naming a predicate Taller guarantee that Taller(A,B) matches physical height?",
+          "answer": "No. The intended meaning must be supplied by the interpretation; the symbol’s name is only a mnemonic."
         }
       },
       {
@@ -525,6 +625,25 @@ const lectures = [
         }
       },
       {
+        "title": "Equality and the first-order boundary",
+        "body": "<p>Equality is a logical relation meaning two terms denote the same object. It supports uniqueness claims and definitions such as “there are exactly two.” It is stronger than two objects merely sharing one named property.</p><p><strong>First-order</strong> quantifiers range over objects. They do not range over predicate and function symbols. The lecture contrasts this with higher-order logic, which can quantify over properties or relations and is more expressive, but is harder to reason with effectively. Keep this boundary visible when translating English that says “every property” or “some relation.”</p>",
+        "question": "Is ∀x∀y((Red(x)∧Red(y))⇒x=y) saying all red objects look alike or that there is at most one red object?",
+        "answer": "It says there is at most one red object: any two red witnesses must denote the same object.",
+        "teaching": {
+          "title": "Same object is stronger than same feature",
+          "story": "Two students may both wear red, but that does not make them the same student.",
+          "steps": [
+            "Predicates state properties or relations.",
+            "Equality states that two terms point to one identical object.",
+            "FOL lets x range over students, books, rooms, or other domain objects.",
+            "Quantifying over the property Red itself would move beyond ordinary first-order quantification."
+          ],
+          "takeaway": "Use equality for identity and uniqueness. Know whether a variable ranges over objects or over properties before choosing a logic.",
+          "question": "Can ordinary FOL write ∀P(P(A)⇔P(B)) with P treated as a quantified predicate variable?",
+          "answer": "Not in the usual first-order syntax. Quantifying over predicates is a higher-order move."
+        }
+      },
+      {
         "title": "Knowledge about changing situations",
         "body": "<p>The lecture introduces situations and action results to describe change. A fluent depends on a situation; an action takes an initial situation to a resulting one. The frame problem asks how to represent what stays unchanged.</p><p>Do not silently assume that absence from a knowledge base makes a proposition false. Closed-world reasoning is an extra modeling assumption; ordinary first-order semantics does not supply it automatically.</p><p><strong>Professor priority:</strong> the October 6 captions explicitly say to remember the seven propositional inference rules for the next exam rather than expect them to be supplied. Practice applying the course’s rule sheet.</p>",
         "question": "If a knowledge base does not contain Likes(Ana,Tea), can ordinary first-order logic conclude its negation?",
@@ -564,7 +683,7 @@ const lectures = [
       }
     ],
     "week": 7,
-    "source": "Week 7 lecture captions · October 6, 2026 · No accompanying slide deck supplied"
+    "source": "Week 7 lecture captions · October 6, 2026 · 11-12-FO-Logic.pptx · wk7-FOLogic.pptx · wk7-P-Logic.pptx"
   },
   {
     "id": 8,
@@ -573,9 +692,9 @@ const lectures = [
     "unit": "Logic",
     "title": "First-order inference & resolution",
     "desc": "Build proofs with unification, chaining, clause conversion, and resolution refutation.",
-    "map": "proof → quantifier rules → unification → GMP → chaining → resolution → CNF",
-    "boundary": "Week 8 continues the introductory first-order logic lecture from October 6 (Week 7). Source: October 13 captions only; no Week 8 slides supplied. Worked examples are reconstructed from the spoken descriptions, with formal clarifications labeled separately. The professor emphasizes reproducing examples without their solutions. No new exam date is supplied.",
-    "source": "Week 8 lecture captions · October 13, 2026 · No accompanying slide deck supplied",
+    "map": "proof → quantifier rules → unification → GMP → chaining → Russell’s paradox → completeness → resolution → CNF",
+    "boundary": "Week 8 continues the October 6 first-order logic lecture. Coverage is cross-checked against the October 13 captions, the full 13-14 FOL-Inference deck, and the Week 8 discussion deck. Worked examples are reconstructed from the supplied sources, with formal clarifications labeled separately. The paradox slides are motivation about naive self-referential set formation; they are not a claim that ordinary FOL itself is inconsistent. No new exam date is supplied.",
+    "source": "Week 8 lecture captions · October 13, 2026 · 13-14-FOL-Inference.pptx · wk8-inference.pptx",
     "sections": [
       {
         "title": "A proof is a path through legal inference steps",
@@ -689,6 +808,44 @@ const lectures = [
           "takeaway": "A method can be powerful within a limited rule format and still miss conclusions outside that format. This motivates resolution.",
           "question": "If both possible starting cases lead to R, do you need to know which case holds to conclude R?",
           "answer": "No, if the cases cover all possibilities and each implies R. This is reasoning by cases."
+        }
+      },
+      {
+        "title": "Russell’s paradox: self-reference plus negation",
+        "body": "<p>The October 13 slide deck takes a field trip to <strong>Russell’s paradox</strong>. In naive set theory, define R as the set of every set that is <em>not</em> a member of itself:</p><div class=\"formula\">R = {x | x ∉ x}</div><p>Now ask whether R∈R. If R is a member of itself, then by its defining condition it must not be. If it is not a member of itself, then it satisfies the condition and must be included. Either assumption flips to its negation.</p><p>The slides’ librarian version is easier to picture: some library catalogs list themselves. A master catalog is supposed to list exactly those catalogs that do <em>not</em> list themselves. Should the master catalog list itself? Either answer produces the opposite answer.</p><p><strong>Boundary:</strong> this paradox exposes unrestricted set construction in naive set theory. Modern axiomatic set theories restrict comprehension to avoid forming R. It is a warning about self-reference and negation, not a demonstration that every ordinary FOL knowledge base is contradictory.</p>",
+        "question": "In the librarian story, what happens if the master catalog lists itself, and what happens if it does not?",
+        "answer": "If it lists itself, it violates its rule to list only catalogs that do not list themselves. If it does not, it meets that rule and therefore should list itself. Each choice reverses itself.",
+        "teaching": {
+          "title": "The catalog that cannot decide about itself",
+          "story": "A master catalog lists every catalog that does not include its own title. Then the librarian asks whether the master catalog should include its own title.",
+          "steps": [
+            "Assume it includes itself.",
+            "Its rule says it may include only catalogs that do not include themselves, so it must be removed.",
+            "Assume instead that it does not include itself.",
+            "Then it fits the rule for inclusion, so it must be added. The definition creates a contradiction."
+          ],
+          "takeaway": "Russell’s paradox comes from an unrestricted self-referential collection defined with negation. The lecture uses it as a caution before discussing the power and limits of logic.",
+          "question": "Is the problem merely that the catalog is very large?",
+          "answer": "No. The contradiction comes from how membership is defined, not from size."
+        }
+      },
+      {
+        "title": "Completeness is not the same as decidability",
+        "body": "<p>The deck distinguishes three claims. First, generalized modus ponens is incomplete for arbitrary FOL because not every sentence can be expressed as a definite Horn clause. Second, Gödel’s <strong>completeness theorem</strong> says that if a first-order sentence is semantically entailed, there is a formal proof in a complete proof system. Third, FOL entailment is only <strong>semi-decidable</strong>.</p><p>Operationally, a fair complete proof search will eventually find a proof when KB⊨α. When KB⊭α, however, a proof search is not guaranteed to halt and say “no”; it may continue exploring an infinite space of terms and derivations. Resolution is refutation-complete, but a particular naive search order can still starve the needed steps, so fairness matters.</p><p>Do not confuse the FOL completeness theorem with Gödel’s later incompleteness theorems about sufficiently strong, effectively axiomatized theories of arithmetic. They answer different questions.</p>",
+        "question": "A complete resolution prover has searched for an hour without finding a contradiction. Has it proved that the query is not entailed?",
+        "answer": "No. If the query is entailed, fair search will eventually find a refutation; if it is not entailed, the search may run forever. Time without a proof is not a countermodel.",
+        "teaching": {
+          "title": "Guaranteed to find yes does not mean guaranteed to finish on no",
+          "story": "A maze-search procedure promises that if a marked room is reachable, it will eventually find a route. The maze may be infinite.",
+          "steps": [
+            "If a proof exists, completeness says the formal system has a route to it.",
+            "A fair search must eventually explore the steps on that route.",
+            "If no proof exists, an infinite search space may give the procedure endlessly more places to look.",
+            "So proof existence and guaranteed yes/no termination are different properties."
+          ],
+          "takeaway": "Complete means no entailed conclusion is beyond proof. Decidable means every input receives a terminating yes/no answer. FOL entailment has the first property, not the second.",
+          "question": "What evidence can decisively show non-entailment when you can construct it?",
+          "answer": "A countermodel: an interpretation in which KB is true and the proposed conclusion is false."
         }
       },
       {

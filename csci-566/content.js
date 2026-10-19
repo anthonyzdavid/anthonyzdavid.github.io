@@ -138,7 +138,7 @@ const lectures = [
     "desc": "Inputs, guesses, weights, and the difference between a model and an agent.",
     "source": "August 24 captions and the existing Week 1 study notebook.",
     "boundary": "Modern agent topics are course context. The notebook reports that classical deep-learning foundations receive more midterm emphasis; check current course announcements for scope.",
-    "map": "Learn a recipe instead of writing every answer → Labels are the answer key → Weights are adjustable importance knobs → Why more data and faster computers mattered",
+    "map": "Learn a recipe → labels and self-supervision → linear weights → nonlinearity and approximation → data/compute → assistants and agents → trustworthy behavior",
     "sections": [
       {
         "title": "Learn a recipe instead of writing every answer",
@@ -195,6 +195,25 @@ const lectures = [
           "takeaway": "In y=Wx+b, x is input, W contains weights, and b is the bias.",
           "question": "If x changes for each photo, do the trained weights also need to be replaced for every photo?",
           "answer": "No. One learned set of weights should work across examples."
+        }
+      },
+      {
+        "title": "Approximation power still needs learning and generalization",
+        "body": "<p>The lecture introduces the <strong>universal approximation theorem</strong> as an expressiveness result: under suitable assumptions, a neural network with a nonlinear activation and enough hidden units can approximate a broad class of functions on a bounded domain.</p><p>It does <em>not</em> say that gradient descent will find the needed parameters, that a small network will suffice, that finite data identifies the right function, or that the model will generalize outside its training distribution. Without nonlinear activations, stacked affine layers collapse to one affine transformation.</p>",
+        "question": "Does universal approximation guarantee that training will find a good network from your dataset?",
+        "answer": "No. It concerns what a sufficiently large architecture can represent, not optimization success, sample efficiency, or generalization.",
+        "teaching": {
+          "title": "Being able to represent an answer is not the same as learning it",
+          "story": "A giant box of building pieces may contain enough pieces for a bridge, but you still need a plan, time, and evidence that the bridge works.",
+          "steps": [
+            "Capacity asks what functions the model family can represent.",
+            "Optimization asks whether training finds useful parameters.",
+            "Generalization asks whether the learned function works on unseen cases.",
+            "The theorem addresses the first question under assumptions, not all three."
+          ],
+          "takeaway": "Universal approximation is an expressiveness theorem, not a promise of easy training or reliable behavior.",
+          "question": "Why are nonlinear activations essential in this discussion?",
+          "answer": "Without them, composing affine layers still yields only one affine mapping, which cannot represent general nonlinear relationships."
         }
       },
       {
@@ -383,7 +402,7 @@ const lectures = [
       },
       {
         "title": "Make groups when nobody supplied labels",
-        "body": "<p>K-means alternates assignments and centroid updates, optimizing within-cluster squared distance in the usual formulation.</p>",
+        "body": "<p>K-means alternates assignments and centroid updates, optimizing within-cluster squared distance in the usual formulation. Its result depends on k, feature scaling, initialization, and the geometry induced by the chosen distance.</p><p>It works best for roughly compact, similarly scaled clusters and can struggle with elongated/nonconvex groups, unequal densities, outliers, or categorical features without a suitable representation. Different initial centroids can reach different local solutions, so multiple restarts are common.</p>",
         "question": "Does a K-means group automatically mean “fraud” or “not fraud”?",
         "answer": "No. The algorithm groups by geometry; people must interpret and evaluate those groups.",
         "teaching": {
@@ -402,7 +421,7 @@ const lectures = [
       },
       {
         "title": "A score needs to match the real job",
-        "body": "<p>Week 2 discusses model evaluation metrics. The toy example demonstrates why class imbalance makes accuracy alone insufficient.</p>",
+        "body": "<p>Week 2 discusses model evaluation metrics. The toy example demonstrates why class imbalance makes accuracy alone insufficient.</p><div class=\"formula\">precision = TP/(TP+FP) &nbsp; · &nbsp; recall = TP/(TP+FN)<br>accuracy = (TP+TN)/(TP+TN+FP+FN)</div><p>Precision conditions on predicted positives; recall conditions on actual positives. Threshold changes usually trade false positives against false negatives, so metric choice must reflect the real cost of each error.</p>",
         "question": "A detector finds none of the real positive cases. Is its recall good?",
         "answer": "No. Recall is zero even if many negative predictions are correct.",
         "teaching": {
@@ -430,7 +449,7 @@ const lectures = [
     "desc": "Forward passes, nonlinear layers, loss, and backward feedback.",
     "source": "September 14 captions and the Week 4 notebook. Original detailed notebook: week4/.",
     "boundary": "The lecture emphasizes nonlinear activations and forward/backward mechanics. Detailed transformer attention was deferred; the beginner bridge is supplemental.",
-    "map": "Layers pass along useful descriptions → Why stacking straight rules is not enough → An activation changes the signal → Turn class scores into a probability distribution",
+    "map": "layers and capacity → nonlinear activations → logits/softmax → computational graphs → backprop → training cost → gradient pathologies → CNN motivation",
     "sections": [
       {
         "title": "Layers pass along useful descriptions",
@@ -525,6 +544,44 @@ const lectures = [
           "takeaway": "Backprop computes the correction information. The optimizer applies a parameter update.",
           "question": "Are backpropagation and gradient descent exactly the same operation?",
           "answer": "No. Backprop computes gradients; gradient descent uses gradients to update parameters."
+        }
+      },
+      {
+        "title": "Width, depth, capacity, and overfitting",
+        "body": "<p><strong>Width</strong> counts units or channels within a layer; <strong>depth</strong> counts successive learned transformations. Increasing either can raise representational capacity, but also changes compute, memory, optimization behavior, and overfitting risk.</p><p>More capacity is not automatically better. Training error can fall while validation error rises when a model fits training-specific noise or shortcuts. Architecture, data quantity and diversity, regularization, and evaluation must be considered together.</p>",
+        "question": "If a wider network obtains lower training loss but worse validation loss, what warning does that give?",
+        "answer": "The added capacity may be fitting training-specific patterns that do not generalize; compare data, regularization, and validation behavior before keeping it.",
+        "teaching": {
+          "title": "A bigger notebook can memorize more—including mistakes",
+          "story": "A student writes down every practice answer verbatim but never learns the rule connecting them.",
+          "steps": [
+            "More width or depth can represent more complex functions.",
+            "That can help when the task truly needs the capacity.",
+            "It can also fit noise or accidental shortcuts.",
+            "Use unseen validation behavior, not training loss alone, to judge the tradeoff."
+          ],
+          "takeaway": "Capacity is useful only when training and data turn it into generalizable structure.",
+          "question": "Does a lower training loss prove the larger model is better for deployment?",
+          "answer": "No. Deployment requires good performance on relevant unseen data and acceptable resource and safety behavior."
+        }
+      },
+      {
+        "title": "Why training usually costs more than inference",
+        "body": "<p>Both training and inference run a forward pass. Training additionally stores or recomputes intermediate activations, performs backpropagation, maintains gradients and optimizer state, and updates parameters. Optimizers such as Adam can keep extra state tensors for each trainable parameter.</p><p>Freezing parameters reduces gradient and optimizer-state requirements for them, but the forward computation may still be needed. Activation memory can dominate for deep networks and long sequences. External retrieval or memory at inference time is different from storing gradient information for training.</p>",
+        "question": "Why can training require much more memory than a same-size forward-only inference?",
+        "answer": "Training needs intermediate activations for gradients plus gradient and optimizer-state tensors, not just the parameters and forward outputs.",
+        "teaching": {
+          "title": "Practice needs the scratch work",
+          "story": "On a quiz you write an answer. During practice you also keep every intermediate step so you can trace where the error came from.",
+          "steps": [
+            "Inference computes outputs from current weights.",
+            "Training keeps information needed to trace loss backward.",
+            "Backprop computes gradients for trainable parameters.",
+            "The optimizer may store momentum or moment estimates and then changes the parameters."
+          ],
+          "takeaway": "The extra backward pass and saved state make training more memory- and compute-intensive than ordinary inference.",
+          "question": "If a backbone is frozen, does it necessarily disappear from the forward pass?",
+          "answer": "No. Its features may still be required even though its weights receive no updates."
         }
       },
       {
@@ -637,7 +694,7 @@ const lectures = [
       },
       {
         "title": "Normalization puts numbers on a manageable scale",
-        "body": "<p>The Week 5 lecture emphasizes normalization and train/evaluation handling. Learned affine scale/shift details are expanded in the supplied training slide deck.</p>",
+        "body": "<p>The Week 5 lecture emphasizes normalization and train/evaluation handling. For a BatchNorm channel, training computes batch statistics, normalizes activations, then applies learned scale γ and shift β:</p><div class=\"formula\">x̂=(x−μ<sub>B</sub>)/√(σ²<sub>B</sub>+ε) &nbsp; · &nbsp; y=γx̂+β</div><p>During evaluation, standard BatchNorm uses accumulated running statistics rather than the current example’s batch statistics. LayerNorm instead normalizes features within each example and normally behaves the same way in training and evaluation. Input preprocessing statistics must be fit on training data to avoid leakage.</p>",
         "question": "Should you casually recalculate training preprocessing statistics using the final test set?",
         "answer": "No. Fit preprocessing on training data and reuse it.",
         "teaching": {
@@ -719,10 +776,10 @@ const lectures = [
     "date": "Training deck · supplement",
     "unit": "Training",
     "title": "Practice training and transfer",
-    "desc": "A gentle companion to the supplied training-and-transfer PDF.",
-    "source": "Selected introductory pages of F26-block7-training-transfer-432p.pdf: training step, batches/epochs, splits, normalization, and transfer overview.",
-    "boundary": "This is a slide-based supplement, not a claimed Week 7 or Week 8 recording. The 432-page deck contains additional material beyond these selected beginner lessons.",
-    "map": "One update is not an entire pass through the data → Keep the same measuring ruler for new examples → Reuse a model that already learned useful patterns → Frozen does not mean the model stops doing math",
+    "desc": "Training loops, optimization, diagnosis, regularization, transfer, LoRA, and AutoML from the supplied deck.",
+    "source": "Full-topic audit of F26-block7-training-transfer-432p.pdf: training loop, preprocessing, initialization, optimizers, schedules, regularization, transfer learning, parameter-efficient tuning, and AutoML.",
+    "boundary": "This is a slide-based supplement, not a claimed Week 7 or Week 8 recording. Research examples and reported results in the deck are context, not universal guarantees. These cards cover the deck’s main conceptual and exam-useful themes; implementation details still depend on the framework and model.",
+    "map": "batches/epochs → clean splits → initialization → optimizers and schedules → diagnose curves → regularize → transfer and fine-tune → LoRA → AutoML",
     "sections": [
       {
         "title": "One update is not an entire pass through the data",
@@ -745,7 +802,7 @@ const lectures = [
       },
       {
         "title": "Keep the same measuring ruler for new examples",
-        "body": "<p>The selected slides emphasize training-only fitting of preprocessing, consistent input conventions, and avoiding data leakage.</p>",
+        "body": "<p>The deck emphasizes training-only fitting of preprocessing, consistent input conventions, and avoiding data leakage. Split data before fitting means, variances, vocabularies, feature selectors, or learned transforms.</p><p>Standardization uses training-set location and scale. PCA rotates into directions of training-set variance; whitening additionally rescales those directions. Both must be fit only on training data and then applied unchanged to validation, test, and deployment inputs. Image pipelines must also match expected color order, resize/crop rules, and value range.</p>",
         "question": "If the test mean happens to be 140, should you replace the fitted training mean with it?",
         "answer": "No. Reuse the preprocessing fitted on the training data.",
         "teaching": {
@@ -760,6 +817,101 @@ const lectures = [
           "takeaway": "Fit preprocessing rules on training data and apply them consistently to new examples.",
           "question": "If the test mean happens to be 140, should you replace the fitted training mean with it?",
           "answer": "No. Reuse the preprocessing fitted on the training data."
+        }
+      },
+      {
+        "title": "Initialization must preserve both symmetry breaking and signal scale",
+        "body": "<p>If every hidden unit begins with identical weights, those units receive identical gradients and remain duplicates; all-zero initialization therefore fails to break symmetry in ordinary hidden layers. Random initialization breaks symmetry, but its scale matters.</p><p><strong>Xavier/Glorot</strong> initialization scales variance using fan-in and fan-out and is commonly paired with symmetric activations such as tanh. <strong>He/Kaiming</strong> initialization uses a larger variance suited to ReLU-like activations, often summarized as Var(W)≈2/fan-in. The goal is to keep activations and gradients from systematically shrinking or exploding across depth.</p>",
+        "question": "Why is “small random numbers” an incomplete initialization rule?",
+        "answer": "Randomness breaks symmetry, but the variance must also match layer width and activation behavior so signals do not vanish or explode.",
+        "teaching": {
+          "title": "Give each neuron a different start at a sensible volume",
+          "story": "If every singer starts with the same note and always receives the same correction, the choir never develops different parts. If everyone starts far too loud, the sound also breaks down.",
+          "steps": [
+            "Different random values let hidden units learn different features.",
+            "Fan-in counts incoming connections; fan-out counts outgoing connections.",
+            "Xavier balances scale for common symmetric activations.",
+            "He initialization accounts for ReLU zeroing a substantial portion of its inputs."
+          ],
+          "takeaway": "Good initialization breaks symmetry and keeps numerical signal scales usable through many layers.",
+          "question": "Can all hidden-layer weights start at exactly zero?",
+          "answer": "Not if you expect the units to diversify: identical units receive identical gradients and remain symmetric."
+        }
+      },
+      {
+        "title": "Optimizers differ in momentum, scaling, and state",
+        "body": "<p>Plain mini-batch SGD follows the noisy batch gradient. <strong>Momentum</strong> accumulates a velocity so updates keep moving in persistent directions and damp some oscillation. <strong>AdaGrad</strong> reduces the effective step for parameters with large accumulated squared gradients; its learning rate can decay too aggressively. <strong>RMSProp</strong> uses an exponential moving average instead.</p><p><strong>Adam</strong> combines moving averages of gradients and squared gradients with bias correction. <strong>AdamW</strong> decouples weight decay from the adaptive gradient update, making the shrinkage interpretation clearer. No optimizer removes the need to tune learning rate, inspect validation behavior, and match the method to the task.</p>",
+        "question": "Why does Adam keep more optimizer state than plain SGD?",
+        "answer": "Adam tracks moving first- and second-moment estimates for each trainable parameter; plain SGD can update from the current gradient alone.",
+        "teaching": {
+          "title": "Different downhill walkers remember different things",
+          "story": "Several hikers descend a foggy hill. One follows only today’s slope; another remembers recent direction; another also adjusts step size for each coordinate.",
+          "steps": [
+            "SGD uses the current mini-batch gradient.",
+            "Momentum carries a smoothed direction from recent updates.",
+            "Adaptive optimizers scale coordinates using gradient-history statistics.",
+            "AdamW applies decoupled weight decay in addition to Adam’s adaptive step."
+          ],
+          "takeaway": "Optimizer choice changes update dynamics and memory use, but the learning rate remains a critical control.",
+          "question": "Does an adaptive optimizer guarantee the best final generalization?",
+          "answer": "No. It may ease optimization, but final performance depends on the model, schedule, data, regularization, and task."
+        }
+      },
+      {
+        "title": "Learning-rate schedules control when to move fast or carefully",
+        "body": "<p>A large learning rate can make rapid progress but overshoot or diverge; a small one can be stable but painfully slow or trapped by noise. Schedules change the rate over training: step or exponential decay, cosine decay, cyclical schedules, and performance-triggered reduction are common patterns.</p><p><strong>Warmup</strong> begins with a small rate and increases it over initial updates, which can stabilize large-batch or transformer training before full-size steps. The schedule is indexed by optimizer updates, not merely by epochs, so batch size and dataset size affect its timing.</p>",
+        "question": "Why must you know whether a schedule counts epochs or optimizer steps?",
+        "answer": "Changing batch size changes the number of updates per epoch. A step-based schedule would then reach milestones at different amounts of processed data.",
+        "teaching": {
+          "title": "Start, cruise, then slow down",
+          "story": "A driver eases onto a highway, travels quickly when the road is clear, and slows near the destination.",
+          "steps": [
+            "Warmup avoids abrupt large updates at the start.",
+            "A higher middle rate explores and makes progress.",
+            "Decay allows smaller refinements later.",
+            "Cyclical schedules deliberately raise and lower the rate to alter exploration."
+          ],
+          "takeaway": "The learning rate is a time-varying training decision, not just one constant typed at startup.",
+          "question": "If loss oscillates or explodes immediately, what hyperparameter should you inspect first?",
+          "answer": "The learning rate is a prime suspect, along with initialization, normalization, and numerical stability."
+        }
+      },
+      {
+        "title": "Read training and validation curves together",
+        "body": "<p>If both training and validation losses remain high, the model may be underfitting, optimization may be failing, or the representation/data may be inadequate. If training loss keeps falling while validation loss turns upward, the widening gap is evidence of overfitting or distribution mismatch.</p><p><strong>Early stopping</strong> monitors a validation metric, saves the best checkpoint, and stops after a patience window without improvement. The validation set guides choices; the test set should remain untouched until final evaluation. Always confirm whether a loss curve is per batch, per epoch, smoothed, or averaged before comparing it.</p>",
+        "question": "Which checkpoint should you usually keep when validation loss reached its minimum ten epochs before training ended?",
+        "answer": "The checkpoint at the best validation result, assuming that metric and selection protocol were chosen appropriately—not automatically the final epoch.",
+        "teaching": {
+          "title": "Practice score and rehearsal score tell different stories",
+          "story": "A student keeps improving on memorized practice questions while getting worse on fresh rehearsal questions.",
+          "steps": [
+            "Training curves show fit to examples used for updates.",
+            "Validation curves estimate behavior on held-out data used for model selection.",
+            "A growing gap warns that more training is not necessarily better.",
+            "Early stopping saves the best validation checkpoint rather than assuming the last one is best."
+          ],
+          "takeaway": "Diagnose optimization and generalization from multiple curves; never use the test set as a repeated tuning signal.",
+          "question": "Can low training loss alone certify good generalization?",
+          "answer": "No. It only shows the model fits the training objective on training data."
+        }
+      },
+      {
+        "title": "Regularization changes capacity, objective, or training noise",
+        "body": "<p><strong>Weight decay/L2</strong> discourages large weights; for plain SGD they have a close relationship, but with adaptive optimizers decoupled AdamW-style decay is not identical to adding an L2 penalty inside the loss. <strong>Dropout</strong> randomly masks activations during training and is disabled at evaluation with the framework’s scaling convention.</p><p>Data augmentation creates label-preserving variations. The deck also surveys DropConnect (mask weights), stochastic depth (skip whole residual branches), Cutout (mask image regions), and Mixup (interpolate inputs and targets). Each method encodes assumptions: an augmentation helps only when its transformation should preserve or meaningfully interpolate the task label.</p>",
+        "question": "Why can a visually dramatic augmentation hurt even if it creates more training samples?",
+        "answer": "If it changes the true label or creates unrealistic inputs for the deployment distribution, it teaches the wrong invariance rather than useful robustness.",
+        "teaching": {
+          "title": "Make memorization harder in useful ways",
+          "story": "A student practices the same idea with different wording, missing details, and combined examples instead of memorizing one page.",
+          "steps": [
+            "Penalties and decay bias the learned weights.",
+            "Dropout and stochastic depth perturb the network during training.",
+            "Augmentations perturb the examples while trying to preserve task meaning.",
+            "Evaluate whether the chosen perturbation matches real variations."
+          ],
+          "takeaway": "Regularization is a family of assumptions and interventions, not one magic anti-overfitting switch.",
+          "question": "Should dropout remain randomly active during ordinary deterministic evaluation?",
+          "answer": "Usually no. Standard evaluation disables dropout; deliberate Monte Carlo dropout is a separate uncertainty technique."
         }
       },
       {
@@ -798,6 +950,63 @@ const lectures = [
           "takeaway": "Whether a parameter updates and whether a layer behaves in training mode are different questions.",
           "question": "Does “frozen weights” mean “skip the backbone’s forward computation”?",
           "answer": "No. The model still needs its features unless you precomputed and cached them."
+        }
+      },
+      {
+        "title": "Transfer succeeds when representations and domains line up",
+        "body": "<p>A common recipe is: replace the task head, train it while the backbone is frozen, then unfreeze selected later layers and fine-tune with a smaller learning rate. Earlier layers often capture more generic patterns; later layers are more task-specific, but this is a heuristic rather than a law.</p><p><strong>Domain shift</strong> means source and target data distributions differ. Large shift may require more adaptation, better target data, or domain-adaptation methods. Multi-task learning shares a representation across objectives; domain-adversarial training tries to learn features useful for the task but less predictive of the domain.</p><p>For language models, <strong>fine-tuning</strong> changes parameters, whereas prompting and in-context learning condition the model through its input without ordinary weight updates. Zero-shot transfer uses instructions or label descriptions without target-task weight updates or demonstrations; few-shot prompting supplies a small number of examples in context. These may change behavior without becoming permanent learned parameters.</p>",
+        "question": "Why might full fine-tuning with a large learning rate damage a useful pretrained model?",
+        "answer": "Large updates can overwrite useful representations—often called catastrophic forgetting—and overfit a small target dataset.",
+        "teaching": {
+          "title": "Adapt an experienced worker without erasing every old skill",
+          "story": "A photographer learns medical imaging. Some visual skills transfer, while specialized interpretation needs new practice.",
+          "steps": [
+            "Reuse a pretrained representation when source features are relevant.",
+            "Train a new head to map those features to target labels.",
+            "Fine-tune carefully if the target needs representation changes.",
+            "Measure domain mismatch instead of assuming transfer always helps."
+          ],
+          "takeaway": "Transfer is strongest when the pretrained representation contains useful structure for the target and fine-tuning preserves it.",
+          "question": "Can transfer learning produce negative transfer?",
+          "answer": "Yes. Mismatched source features or an unsuitable adaptation procedure can perform worse than a target-specific baseline."
+        }
+      },
+      {
+        "title": "Adapters and LoRA update a small trainable path",
+        "body": "<p>Parameter-efficient fine-tuning leaves most pretrained weights fixed and trains small additions. <strong>Adapters</strong> insert compact bottleneck modules in the network. <strong>LoRA</strong> represents a weight update with low-rank factors:</p><div class=\"formula\">W′ = W + ΔW, &nbsp; ΔW = BA<br>B∈ℝ<sup>d<sub>out</sub>×r</sup>, A∈ℝ<sup>r×d<sub>in</sub></sup>, r ≪ min(d<sub>in</sub>,d<sub>out</sub>)</div><p>The base W is frozen while A and B are trained. This reduces trainable parameters and optimizer state, but forward/backward activation costs and task quality do not shrink in the same proportion. Rank r, targeted layers, scaling, data, and optimization still matter.</p><p>The deck also presents <strong>HyperTuning</strong>: a trained hypermodel consumes a task’s few-shot examples and predicts parameters for a small adapter-like module, aiming to adapt without running ordinary task-specific backpropagation each time. This is distinct from hyperparameter search, which selects settings such as learning rate or rank.</p>",
+        "question": "For a 4096×4096 matrix and LoRA rank 8, how many LoRA matrix parameters replace a full 16,777,216-parameter update?",
+        "answer": "8×4096 + 4096×8 = 65,536 trainable LoRA parameters for that matrix, before any biases or scaling parameters.",
+        "teaching": {
+          "title": "Learn a small correction instead of rewriting the whole book",
+          "story": "A large manual stays fixed. You attach a thin set of task-specific correction pages.",
+          "steps": [
+            "Keep the original weight matrix W frozen.",
+            "Learn two thin matrices A and B whose product is the update.",
+            "Choose a small rank r to limit trainable parameters.",
+            "At use time, apply W and the learned correction, or merge them when the implementation permits."
+          ],
+          "takeaway": "LoRA makes the learned weight change low-rank; it does not make the underlying base model small.",
+          "question": "Does freezing W mean gradients need not flow through the layer to reach LoRA parameters?",
+          "answer": "No. The computation and gradient path still run; only W itself is excluded from updates."
+        }
+      },
+      {
+        "title": "AutoML searches choices, but the evaluation design still rules",
+        "body": "<p>The deck’s AutoML material spans model selection, hyperparameter search, and neural architecture search (NAS). <strong>Grid search</strong> tries a fixed Cartesian set; <strong>random search</strong> often covers important dimensions more efficiently when only some hyperparameters matter. <strong>Bayesian optimization</strong> builds a surrogate model and acquisition rule to choose informative trials.</p><p>Meta-learning can reuse evidence from previous tasks. NAS searches architectural decisions, sometimes using weight sharing or learned controllers to reduce cost. Every method can overfit the validation protocol if it runs enough trials; report search space, budget, seeds, selection metric, and final untouched-test evaluation.</p>",
+        "question": "Why is the best of 1,000 validation trials likely to have an optimistic validation score?",
+        "answer": "Repeated selection exploits noise in the validation set. The chosen configuration can overfit that set even though no gradient was taken on it.",
+        "teaching": {
+          "title": "Automating experiments does not automate scientific honesty",
+          "story": "A machine tries hundreds of recipes and keeps the one that tastes best to one judge.",
+          "steps": [
+            "Define the choices and ranges: the search space.",
+            "Define the compute or trial limit: the budget.",
+            "Use validation data to compare trials consistently.",
+            "Evaluate the selected result once on untouched test data and report the search process."
+          ],
+          "takeaway": "AutoML can search configurations efficiently, but leakage, noisy selection, and hidden budgets can still invalidate conclusions.",
+          "question": "Is random search literally unguided training of model weights?",
+          "answer": "No. It randomly samples hyperparameter configurations; each trial still trains its model with an ordinary learning procedure."
         }
       }
     ]
