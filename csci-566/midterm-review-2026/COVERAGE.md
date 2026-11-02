@@ -80,3 +80,7 @@ The exam filename says Fall 2025, but its title and document metadata identify S
 ## Boundaries
 
 Q3 is architecture dependent. Q22 has a printed-key error. Q27 needs the sample-count bound. Q28 has equivalent Big-O choices. Q31 is not unique for max pooling and mode-dependent BatchNorm. Q41 has a literal three-collinear-point counterexample to the intended four-point VC reading. Q45 depends on retaining hard loss plateaus. Q48 is resolved by shared order-independent scoring plus symmetric reduction. Q56 is not a verified 2026 grading policy.
+
+## ELI5 and topic-format revision
+
+All 56 questions have specific topic labels, a visible topic index, an ELI5 explanation, an exam takeaway, and a review-page pointer. All 52 multiple-choice/figure-choice items have per-choice explanations; the 4 original numeric free-response items have quantity/explanation tables. Actual selected answers drive feedback; ambiguous Q3/Q28/Q31/Q41 use context feedback rather than false binary grading. Existing note and review keys are preserved.

@@ -13,9 +13,36 @@
     ],
     "trap": "A large gap is evidence to investigate, not a proof that every regularizer will help. B is the least standard remedy among these choices.",
     "recall": "Why might reducing capacity help here but hurt a model with high training error?",
-    "pages": "14–18, 126–137, 147–150",
+    "pages": "14–21, especially the model-complexity graph on p. 14; BatchNorm support on pp. 126–134",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Neural-network overfitting and generalization",
+    "eli5": "Think of a student who memorizes every practice-exam answer but struggles when the numbers change. Here, 100% training accuracy means the network gets every practice example right; 46% test accuracy means that success does not carry over to new examples. This is a classic overfitting pattern, assuming the data splits are comparable. Changing tanh to sigmoid does not directly stop memorization.",
+    "takeaway": "High training accuracy and low held-out accuracy suggest overfitting. Consider regularization, less complexity, and more representative training data; choose changes using validation results.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "L2 regularization",
+        "explanation": "Penalizes large weights, which can discourage fitting training-specific noise."
+      },
+      {
+        "label": "B",
+        "text": "Replace Tanh with Sigmoid activation",
+        "explanation": "Correct choice for “least common remedy.” Changing these activations is not a standard way to reduce overfitting."
+      },
+      {
+        "label": "C",
+        "text": "Reduce the size of the neural network",
+        "explanation": "Limits capacity, making memorization harder; it can help an overfit model."
+      },
+      {
+        "label": "D",
+        "text": "Add batch normalization",
+        "explanation": "Primarily helps training behavior and can also provide some regularization; it is not a guarantee."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 2,
@@ -33,7 +60,34 @@
     "recall": "What operations does a 2×2 max pool perform, compared with a 2×2 learned filter?",
     "pages": "59–82, 127–134",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "CNN computational efficiency",
+    "eli5": "A max-pooling layer is like finding the tallest person in a small group: compare heights and keep the winner. A convolution instead multiplies many numbers and adds them; sigmoid also needs an exponential, and BatchNorm needs centering and scaling. Max pooling therefore has the smallest arithmetic burden in the intended comparison.",
+    "takeaway": "For an operation-count question, distinguish comparisons from multiply-adds, exponentials, and normalization. Actual runtime also depends on shapes and hardware.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Convolution plus bias",
+        "explanation": "Each output usually needs a learned dot product: many multiplications and additions."
+      },
+      {
+        "label": "B",
+        "text": "Max pooling",
+        "explanation": "Correct. It mainly compares values within each window and keeps the maximum."
+      },
+      {
+        "label": "C",
+        "text": "Sigmoid activation",
+        "explanation": "Computes an exponential and other arithmetic for each value."
+      },
+      {
+        "label": "D",
+        "text": "Batch normalization",
+        "explanation": "Centers, scales, and applies a learned scale and shift; this requires arithmetic."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 3,
@@ -51,7 +105,34 @@
     "recall": "Why can a zero-initialized linear regressor learn while an all-zero multilayer network can block its first-layer gradient?",
     "pages": "95–104, 122–125",
     "note": "Architecture-dependent key: A in the archive; D for the first update of a standard all-zero multilayer network.",
-    "extra": "init"
+    "extra": "init",
+    "specificTopic": "Zero initialization and first-layer gradients",
+    "eli5": "Imagine a message passing backward through a chain of rooms. If the connection to an earlier room multiplies the message by zero, nothing reaches that room. That is what an all-zero downstream weight matrix does to the first hidden layer on the first update. A one-layer model has no such intermediate blockage and can update in either direction.",
+    "takeaway": "A zero start does not determine an update’s sign. Check the architecture and the whole gradient path before accepting the archived A.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "First-layer weights may be positive or negative",
+        "explanation": "Printed key. Possible for a one-layer linear model whose gradient depends directly on the input and target."
+      },
+      {
+        "label": "B",
+        "text": "All first-layer weights become negative",
+        "explanation": "No fixed negative sign follows from zero initialization."
+      },
+      {
+        "label": "C",
+        "text": "All first-layer weights become positive",
+        "explanation": "No fixed positive sign follows from zero initialization or “gradient direction.”"
+      },
+      {
+        "label": "D",
+        "text": "All first-layer weights remain zero",
+        "explanation": "True for the first simultaneous update of a conventional all-zero multilayer network because the next weight matrix blocks the gradient."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": true
   },
   {
     "n": 4,
@@ -69,7 +150,13 @@
     "recall": "How would the count change with 8 output filters and one bias per filter?",
     "pages": "75–78",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "CNN 1×1-filter parameter counting",
+    "eli5": "A 1×1 RGB filter looks at one location through three colored windows: red, green, and blue. It needs one adjustable knob for each color. It reuses those same three knobs everywhere in the image.",
+    "takeaway": "One standard filter has kernel height × kernel width × input channels weights. Image width and height do not multiply shared parameters.",
+    "choices": [],
+    "studyKey": "3",
+    "contextDependent": false
   },
   {
     "n": 5,
@@ -87,7 +174,34 @@
     "recall": "What happens to (0.03,0.04) if the clipping threshold is 1?",
     "pages": "110–112, 158–159",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Exploding gradients and norm clipping",
+    "eli5": "A huge gradient is like a direction arrow so long that one step sends you far past your destination. Norm clipping shortens the arrow when it exceeds a limit, while keeping its direction.",
+    "takeaway": "Clipping caps large gradient norms; it does not amplify small gradients.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Use SGD with small batches",
+        "explanation": "Changes gradient noise but does not directly cap an enormous gradient."
+      },
+      {
+        "label": "B",
+        "text": "Oversample minority classes",
+        "explanation": "Addresses class imbalance, not exploding gradient magnitude."
+      },
+      {
+        "label": "C",
+        "text": "Increase batch size to reduce overfitting",
+        "explanation": "Does not directly bound gradients and does not inherently cure overfitting."
+      },
+      {
+        "label": "D",
+        "text": "Rescale gradients above a norm threshold",
+        "explanation": "Correct. Shortens overly large gradients before the update. The PDF mislabels the last two option letters."
+      }
+    ],
+    "studyKey": "D",
+    "contextDependent": false
   },
   {
     "n": 6,
@@ -105,7 +219,34 @@
     "recall": "Why should pruning depth be selected on validation error instead of training error?",
     "pages": "14–21",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Decision-tree pruning and overfitting",
+    "eli5": "An overgrown decision tree is like a rulebook with a special rule for every tiny exception. Pruning cuts some of those exceptions so the rules are more likely to work on new cases.",
+    "takeaway": "Pruning reduces tree complexity to help generalization; select its strength on validation data.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Reduce tree depth and prevent overfitting",
+        "explanation": "Best answer. Removing weak branches reduces the ability to memorize training quirks."
+      },
+      {
+        "label": "B",
+        "text": "Optimize tree parameters with L2",
+        "explanation": "L2 weight penalties are not the pruning operation described here."
+      },
+      {
+        "label": "C",
+        "text": "Handle missing data",
+        "explanation": "Missing-value handling is a separate modeling issue."
+      },
+      {
+        "label": "D",
+        "text": "Improve interpretability with a smaller tree",
+        "explanation": "A real benefit, but the question’s primary statistical purpose is controlling overfitting."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 7,
@@ -123,7 +264,34 @@
     "recall": "What would vanishing gradients look like during training compared with exploding gradients?",
     "pages": "108–112, 160–168",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "RNN numerical instability from exploding gradients",
+    "eli5": "If you keep multiplying a number by something larger than one, it can grow until the computer cannot store it. RNN gradients can do that across time. Overflow and later invalid arithmetic can then turn weights into NaN.",
+    "takeaway": "NaN suggests checking exploding gradients and numerical stability. Vanishing gradients usually cause tiny updates instead.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Vanishing gradients",
+        "explanation": "Usually make learning signals too small; they do not ordinarily overflow parameters."
+      },
+      {
+        "label": "B",
+        "text": "Exploding gradients",
+        "explanation": "Best listed cause. Huge updates can cause overflow and invalid arithmetic."
+      },
+      {
+        "label": "C",
+        "text": "ReLU on a very large input",
+        "explanation": "For a finite positive input, ReLU simply returns that input; this alone does not explain NaN."
+      },
+      {
+        "label": "D",
+        "text": "Sigmoid on a very large input",
+        "explanation": "Mathematically approaches 1; stable sigmoid implementations handle saturation without NaN."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 8,
@@ -141,7 +309,34 @@
     "recall": "Which trainable quantities in a GNN could receive an L2 penalty?",
     "pages": "135–137, 218, 225–227",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "GNN weight regularization with L2",
+    "eli5": "A graph network still has adjustable weight knobs. L2 charges a cost for turning those knobs too far, just as it does in an ordinary neural network. Working with connected nodes does not remove those weights.",
+    "takeaway": "Standard weight regularizers can apply to GNNs. Weight shrinkage and oversmoothing are different mechanisms.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "No; L2 necessarily causes oversmoothing",
+        "explanation": "Incorrect. Oversmoothing is about node representations becoming alike, not simply weights being penalized."
+      },
+      {
+        "label": "B",
+        "text": "Yes; GNNs learn neural-network weights",
+        "explanation": "Correct. Their shared matrices can receive the same kind of L2 penalty."
+      },
+      {
+        "label": "C",
+        "text": "No; L2 causes aggregation gradient errors",
+        "explanation": "Incorrect. A differentiable weight penalty can be combined with aggregation-based training."
+      },
+      {
+        "label": "D",
+        "text": "Yes, but early stopping is generally used instead",
+        "explanation": "The “yes” is plausible, but the extra broad claim about replacing L2 is not established."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 9,
@@ -159,7 +354,34 @@
     "recall": "How would adding a neighbor with value 9 change the mean aggregate of neighbors 2 and 4?",
     "pages": "206–215",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "GNN neighborhood aggregation",
+    "eli5": "To understand one road, ask what is happening on nearby connected roads. Aggregation collects those neighbors’ messages into one summary that helps update the road’s representation.",
+    "takeaway": "Aggregation summarizes neighbors; a later update or prediction head uses that summary.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Combine neighbor information to update a node",
+        "explanation": "Correct. This is the defining neighborhood-message role."
+      },
+      {
+        "label": "B",
+        "text": "Reduce feature dimensions before processing",
+        "explanation": "Can happen in a design, but is not what defines aggregation."
+      },
+      {
+        "label": "C",
+        "text": "Classify nodes directly",
+        "explanation": "Classification is a task that may use the resulting embeddings."
+      },
+      {
+        "label": "D",
+        "text": "Predict whether edges exist",
+        "explanation": "Link prediction is another downstream task, not the definition of aggregation."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 10,
@@ -177,7 +399,34 @@
     "recall": "How could a CNN reduce feature-map size without a pooling layer?",
     "pages": "73–83",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "CNN pooling and spatial downsampling",
+    "eli5": "Pooling is like shrinking a large picture into a smaller summary. It can make the next layers cheaper, but a CNN can still read local patterns without this separate shrinking step.",
+    "takeaway": "CNNs do not require pooling. It is mainly a downsampling choice; strided convolutions can also shrink feature maps.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Yes; pooling is needed to preserve spatial correlation",
+        "explanation": "Convolution itself reads local spatial neighborhoods."
+      },
+      {
+        "label": "B",
+        "text": "Yes; pooling prevents vanishing gradients",
+        "explanation": "Pooling is not a necessary cure for vanishing gradients."
+      },
+      {
+        "label": "C",
+        "text": "No; it mainly reduces dimensionality and can help limit overfitting",
+        "explanation": "Best answer. Pooling is optional spatial reduction."
+      },
+      {
+        "label": "D",
+        "text": "No; it mainly amplifies nonlinearity",
+        "explanation": "Not its primary general role; average pooling is linear."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 11,
@@ -195,7 +444,34 @@
     "recall": "Give another pair of inputs that violates additivity for ReLU.",
     "pages": "48–56, 83",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "ReLU nonlinearity and changing slope",
+    "eli5": "A straight ramp keeps the same slope everywhere. ReLU is a flat floor for negative inputs and a rising ramp for positive inputs. The bend where they meet means one straight-line rule cannot describe the whole function.",
+    "takeaway": "Piecewise linear does not mean globally linear. ReLU fails additivity because its slope changes at zero.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "It only outputs positive values",
+        "explanation": "Not sufficient and not literally true: ReLU also outputs zero."
+      },
+      {
+        "label": "B",
+        "text": "It outputs its input unchanged",
+        "explanation": "Only true on its nonnegative branch."
+      },
+      {
+        "label": "C",
+        "text": "Its slope changes at zero",
+        "explanation": "Correct. The two regions do not form a single global linear map."
+      },
+      {
+        "label": "D",
+        "text": "It has two linear pieces",
+        "explanation": "Describes ReLU, but having pieces alone is not sufficient; the different slopes explain why the whole function is nonlinear."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 12,
@@ -213,7 +489,34 @@
     "recall": "Why can a wide stack of affine layers still fail to model an absolute-value function exactly over positive and negative inputs?",
     "pages": "41, 48–56",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Nonlinear activations and expressive power",
+    "eli5": "Stacking straight-line rules is like stacking transparent straight rulers: the result is still a straight-line rule. Nonlinear activations let the network bend its response and describe patterns that one affine map cannot.",
+    "takeaway": "Without nonlinearities, stacked affine layers collapse into one affine layer.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "They allow only linearly separable functions",
+        "explanation": "Reverses the purpose: nonlinearities allow more than linear relationships."
+      },
+      {
+        "label": "B",
+        "text": "They mainly make binary classification more efficient",
+        "explanation": "Too narrow; nonlinearities matter for many kinds of tasks."
+      },
+      {
+        "label": "C",
+        "text": "They allow complex nonlinear patterns",
+        "explanation": "Correct. They expand the functions the network can represent."
+      },
+      {
+        "label": "D",
+        "text": "They mainly reduce training iterations",
+        "explanation": "Training speed is not their fundamental representational purpose."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 13,
@@ -231,7 +534,34 @@
     "recall": "If the activation were g(z) = 2z and a bias of −2 were added before it, what would the output be?",
     "pages": "51–54",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "MLP forward pass and weighted sums",
+    "eli5": "Each input contributes its value times its importance: 1×4, 2×5, and 3×6. Add those contributions to get 32, then follow the final instruction to triple the result.",
+    "takeaway": "Apply the operations in order: weighted products → sum → activation.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "32",
+        "explanation": "Stops after the weighted sum and skips the stated activation."
+      },
+      {
+        "label": "B",
+        "text": "96",
+        "explanation": "Correct: 3×(4+10+18)=96."
+      },
+      {
+        "label": "C",
+        "text": "643",
+        "explanation": "Does not follow the specified products and sum."
+      },
+      {
+        "label": "D",
+        "text": "9",
+        "explanation": "Does not account for the weights and final multiplication correctly."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 14,
@@ -249,7 +579,34 @@
     "recall": "How can two trees have identical training accuracy but different test accuracy?",
     "pages": "10–21",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Decision-tree generalization limits",
+    "eli5": "A tree can keep inventing narrower rules until each training example has its own special case. Those rules can describe the practice set perfectly while being unreliable on new cases.",
+    "takeaway": "A deep single tree is prone to overfitting even though a small tree can be easy to interpret.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Trees lack interpretability",
+        "explanation": "Small decision trees are often interpretable; this blanket statement is false."
+      },
+      {
+        "label": "B",
+        "text": "Trees are costly to run compared with kNN",
+        "explanation": "Tree prediction usually follows one path rather than scanning all training examples."
+      },
+      {
+        "label": "C",
+        "text": "Trees are prone to overfitting",
+        "explanation": "Correct. Unrestricted branching can fit training noise."
+      },
+      {
+        "label": "D",
+        "text": "All of the above",
+        "explanation": "Incorrect because the first two claims are not generally true."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 15,
@@ -267,7 +624,34 @@
     "recall": "Why can a model accept a larger graph but fail if the node-feature column meanings are swapped?",
     "pages": "225–236, 240, 247",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "GNN parameter sharing across graph sizes",
+    "eli5": "Think of one rule that works for every road: combine your own traffic reading with a summary of your neighbors. Adding more roads means applying the same rule more times, not buying a new rule for each road.",
+    "takeaway": "GNN weight shapes depend on feature widths, not the number of nodes; compatible features still matter.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Pad every graph to the largest graph",
+        "explanation": "May be a batching technique, but does not explain the fundamental sharing mechanism."
+      },
+      {
+        "label": "B",
+        "text": "Share a fixed set of parameters across the graph",
+        "explanation": "Correct. The same update can run on varying numbers of nodes."
+      },
+      {
+        "label": "C",
+        "text": "Change the layer count for each graph size",
+        "explanation": "Unnecessary; depth mainly controls message-passing reach."
+      },
+      {
+        "label": "D",
+        "text": "Convert every graph to one fixed size",
+        "explanation": "Not generally required for shared neighborhood updates."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 16,
@@ -285,7 +669,34 @@
     "recall": "What information is lost when a directed citation graph is replaced by an undirected graph?",
     "pages": "206–219; directed-edge explanation added",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Directed-edge handling in GNNs",
+    "eli5": "A one-way street has a different meaning depending on whether traffic enters or leaves your road. A GNN can keep separate rules for these directions, or deliberately ignore direction if the task permits it.",
+    "takeaway": "Directed graphs can use incoming/outgoing or edge-specific transforms. The archive’s outgoing-only wording is imprecise.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Treat the graph as undirected",
+        "explanation": "A common simplifying baseline, at the cost of losing direction."
+      },
+      {
+        "label": "B",
+        "text": "Separate incoming and outgoing weight matrices",
+        "explanation": "A direct way to preserve direction-specific information."
+      },
+      {
+        "label": "C",
+        "text": "Use only “out-degree nodes” information",
+        "explanation": "Intended answer. The phrase describes a restricted or unclear treatment, not a general way to represent both directional roles."
+      },
+      {
+        "label": "D",
+        "text": "Use more flexible weight matrices",
+        "explanation": "Can encode directed edge roles or relations; broad but compatible with directed models."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 17,
@@ -303,7 +714,34 @@
     "recall": "What are the encoder, latent code, and reconstruction target in a graph autoencoder?",
     "pages": "206–230; autoencoder explanation added",
     "note": "",
-    "extra": "gae"
+    "extra": "gae",
+    "specificTopic": "Graph autoencoders and unsupervised learning",
+    "eli5": "An autoencoder is like making a compact sketch and then trying to rebuild the original from it. A graph autoencoder compresses nodes and connections into embeddings, then reconstructs graph information.",
+    "takeaway": "An encoder–decoder reconstruction objective defines a graph autoencoder; node-class labels are not required.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Unsupervised learning on graph data",
+        "explanation": "Correct. Reconstruction can learn representations from observed graph structure or features."
+      },
+      {
+        "label": "B",
+        "text": "A GNN specifically for regression",
+        "explanation": "Regression alone does not define an autoencoder."
+      },
+      {
+        "label": "C",
+        "text": "Predicting the next node in a sequence",
+        "explanation": "Not the defining reconstruction objective."
+      },
+      {
+        "label": "D",
+        "text": "A GNN using only convolutional layers",
+        "explanation": "Describes a possible architectural restriction, not autoencoding."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 18,
@@ -321,7 +759,34 @@
     "recall": "How do random initialization and random dropout act at different stages of training?",
     "pages": "122–125, 135–146",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Initialization versus regularization",
+    "eli5": "Initialization is choosing where runners stand at the start. Regularization changes the training rules so the model is less tempted to memorize. Random starting weights help neurons learn different things, but are not usually classified as a regularizer.",
+    "takeaway": "Initialization sets the starting point; pruning, penalties, and augmentation are standard regularization approaches.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Model pruning",
+        "explanation": "Reduces model complexity and can act as regularization."
+      },
+      {
+        "label": "B",
+        "text": "L2 regularization",
+        "explanation": "Explicitly penalizes large weights."
+      },
+      {
+        "label": "C",
+        "text": "Random weight initialization",
+        "explanation": "Correct choice for “not a regularization technique.” Its usual role is symmetry breaking and optimization."
+      },
+      {
+        "label": "D",
+        "text": "Data augmentation",
+        "explanation": "Provides valid variations of training examples and can improve generalization."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 19,
@@ -339,7 +804,39 @@
     "recall": "What are sigmoid(0), tanh(0), and the two functions’ output ranges?",
     "pages": "55, 106–108",
     "note": "",
-    "extra": "activations"
+    "extra": "activations",
+    "specificTopic": "Activation-function recognition: sigmoid",
+    "eli5": "Look at both ends of the curve. Sigmoid turns very negative inputs into values near 0 and very positive inputs into values near 1, with 0.5 in the middle. That is curve E.",
+    "takeaway": "Distinguish sigmoid from tanh using the output range and value at zero, not just the S shape.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Plot A: ReLU",
+        "explanation": "Flat at zero on the left and rising on the right; not bounded above."
+      },
+      {
+        "label": "B",
+        "text": "Plot B: leaky ReLU",
+        "explanation": "Two straight branches with different slopes."
+      },
+      {
+        "label": "C",
+        "text": "Plot C: ELU",
+        "explanation": "Curved negative branch and linear positive branch."
+      },
+      {
+        "label": "D",
+        "text": "Plot D: tanh",
+        "explanation": "S-shaped but ranges from −1 to 1 and crosses zero."
+      },
+      {
+        "label": "E",
+        "text": "Plot E: sigmoid",
+        "explanation": "Correct. Ranges from 0 to 1 and equals 0.5 at zero."
+      }
+    ],
+    "studyKey": "E",
+    "contextDependent": false
   },
   {
     "n": 20,
@@ -357,7 +854,39 @@
     "recall": "How do ELU, leaky ReLU, and ReLU differ for a large negative input?",
     "pages": "55–56; ELU formula added",
     "note": "",
-    "extra": "elu"
+    "extra": "elu",
+    "specificTopic": "Activation-function recognition: ELU",
+    "eli5": "ELU is a straight ramp on the positive side and a gently flattening negative curve on the other side. Curve C has those two parts.",
+    "takeaway": "ELU has an exponential negative branch, unlike ReLU’s flat branch or leaky ReLU’s straight branch.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Plot A: ReLU",
+        "explanation": "Negative inputs produce exactly zero."
+      },
+      {
+        "label": "B",
+        "text": "Plot B: leaky ReLU",
+        "explanation": "Negative inputs follow a straight line with a smaller slope."
+      },
+      {
+        "label": "C",
+        "text": "Plot C: ELU",
+        "explanation": "Correct. Negative inputs approach a lower bound; positive inputs remain linear."
+      },
+      {
+        "label": "D",
+        "text": "Plot D: tanh",
+        "explanation": "Saturates on both ends instead of rising linearly on the right."
+      },
+      {
+        "label": "E",
+        "text": "Plot E: sigmoid",
+        "explanation": "Stays between 0 and 1 instead of having ELU’s negative outputs and unbounded positive side."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 21,
@@ -375,7 +904,34 @@
     "recall": "Why might an activation with a useful output range still train poorly in a deep stack?",
     "pages": "55–56, 105–108",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Activation output ranges and gradient response",
+    "eli5": "An activation has two jobs to inspect: what numbers it can output and how strongly those numbers respond to an input change. The first shapes the representation; the second controls the learning signal that passes backward.",
+    "takeaway": "Study both an activation’s output range and derivative, especially its saturated or zero-gradient regions.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Range and response rate, such as slope",
+        "explanation": "Correct. Both representation and gradient flow matter."
+      },
+      {
+        "label": "B",
+        "text": "Range alone",
+        "explanation": "Ignores how derivatives affect training."
+      },
+      {
+        "label": "C",
+        "text": "Probability-output ability alone",
+        "explanation": "Most hidden features are not probabilities; also ignores derivatives."
+      },
+      {
+        "label": "D",
+        "text": "Probability outputs and slope",
+        "explanation": "Includes slope but substitutes a narrow probability use for the general output-range property."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 22,
@@ -393,7 +949,34 @@
     "recall": "Where must a scaler be fitted inside a cross-validation loop?",
     "pages": "4–9",
     "note": "Key correction: printed B → study answer A.",
-    "extra": "leakage"
+    "extra": "leakage",
+    "specificTopic": "Training-only preprocessing and data leakage",
+    "eli5": "Build your measuring ruler using the practice set, then use that exact ruler on the quizzes and final exam. If you redesign the ruler using held-out examples, their information has already influenced the pipeline.",
+    "takeaway": "Fit preprocessing on training data only during model selection; apply the stored transform unchanged to validation and test.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Training data only",
+        "explanation": "Correct. Learns the preprocessing transform without using held-out data."
+      },
+      {
+        "label": "B",
+        "text": "Validation data only",
+        "explanation": "Printed key error. Validation is for choosing settings, not fitting the preprocessing statistics."
+      },
+      {
+        "label": "C",
+        "text": "Training and validation together",
+        "explanation": "Leaks validation information during model selection."
+      },
+      {
+        "label": "D",
+        "text": "Training, validation, and test together",
+        "explanation": "Leaks held-out information, including the test distribution, into the fitted pipeline."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 23,
@@ -411,7 +994,34 @@
     "recall": "Using stored μ=4, variance=9, γ=2, β=−1, ε=0, what output does x=10 produce?",
     "pages": "126–134, 156–157",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "BatchNorm training versus evaluation statistics",
+    "eli5": "During practice, BatchNorm adjusts using the group currently in front of it. During the final check, it normally uses the averages remembered from training, so one photo is not judged differently just because different photos stand beside it.",
+    "takeaway": "Training normally uses current-batch statistics; evaluation normally uses stored running statistics.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Training uses current mini-batch mean and variance",
+        "explanation": "Correct under standard BatchNorm behavior."
+      },
+      {
+        "label": "B",
+        "text": "Testing uses current mini-batch mean and variance",
+        "explanation": "Not the usual evaluation mode with stored running statistics."
+      },
+      {
+        "label": "C",
+        "text": "A full-size batch makes BatchNorm equivalent to L1 normalization",
+        "explanation": "Centering and variance scaling are not division by an L1 norm."
+      },
+      {
+        "label": "D",
+        "text": "A full-size batch makes BatchNorm equivalent to L2 normalization",
+        "explanation": "Centering and variance scaling are not division by an L2 norm."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 24,
@@ -429,7 +1039,34 @@
     "recall": "For widths 3→4→4→2, what is the new count when the hidden widths become 8?",
     "pages": "45–47",
     "note": "",
-    "extra": "dense"
+    "extra": "dense",
+    "specificTopic": "Dense-network parameter scaling",
+    "eli5": "Each connection is a wire you have to count. Doubling a hidden layer doubles wires touching one fixed-size outer layer. Between two doubled hidden layers, both ends grow, so that group of wires becomes four times larger.",
+    "takeaway": "Count each weight matrix separately: the original 800 weights become 2400, a factor of 3.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "1×",
+        "explanation": "Misses the added connections entirely."
+      },
+      {
+        "label": "B",
+        "text": "2×",
+        "explanation": "Accounts for doubling one dimension but misses the quadrupled hidden-to-hidden matrix."
+      },
+      {
+        "label": "C",
+        "text": "3×",
+        "explanation": "Correct for these widths: 2400/800=3."
+      },
+      {
+        "label": "D",
+        "text": "6×",
+        "explanation": "Does not follow the sum of the three layer-matrix counts."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 25,
@@ -447,7 +1084,34 @@
     "recall": "Why does gradient clipping help one of these two problems but not the other?",
     "pages": "108–112, 160–168",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "RNN vanishing and exploding gradients",
+    "eli5": "An RNN repeats the same update across time. The backward signal repeatedly gets multiplied too: many small factors can erase it, while many large factors can make it blow up.",
+    "takeaway": "RNNs can suffer from both vanishing and exploding gradients.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "RNNs have vanishing but not exploding gradients",
+        "explanation": "False statement, so A is the requested answer. Both can occur."
+      },
+      {
+        "label": "B",
+        "text": "RNNs can produce a sequence of outputs",
+        "explanation": "True; an output can be produced at each step."
+      },
+      {
+        "label": "C",
+        "text": "RNNs can handle variable-length inputs",
+        "explanation": "True; the same recurrent rule can be reused for different numbers of steps."
+      },
+      {
+        "label": "D",
+        "text": "Vanishing gradients make RNNs hard to train",
+        "explanation": "True for long backward paths; it is not their only possible difficulty."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 26,
@@ -465,7 +1129,13 @@
     "recall": "What would the output width be for the same 5×5 kernel with padding 2 and stride 1?",
     "pages": "59–85",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "CNN kernel-shape inference",
+    "eli5": "A 5-wide window can start at 28 positions while sliding across a 32-wide row with no padding: 32−5+1=28. Each filter reads all three colors, and four filters give four output channels.",
+    "takeaway": "Infer spatial kernel size from input/output sizes, then attach the input and output channel counts in the requested order.",
+    "choices": [],
+    "studyKey": "(3,5,5,4)",
+    "contextDependent": false
   },
   {
     "n": 27,
@@ -483,7 +1153,34 @@
     "recall": "With 5 binary attributes but only 12 examples, can there be 32 nonempty training leaves?",
     "pages": "10–21; combinatorial derivation added",
     "note": "Bound qualification: at most min(N, 2ᵏ) nonempty leaves.",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Binary decision-tree leaf-count bounds",
+    "eli5": "With k yes/no attributes, there are at most 2ᵏ different answer patterns. A tree cannot distinguish more patterns than exist, and it cannot fill more leaves than it has training examples.",
+    "takeaway": "The feature-pattern bound is 2ᵏ; nonempty training leaves are bounded by min(N,2ᵏ).",
+    "choices": [
+      {
+        "label": "A",
+        "text": "2ᵏ",
+        "explanation": "Intended answer. There are at most this many distinct binary feature patterns."
+      },
+      {
+        "label": "B",
+        "text": "Nᵏ",
+        "explanation": "Not the binary-pattern count and generally far exceeds useful leaf counts."
+      },
+      {
+        "label": "C",
+        "text": "2Nᵏ−1",
+        "explanation": "Does not represent the bound on distinct binary patterns or nonempty leaves."
+      },
+      {
+        "label": "D",
+        "text": "Nᵏ−1",
+        "explanation": "Also unrelated to the correct feature-pattern and sample-count bounds."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 28,
@@ -501,7 +1198,34 @@
     "recall": "Why can a continuous feature be split repeatedly on one path while a fixed binary feature cannot?",
     "pages": "10–21; tree-depth derivation added",
     "note": "Ambiguous options: A and B describe the same asymptotic growth.",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Binary decision-tree maximum depth",
+    "eli5": "Once a path has asked whether a feature is yes or no, it already knows that feature’s answer. Asking it again cannot usefully split that branch. At most k different binary features can be asked.",
+    "takeaway": "A nonredundant path uses at most k binary-attribute tests. O(k−1) and O(k) are asymptotically equivalent.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "O(k)",
+        "explanation": "Printed intended answer: the useful path length grows at most linearly with the feature count."
+      },
+      {
+        "label": "B",
+        "text": "O(k−1)",
+        "explanation": "Not a distinct asymptotic alternative: it is also O(k). This makes the options ambiguous."
+      },
+      {
+        "label": "C",
+        "text": "O(log k)",
+        "explanation": "Too small as a general worst-case bound; a path can require all k tests."
+      },
+      {
+        "label": "D",
+        "text": "O(log(k+N))",
+        "explanation": "Does not describe the feature-based worst-case depth in general."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": true
   },
   {
     "n": 29,
@@ -519,7 +1243,34 @@
     "recall": "Why can a single continuous feature be enough for N leaves?",
     "pages": "10–21; combinatorial derivation added",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Continuous decision-tree maximum leaves",
+    "eli5": "Give each training example its own room at the end of the tree. With N examples, you can fill at most N rooms. Continuous thresholds can separate all examples when their feature values allow it.",
+    "takeaway": "An unconstrained tree can have at most N nonempty training leaves; duplicates or stopping rules can lower the count.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "2^(k−1)",
+        "explanation": "Does not capture repeated threshold splits on continuous features."
+      },
+      {
+        "label": "B",
+        "text": "Nk²",
+        "explanation": "Exceeds the nonempty-leaf bound from the N examples."
+      },
+      {
+        "label": "C",
+        "text": "k",
+        "explanation": "Feature count does not cap leaves when continuous features can be split repeatedly."
+      },
+      {
+        "label": "D",
+        "text": "N",
+        "explanation": "Correct. One example per nonempty leaf is the maximum."
+      }
+    ],
+    "studyKey": "D",
+    "contextDependent": false
   },
   {
     "n": 30,
@@ -537,7 +1288,34 @@
     "recall": "Sketch a tree with 4 examples whose deepest leaf is at depth 3.",
     "pages": "10–21; tree-depth derivation added",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Continuous decision-tree worst-case depth",
+    "eli5": "The most lopsided tree peels off one example at a time. Starting with N examples, it takes N−1 proper splits along the deepest path to leave the last example alone.",
+    "takeaway": "Balanced depth can be logarithmic, but worst-case continuous-tree depth is N−1 under the exam’s convention.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Nk²",
+        "explanation": "Not the proper-split depth bound from N examples."
+      },
+      {
+        "label": "B",
+        "text": "k",
+        "explanation": "A continuous feature can be tested at multiple thresholds on the same path."
+      },
+      {
+        "label": "C",
+        "text": "N−1",
+        "explanation": "Correct. Each continuing split can remove just one example."
+      },
+      {
+        "label": "D",
+        "text": "2^(k−1)",
+        "explanation": "A feature-pattern expression does not give this sample-based chain depth."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 31,
@@ -555,7 +1333,34 @@
     "recall": "Which of max pooling, average pooling, biased convolution, and training BatchNorm passes the strict linearity tests?",
     "pages": "48, 81–83, 126–134",
     "note": "Key ambiguity: C is intended; max pooling is also nonlinear.",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Layer linearity: ReLU, pooling, and BatchNorm",
+    "eli5": "A linear rule must treat “add first” the same as “process separately, then add.” ReLU fails this test, but max pooling does too. The question only says “pooling,” so its printed single-answer key leaves out an important distinction.",
+    "takeaway": "ReLU and max pooling are nonlinear. Average pooling is linear; biased layers are affine, and BatchNorm depends on its mode.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Convolution",
+        "explanation": "Linear in the input without bias; affine with bias."
+      },
+      {
+        "label": "B",
+        "text": "Pooling",
+        "explanation": "Ambiguous. Average pooling is linear, while max pooling is nonlinear."
+      },
+      {
+        "label": "C",
+        "text": "ReLU",
+        "explanation": "Printed intended answer. Its changing slope makes it nonlinear."
+      },
+      {
+        "label": "D",
+        "text": "Batch normalization",
+        "explanation": "Affine with fixed evaluation statistics, but generally nonlinear as a function of a training batch."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": true
   },
   {
     "n": 32,
@@ -573,7 +1378,13 @@
     "recall": "Why can kNN have almost no fitting computation but very expensive prediction?",
     "pages": "28–32",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "kNN learned parameters versus stored data",
+    "eli5": "Basic kNN is like keeping a folder of labeled examples and consulting the three most similar ones. It remembers the examples rather than fitting a set of prediction weights.",
+    "takeaway": "Basic kNN has zero learned model weights, but still stores data and has a chosen neighbor-count hyperparameter.",
+    "choices": [],
+    "studyKey": "0",
+    "contextDependent": false
   },
   {
     "n": 33,
@@ -591,7 +1402,13 @@
     "recall": "How many parameters would 5 filters of shape (3,2,2) use without biases?",
     "pages": "59–76",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "CNN filter weights and biases",
+    "eli5": "Each filter has twelve adjustable weights: three channels times a 2×2 window. Give each filter one extra bias knob, then repeat for three filters.",
+    "takeaway": "With biases, convolution parameters = output filters × (input channels × kernel area + 1).",
+    "choices": [],
+    "studyKey": "39",
+    "contextDependent": false
   },
   {
     "n": 34,
@@ -609,7 +1426,34 @@
     "recall": "Which part of basic kNN prediction grows when the training set doubles?",
     "pages": "28–32, 41–47",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "kNN inference complexity at large scale",
+    "eli5": "Imagine answering a new question by comparing it with 100 billion examples before choosing ten neighbors. That is much more work than applying a fixed learned rule once.",
+    "takeaway": "Basic exact kNN prediction scales with stored training-set size; a fixed neural network’s forward pass does not.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "10-nearest-neighbor classifier",
+        "explanation": "Correct. Basic exact search compares the new image against an enormous stored dataset."
+      },
+      {
+        "label": "B",
+        "text": "AlexNet",
+        "explanation": "Applies a fixed sequence of learned operations to the new image."
+      },
+      {
+        "label": "C",
+        "text": "ResNet-50",
+        "explanation": "Also has a fixed forward-pass cost independent of training-set size."
+      },
+      {
+        "label": "D",
+        "text": "The specified 100-layer shrinking MLP",
+        "explanation": "May be costly, but its inference does not scan 100 billion training images."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 35,
@@ -627,7 +1471,34 @@
     "recall": "Why does a smaller coefficient not necessarily mean that feature has been removed?",
     "pages": "135–137; L1 sparsity explanation added",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "L1 sparsity and feature selection",
+    "eli5": "Lasso can turn some feature knobs all the way to zero, effectively removing those inputs from a linear prediction. Ridge usually just turns the knobs down.",
+    "takeaway": "L1 commonly induces exact zeros and embedded feature selection; L2 usually gives smooth shrinkage.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Ridge regression, L2",
+        "explanation": "Usually shrinks coefficients rather than selecting a sparse subset."
+      },
+      {
+        "label": "B",
+        "text": "Lasso regression, L1",
+        "explanation": "Correct. Its penalty can set coefficients exactly to zero."
+      },
+      {
+        "label": "C",
+        "text": "Both",
+        "explanation": "Not the standard distinction: L2 is not generally sparsity-inducing."
+      },
+      {
+        "label": "D",
+        "text": "Neither",
+        "explanation": "Misses Lasso’s feature-selection property."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 36,
@@ -645,7 +1516,34 @@
     "recall": "Recompute the scalar example with the half-squared loss and explain the difference.",
     "pages": "89, 95–104, 113–121",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Squared-error gradient-descent derivation",
+    "eli5": "If the prediction is too small, increase weights that multiply positive inputs; if it is too large, move the other way. The derivative tells exactly how much each input contributes to that direction.",
+    "takeaway": "Differentiate the stated loss, then subtract the gradient. The unhalved squared loss contributes a factor of 2.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "wᵢ ← wᵢ + 2λxᵢ(y−wᵀx)",
+        "explanation": "Correct. The minus sign from the residual derivative cancels the subtraction in gradient descent."
+      },
+      {
+        "label": "B",
+        "text": "The same update plus a squared-weight-norm term",
+        "explanation": "Adds an unsupported term; no regularization was specified."
+      },
+      {
+        "label": "C",
+        "text": "A residual update without the factor 2, plus a norm term",
+        "explanation": "Both changes are unsupported by the given loss."
+      },
+      {
+        "label": "D",
+        "text": "wᵢ ← wᵢ + λxᵢ",
+        "explanation": "Ignores how wrong the prediction is and the squared-loss derivative."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 37,
@@ -663,7 +1561,34 @@
     "recall": "Give a slope that both models can represent and one that only B can represent.",
     "pages": "41, 48–50; function-class comparison added",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Hypothesis classes and constrained slopes",
+    "eli5": "Squaring the slope knob means you can never make the slope negative. An ordinary slope knob can turn either way, so it can fit every line the squared knob can fit and some extra ones.",
+    "takeaway": "Compare representable slopes: w²≥0, whereas w can be any real number.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Some datasets favor A over B",
+        "explanation": "Not in best-achievable fit: B includes every slope A can represent."
+      },
+      {
+        "label": "B",
+        "text": "Some datasets favor B over A",
+        "explanation": "Correct. A negative-slope relationship can be fitted by B but not A."
+      },
+      {
+        "label": "C",
+        "text": "Both preceding statements",
+        "explanation": "The first is false under ideal fitting."
+      },
+      {
+        "label": "D",
+        "text": "They perform equally on all datasets",
+        "explanation": "False because A cannot represent negative slopes."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 38,
@@ -681,7 +1606,34 @@
     "recall": "Why does a nonlinear function of the parameter not necessarily create a nonlinear function of the input?",
     "pages": "48–50; effective-slope derivation added",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Equivalent function classes under reparameterization",
+    "eli5": "The knob looks more complicated, but it still sets just one line’s slope. On a suitable tangent interval, tan(w)+w sweeps through every possible slope, just as a plain real-valued w does.",
+    "takeaway": "A complicated parameter formula does not necessarily change the set of functions representable in the input.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Some datasets favor A over B",
+        "explanation": "No representational advantage: both span all real slopes."
+      },
+      {
+        "label": "B",
+        "text": "Some datasets favor B over A",
+        "explanation": "Also no representational advantage under ideal fitting."
+      },
+      {
+        "label": "C",
+        "text": "Both preceding statements",
+        "explanation": "Neither holds as a best-achievable-function-class comparison."
+      },
+      {
+        "label": "D",
+        "text": "They perform equally on all datasets",
+        "explanation": "Intended correct answer under ideal optimization; practical optimization dynamics can differ."
+      }
+    ],
+    "studyKey": "D",
+    "contextDependent": false
   },
   {
     "n": 39,
@@ -699,7 +1651,34 @@
     "recall": "Why might the same value be ordinary in one dataset and an outlier in another?",
     "pages": "28–32; outlier explanation added",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Outlier definitions",
+    "eli5": "An outlier is the person standing far from the rest of the group. They might be there for a good reason; unusual does not automatically mean mistaken.",
+    "takeaway": "An outlier is an unusually different observation, not necessarily a data error.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "A data-collection error",
+        "explanation": "One possible cause, not the definition."
+      },
+      {
+        "label": "B",
+        "text": "A point that differs significantly from other observations",
+        "explanation": "Correct. It is unusual relative to the reference dataset or pattern."
+      },
+      {
+        "label": "C",
+        "text": "A point in the normal range",
+        "explanation": "Describes an ordinary observation."
+      },
+      {
+        "label": "D",
+        "text": "The most frequent point",
+        "explanation": "Describes a common observation, not an outlier."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 40,
@@ -717,7 +1696,34 @@
     "recall": "How would changing one feature from meters to millimeters affect unscaled Euclidean-distance scores?",
     "pages": "28–32; outlier explanation added",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "kNN-distance outlier detection",
+    "eli5": "If you have to walk a long way to find a point’s neighbors, that point lives in a sparse part of the dataset. Sparse neighborhoods are evidence of unusualness.",
+    "takeaway": "Large nearest-neighbor distances indicate low local density and can serve as outlier scores.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Highest neighbor density",
+        "explanation": "Usually indicates a typical crowded region."
+      },
+      {
+        "label": "B",
+        "text": "Lowest neighbor density",
+        "explanation": "Correct. Isolated points have few nearby neighbors."
+      },
+      {
+        "label": "C",
+        "text": "Closest to the dataset center",
+        "explanation": "A global center does not define local isolation."
+      },
+      {
+        "label": "D",
+        "text": "Most similar to nearby neighbors",
+        "explanation": "Usually suggests the point is locally ordinary."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 41,
@@ -735,7 +1741,34 @@
     "recall": "Explain why the collinear counterexample does not contradict VC dimension 3.",
     "pages": "Supplemental geometric derivation; not directly taught in the supplied review",
     "note": "Wording issue: 4 for the intended VC interpretation; 3 for the literal minimum.",
-    "extra": "disk"
+    "extra": "disk",
+    "specificTopic": "Circular classifiers, convexity, and VC dimension",
+    "eli5": "A disk is filled in. If it covers two ends of a straight segment, it must cover the middle too. So three collinear points labeled inside–outside–inside already break the literal question, even though the intended VC-dimension threshold is four.",
+    "takeaway": "VC dimension 3 means some three-point set can be shattered, not that every three-point set can be.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "2 points",
+        "explanation": "Any labels on two distinct points can be represented by a disk."
+      },
+      {
+        "label": "B",
+        "text": "3 points",
+        "explanation": "Literal minimum: collinear endpoints inside and midpoint outside cannot be fitted."
+      },
+      {
+        "label": "C",
+        "text": "4 points",
+        "explanation": "Printed answer for the intended VC-dimension threshold, with the missing geometric interpretation supplied."
+      },
+      {
+        "label": "D",
+        "text": "8 points",
+        "explanation": "Not minimal under either reading."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": true
   },
   {
     "n": 42,
@@ -753,7 +1786,34 @@
     "recall": "Construct two functions that agree on a finite training set but differ at a new input.",
     "pages": "4–21, 147–150",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Training error versus test and population risk",
+    "eli5": "Getting every practice problem right does not guarantee getting the real exam right. Zero training error only tells you what happened on the examples used to fit the model.",
+    "takeaway": "A perfect training fit does not guarantee zero test error or zero population risk.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Test error must be zero",
+        "explanation": "Unsupported: the test examples may reveal errors."
+      },
+      {
+        "label": "B",
+        "text": "True error on arbitrary data must be zero",
+        "explanation": "Unsupported: fitting observed examples does not determine all unseen behavior."
+      },
+      {
+        "label": "C",
+        "text": "Both guarantees",
+        "explanation": "Combines two claims that do not follow."
+      },
+      {
+        "label": "D",
+        "text": "Neither guarantee",
+        "explanation": "Correct. Zero training MSE is only a statement about the training examples."
+      }
+    ],
+    "studyKey": "D",
+    "contextDependent": false
   },
   {
     "n": 43,
@@ -771,7 +1831,34 @@
     "recall": "If the output width were 3 instead of 2, what would the bias-free weight count be?",
     "pages": "41–47",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "MLP weight-matrix parameter counting",
+    "eli5": "Count wires between layers: four inputs send wires to eight hidden units, then those eight send wires to two outputs. Neuron values themselves are not extra trainable wires.",
+    "takeaway": "For a bias-free dense network, sum input width × output width for each adjacent layer pair.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "48",
+        "explanation": "Correct: 4×8 + 8×2 = 32+16."
+      },
+      {
+        "label": "B",
+        "text": "40",
+        "explanation": "Undercounts the two-output connection matrix."
+      },
+      {
+        "label": "C",
+        "text": "24",
+        "explanation": "Does not include all connections in both matrices."
+      },
+      {
+        "label": "D",
+        "text": "8",
+        "explanation": "Counts hidden units, not learned connections."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 44,
@@ -789,7 +1876,34 @@
     "recall": "Why would |x| become representable if two ReLU hidden units were introduced?",
     "pages": "48–50",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Affine-layer collapse without activations",
+    "eli5": "Adding more straight-line layers is like repeating instructions that only stretch and shift: the final instruction can still be written as one stretch-and-shift rule. It cannot create a bend like absolute value or a curve like a square.",
+    "takeaway": "Without nonlinear activations, extra hidden units and layers still give only an affine map.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "y=x",
+        "explanation": "Correct. The identity is linear and can be represented."
+      },
+      {
+        "label": "B",
+        "text": "y=|x|",
+        "explanation": "Cannot be represented over positive and negative inputs by one affine rule."
+      },
+      {
+        "label": "C",
+        "text": "y=x²",
+        "explanation": "A genuinely curved relationship over a general domain cannot be one affine map."
+      },
+      {
+        "label": "D",
+        "text": "Both x and |x|",
+        "explanation": "Incorrect because absolute value requires a slope change at zero."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 45,
@@ -807,7 +1921,34 @@
     "recall": "Why can a better real-valued score leave the hard mistake count unchanged?",
     "pages": "87–89",
     "note": "Interpretation: B assumes the flat regions of hard 0/1 loss are retained.",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Hard 0/1 loss and zero gradients",
+    "eli5": "A score can improve from “very wrong” to “almost right,” but a pass/fail light stays red until the boundary is crossed. A flat red light gives no local direction for improving the score.",
+    "takeaway": "Hard 0/1 loss is flat almost everywhere; use a useful surrogate loss for ordinary gradient-based training.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Yes for every output and architecture",
+        "explanation": "False for the unchanged hard loss: flat regions give no useful gradient."
+      },
+      {
+        "label": "B",
+        "text": "No regardless of output or architecture",
+        "explanation": "Printed intended answer when the hard loss’s flat regions are retained."
+      },
+      {
+        "label": "C",
+        "text": "Yes for some output activations",
+        "explanation": "Changing the output alone does not remove the hard loss’s zero derivative on flat regions."
+      },
+      {
+        "label": "D",
+        "text": "Yes for certain architectures and activations",
+        "explanation": "An architecture alone does not solve the hard-loss gradient problem; a surrogate or custom estimator changes the setup."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 46,
@@ -825,7 +1966,34 @@
     "recall": "Why can the same shuffle change a 3×3-convolution-plus-global-max network?",
     "pages": "77, 81–83, 246–247",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Spatial permutation invariance: 1×1 convolution and global max",
+    "eli5": "Stamp every pixel with the same one-pixel rule, then keep the largest stamped value. Shuffling the pixels only moves the stamped values around; it does not change the largest one.",
+    "takeaway": "A shared pointwise transform followed by global symmetric pooling ignores spatial order.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Yes",
+        "explanation": "Not under the stated whole-pixel spatial shuffle and shared 1×1 transform."
+      },
+      {
+        "label": "B",
+        "text": "No",
+        "explanation": "Correct. The outputs are merely reordered before a global max."
+      },
+      {
+        "label": "C",
+        "text": "Depends on the shuffle",
+        "explanation": "Every spatial permutation preserves the same multiset of pointwise outputs."
+      },
+      {
+        "label": "D",
+        "text": "Depends on the weights",
+        "explanation": "Any fixed shared pointwise weights work; they do not need a special sign."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 47,
@@ -843,7 +2011,34 @@
     "recall": "Would sum(ReLU(xᵢ)) be invariant? What about concatenating the ReLU outputs?",
     "pages": "220–223, 241–249",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Permutation-invariant functions",
+    "eli5": "A bowl of numbers has no first, second, or third slot. Applying the same rule to every number and taking the largest result respects that idea. Giving only the second slot double weight does not.",
+    "takeaway": "Identical elementwise transforms plus symmetric pooling can be invariant; slot-specific weights usually are not.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "x₁ + 2x₂ + x₃",
+        "explanation": "Changes when a different value moves into the double-weighted second slot."
+      },
+      {
+        "label": "B",
+        "text": "average(x₁, 2x₂, x₃)",
+        "explanation": "Dividing the same position-sensitive sum by 3 does not remove that dependence."
+      },
+      {
+        "label": "C",
+        "text": "max(ReLU(x₁), ReLU(x₂), ReLU(x₃))",
+        "explanation": "Correct. ReLU is identical for every entry, and max ignores their order."
+      },
+      {
+        "label": "D",
+        "text": "None of the above",
+        "explanation": "Incorrect because C is invariant."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 48,
@@ -861,7 +2056,34 @@
     "recall": "What breaks if the nearest listed neighbor is given an extra factor based only on its array index?",
     "pages": "208–223, 234–249",
     "note": "Archive annotation resolved: A under a shared, order-independent pairwise distance.",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Distance-weighted permutation-invariant GNN aggregation",
+    "eli5": "Give each neighbor a weight based on how similar it is to the target, then add the weighted messages. Moving a neighbor’s name in the list moves its message and its weight together, so the total stays the same.",
+    "takeaway": "Shared order-independent pairwise scores plus a symmetric weighted sum preserve neighbor-order invariance.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Yes",
+        "explanation": "Correct under the standard meaning of a shared pairwise distance. The weighted sum can ignore list order."
+      },
+      {
+        "label": "B",
+        "text": "No",
+        "explanation": "False: an explicit distance-weighted symmetric construction exists."
+      },
+      {
+        "label": "C",
+        "text": "Yes, only for some distance functions",
+        "explanation": "Unnecessary restriction for ordinary order-independent pairwise distances; arbitrary slot-dependent rules are a different setup."
+      },
+      {
+        "label": "D",
+        "text": "Yes, only for some graphs",
+        "explanation": "No special graph structure is needed for the neighbor-order argument."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 49,
@@ -879,7 +2101,34 @@
     "recall": "For the points (0,0), (2,0), and (1,3), compute the centroid.",
     "pages": "33–40",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "k-means centroids and squared-distance minimization",
+    "eli5": "A centroid is the balance point of the points assigned to a cluster. For numbers 1, 5, and 6, the balance point is their average, 4—even though 4 is not itself one of the observations.",
+    "takeaway": "A k-means centroid is the arithmetic mean of its assigned points.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "The center point of a k-means cluster",
+        "explanation": "Correct; with assignments fixed it is their arithmetic mean."
+      },
+      {
+        "label": "B",
+        "text": "The largest data point",
+        "explanation": "A maximum is not generally the center."
+      },
+      {
+        "label": "C",
+        "text": "The average distance between clusters",
+        "explanation": "A distance is not a cluster’s mean feature vector."
+      },
+      {
+        "label": "D",
+        "text": "A randomly selected hierarchical-clustering start point",
+        "explanation": "Does not define the fitted center in k-means."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 50,
@@ -897,7 +2146,34 @@
     "recall": "Why can every assignment/update step improve or preserve the objective yet still miss the global optimum?",
     "pages": "35–40",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "k-means initialization and local minima",
+    "eli5": "k-means keeps improving the grouping it already has, like walking downhill into the nearest valley. A different starting place can lead to a deeper valley, so stopping does not prove the best possible grouping was found.",
+    "takeaway": "A decreasing objective and convergence do not guarantee a global optimum; compare multiple initializations.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "The algorithm cannot run",
+        "explanation": "Poor initialization does not generally prevent execution."
+      },
+      {
+        "label": "B",
+        "text": "It may converge to a local minimum",
+        "explanation": "Correct. Different starts can reach different stable clusterings."
+      },
+      {
+        "label": "C",
+        "text": "It automatically increases the cluster count",
+        "explanation": "k remains the chosen hyperparameter in ordinary k-means."
+      },
+      {
+        "label": "D",
+        "text": "It switches to hierarchical clustering",
+        "explanation": "That would be a different algorithm, not an automatic response."
+      }
+    ],
+    "studyKey": "B",
+    "contextDependent": false
   },
   {
     "n": 51,
@@ -915,7 +2191,34 @@
     "recall": "How would the prediction change if the three targets were 2,5,20?",
     "pages": "28–30",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "kNN regression prediction",
+    "eli5": "Ask your three most similar examples for their numeric answers, then average them. If they say 2, 5, and 11, the prediction is 6. Voting on categories is a different task.",
+    "takeaway": "Unweighted kNN regression averages neighbor targets; kNN classification votes on labels.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Mean of nearest neighbors’ targets",
+        "explanation": "Correct. Numeric regression uses a mean in the ordinary unweighted version."
+      },
+      {
+        "label": "B",
+        "text": "Majority vote of their targets",
+        "explanation": "Appropriate for class labels, not the standard numeric-regression rule."
+      },
+      {
+        "label": "C",
+        "text": "Treat as classification and copy the most similar neighbor",
+        "explanation": "Does not describe general k-neighbor regression."
+      },
+      {
+        "label": "D",
+        "text": "Gradient descent on neighbor distances",
+        "explanation": "Not how basic kNN produces its prediction."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 52,
@@ -933,7 +2236,34 @@
     "recall": "What happens to the local residual-block derivative if F′(x)=−1?",
     "pages": "109",
     "note": "",
-    "extra": "residual"
+    "extra": "residual",
+    "specificTopic": "Residual connections and identity gradient paths",
+    "eli5": "A residual connection adds an express lane around a learned transformation. The backward signal can travel that direct lane as well as through the learned branch, which can help it reach earlier layers.",
+    "takeaway": "For y=x+F(x), the local derivative is I+J_F, not just J_F.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Add gradient paths bypassing nonlinear transformations",
+        "explanation": "Correct. The identity shortcut supplies a direct path."
+      },
+      {
+        "label": "B",
+        "text": "Reduce the network’s layer count",
+        "explanation": "The learned layers remain; the shortcut adds a route."
+      },
+      {
+        "label": "C",
+        "text": "Add a constant to each gradient",
+        "explanation": "The added contribution depends on the incoming gradient, not a fixed universal constant."
+      },
+      {
+        "label": "D",
+        "text": "Force every layer to be the identity",
+        "explanation": "Residual branches can learn useful nonzero transformations."
+      }
+    ],
+    "studyKey": "A",
+    "contextDependent": false
   },
   {
     "n": 53,
@@ -951,7 +2281,34 @@
     "recall": "Clip (3,4) and (0.03,0.04) with threshold 1, and compare the two scale factors.",
     "pages": "110–112, 158–159",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Limits of gradient clipping: vanishing gradients",
+    "eli5": "Clipping is a ceiling, not an elevator. It lowers an arrow that is too tall; it does nothing to lift a tiny arrow.",
+    "takeaway": "Standard gradient clipping never scales a gradient up, so it does not repair vanishing gradients.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Enlarge small gradients",
+        "explanation": "That is not what the clipping formula does."
+      },
+      {
+        "label": "B",
+        "text": "Prevent large gradients, which also fixes vanishing",
+        "explanation": "The first part describes clipping, but does not explain any cure for small gradients."
+      },
+      {
+        "label": "C",
+        "text": "Normalize everything to avoid both problems",
+        "explanation": "Confuses clipping above a threshold with rescaling every gradient."
+      },
+      {
+        "label": "D",
+        "text": "Clipping is not a vanishing-gradient remedy",
+        "explanation": "Correct. A small norm receives a scale factor of 1."
+      }
+    ],
+    "studyKey": "D",
+    "contextDependent": false
   },
   {
     "n": 54,
@@ -969,7 +2326,34 @@
     "recall": "How does replacing twenty factors of 0.5 with twenty factors of 1 change the path gradient?",
     "pages": "105–109, 160–168",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Chain-rule products and vanishing gradients",
+    "eli5": "Imagine passing a whisper through twenty people, each retaining half its volume. The message becomes tiny. A long chain of derivatives smaller than one can shrink a backward learning signal in the same way.",
+    "takeaway": "Repeated small derivative factors can shrink gradients exponentially along long paths.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Shallow networks do not use gradient learning",
+        "explanation": "False; shallow models can use it too."
+      },
+      {
+        "label": "B",
+        "text": "Deep networks have more parameters and compute",
+        "explanation": "Does not identify the multiplication mechanism causing vanishing."
+      },
+      {
+        "label": "C",
+        "text": "Many backward derivative factors can become exponentially small",
+        "explanation": "Correct. Products of factors below one can rapidly shrink."
+      },
+      {
+        "label": "D",
+        "text": "Overfitting inherently makes gradients vanish",
+        "explanation": "Overfitting and gradient propagation are different issues."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 55,
@@ -987,7 +2371,34 @@
     "recall": "Does changing one convolution from 16 filters to 64 filters make it deeper or wider?",
     "pages": "59–80, 198, 247",
     "note": "",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "CNN depth versus width and kernel size",
+    "eli5": "More floors make a building taller; more rooms on one floor make it wider. Likewise, stacking convolutional layers adds depth, while adding filters increases a layer’s width.",
+    "takeaway": "Depth counts successive transformations; filter count is width and filter size is spatial span.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "Number of filters",
+        "explanation": "Describes a layer’s channel width."
+      },
+      {
+        "label": "B",
+        "text": "Size of filters",
+        "explanation": "Describes the spatial footprint of each kernel."
+      },
+      {
+        "label": "C",
+        "text": "Number of convolutional layers",
+        "explanation": "Best listed answer. More stacked convolutional transformations mean greater depth."
+      },
+      {
+        "label": "D",
+        "text": "Number of pooling layers",
+        "explanation": "Pooling count alone does not define a deep CNN."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   },
   {
     "n": 56,
@@ -1005,6 +2416,33 @@
     "recall": "Why does a conditional historical statement fail to guarantee a curve for Fall 2026?",
     "pages": "No supporting policy in the 2026 review",
     "note": "Historical answer only; current grading policy is unverified.",
-    "extra": ""
+    "extra": "",
+    "specificTopic": "Historical grading-policy interpretation",
+    "eli5": "“There might be a curve if the distribution calls for it” is like “we may adjust the plan if needed.” It is conditional, not a promise—and an old statement does not establish this year’s policy.",
+    "takeaway": "The archive marks a conditional curve as C. Verify current grading policy separately.",
+    "choices": [
+      {
+        "label": "A",
+        "text": "No; no curve was explicitly promised",
+        "explanation": "Does not match the archived key’s conditional statement."
+      },
+      {
+        "label": "B",
+        "text": "No; only a random bump may happen",
+        "explanation": "Substitutes a different claim."
+      },
+      {
+        "label": "C",
+        "text": "Yes; it depends on the final score distribution",
+        "explanation": "Correct according to the historical archived key; not verified as Fall 2026 policy."
+      },
+      {
+        "label": "D",
+        "text": "Yes; a curve is guaranteed regardless of the distribution",
+        "explanation": "Turns a possibility into an unconditional promise."
+      }
+    ],
+    "studyKey": "C",
+    "contextDependent": false
   }
 ]
