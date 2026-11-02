@@ -84,3 +84,7 @@ Q3 is architecture dependent. Q22 has a printed-key error. Q27 needs the sample-
 ## ELI5 and topic-format revision
 
 All 56 questions have specific topic labels, a visible topic index, an ELI5 explanation, an exam takeaway, and a review-page pointer. All 52 multiple-choice/figure-choice items have per-choice explanations; the 4 original numeric free-response items have quantity/explanation tables. Actual selected answers drive feedback; ambiguous Q3/Q28/Q31/Q41 use context feedback rather than false binary grading. Existing note and review keys are preserved.
+
+## Concrete teaching revision
+
+All 56 items now lead with a worked example, a three-column concept comparison, an important distinction, review connections, and at least three memory points. Original choice elimination and longer derivations remain in optional detail panels. Q2 includes an accessible 2×2 max-pool diagram and the explicit FLOPs/runtime distinction. Persistent actual answers drive a live running score; context-dependent items are excluded and Q22 uses A.

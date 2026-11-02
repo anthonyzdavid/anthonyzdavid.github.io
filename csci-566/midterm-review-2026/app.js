@@ -34,7 +34,10 @@
     box.querySelectorAll('p:not(.result-label)').forEach(p => p.remove());
     const add = text => { const p = document.createElement('p'); p.textContent = text; box.appendChild(p); };
     if (!value) { box.className = 'answer-feedback'; label.textContent = 'Not answered yet'; add('Select or enter an answer to compare your reasoning.'); return; }
-    add('You answered ' + (chosen ? `${chosen.label}. ${chosen.text}` : value) + '.');
+    const historical = entry.choices.length ? entry.key.split(' ')[0] : entry.key;
+    const matchesHistory = normalizeAnswer(value) === normalizeAnswer(historical);
+    add('You answered ' + (chosen ? `${chosen.label}. ${chosen.text}` : value) + (matchesHistory ? ', which matches the historical exam’s answer key.' : '.'));
+    if (n === '22') add('The historical key prints B, but the training-only preprocessing rule makes A the corrected study answer.');
     if (entry.contextDependent) {
       box.className = 'answer-feedback context'; label.textContent = 'Needs context';
       add('The archived key says ' + entry.key + '. This question has an assumption or wording issue; read the ELI5 explanation and each choice below.');
@@ -46,18 +49,30 @@
       if (n === '56') add('This matches the historical key; current Fall 2026 grading policy remains unverified.');
     }
   }
+  function updateScore() {
+    let attempted = 0, correct = 0;
+    Object.entries(answerData).forEach(([n, entry]) => {
+      const value = read('answer-' + n);
+      if (!value || entry.contextDependent) return;
+      attempted++;
+      if (entry.choices.length ? value === entry.studyKey : normalizeAnswer(value) === normalizeAnswer(entry.studyKey)) correct++;
+    });
+    document.querySelectorAll('.score-count').forEach(el => { el.textContent = `${correct}/${attempted}`; });
+    document.querySelectorAll('.score-percent').forEach(el => { el.textContent = attempted ? `${Math.round(100 * correct / attempted)}% correct` : 'No scored answers yet'; });
+  }
   document.querySelectorAll('[data-answer]').forEach(input => {
     const n = input.dataset.answer;
     if (read('answer-' + n) === input.value) input.checked = true;
-    input.addEventListener('change', () => { write('answer-' + n, input.value); feedback(n, input.value); });
+    input.addEventListener('change', () => { write('answer-' + n, input.value); feedback(n, input.value); updateScore(); });
   });
   document.querySelectorAll('[data-numeric]').forEach(input => {
     const n = input.dataset.numeric; input.value = read('answer-' + n);
-    const check = () => { const value = input.value.trim(); write('answer-' + n, value); feedback(n, value); };
+    const check = () => { const value = input.value.trim(); write('answer-' + n, value); feedback(n, value); updateScore(); };
     document.querySelector(`[data-check="${n}"]`).addEventListener('click', check);
     input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); check(); } });
   });
   Object.keys(answerData).forEach(n => feedback(n, read('answer-' + n)));
+  updateScore();
 
   function filter() {
     const query = search.value.trim().toLowerCase();
