@@ -32,3 +32,10 @@ Inspired by the course-map and lecture-card structure of https://tylermichael06.
 ## Guided teaching redesign
 
 All 38 sections include a concrete story, numbered reasoning steps, a plain-language takeaway, and a small question with an explained answer. The default reader shows one idea at a time, with previous/next controls and stable deep links. Formal course content is available in a separate expandable panel after the teaching explanation. Existing section note keys and review marks are preserved. Everyday stories are explanatory additions, not claims of verbatim lecture examples. Assets use content hashes to refresh cached versions after updates.
+
+## Week 11 update
+
+- Added `#lecture-11` with 24 guided lessons from all five unique Week 11 sources: November 3 captions, Neural-Networks (70 slides), Discussion-NN-DL (32 slides), backprop handout (6 pages), and extra DeepLearning handout (45 slides).
+- Formal names and mechanisms appear in the default guided lessons. Core practice and supplementary background are distinguished; the XOR threshold discrepancy and incomplete backprop exercise assumptions are explained.
+- Existing module IDs, section indexes, note keys, and review storage remain unchanged. No raw course files or personal grades are published.
+- Source-to-lesson coverage ledger: `week11-coverage.md`.

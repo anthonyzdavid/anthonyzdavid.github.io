@@ -1,6 +1,6 @@
 'use strict';
 const $ = s => document.querySelector(s);
-const colors = {Foundations:'#78dfb3',Search:'#87c8f5',Decisions:'#e7c478',Logic:'#f3a281'};
+const colors = {Foundations:'#78dfb3',Search:'#87c8f5',Decisions:'#e7c478',Logic:'#f3a281',Learning:'#b7a3f5'};
 const key = 'csci561-fieldnotes-v1';
 let saved = {notes:{},reviewed:[]};
 try { const data=JSON.parse(localStorage.getItem(key)); if(data && typeof data.notes==='object' && data.notes!==null && Array.isArray(data.reviewed)) saved=data; } catch (_) { $('#save-status').textContent='Browser storage unavailable; use Export to keep this session.'; }

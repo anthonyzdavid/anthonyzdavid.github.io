@@ -965,5 +965,499 @@ const lectures = [
         }
       }
     ]
+  },
+  {
+    "id": 11,
+    "week": 11,
+    "date": "Nov 3, 2026",
+    "unit": "Learning",
+    "title": "Neural networks, backpropagation & deep learning",
+    "desc": "Week 11 review: neurons, XOR, forward passes, learning updates, training and evaluation, brain models, and supplementary deep-learning concepts.",
+    "map": "neurons → threshold logic → network structures → forward propagation → XOR → perceptron learning → backpropagation → generalization → brain modeling → deep learning → CNNs → model catalog",
+    "boundary": "Core: forward calculation, Boolean-network construction, perceptron and backpropagation reasoning, training and evaluation. Brain modeling and the extra deep-learning deck are included as background/supplementary material. The November 3 captions describe the final as covering material after Midterm 2 (“most material” in the transcript); check the official announcement for exact scope. The future ChatGPT/LLM discussion is explicitly excluded. Source discrepancies and calculation assumptions are labeled.",
+    "source": "November 3, 2026 lecture/discussion captions · Neural-Networks.pptx (70 slides) · Discussion-NN-DL.pptx (32 slides) · 23-handout-backprop.pdf (6 pages; printed pp. 115–120) · 23-handout-DeepLearning.pptx (45 slides)",
+    "sections": [
+      {
+        "title": "Week 11 review: exam priorities and a seven-day route",
+        "body": "<p class=\"source-info\">Source: November 3 captions, opening and discussion; Neural-Networks slides 1–2. Examples labeled “study example” are constructed practice.</p><p>Sources audited: November 3 lecture/discussion captions; Neural-Networks (70 slides); Discussion-NN-DL (32 slides); 23-handout-backprop (6 scanned pages, printed pages 115–120); 23-handout-DeepLearning (45 slides). The download ZIP repeats the four decks/handout files.</p><p>This module is a paraphrased study reconstruction. It distinguishes course claims, mathematical clarifications, and constructed exercises. It is not an official exam specification.</p>",
+        "question": "Which two skills does the professor explicitly describe as exam-style tasks?",
+        "answer": "Forward calculation through a given network and constructing a network for a given function.",
+        "teaching": {
+          "title": "Week 11 review: exam priorities and a seven-day route",
+          "story": "You have one hour to study. Start with the computations the professor explicitly points toward, then use the remaining lessons to connect the ideas.",
+          "steps": [
+            "The professor describes the last exam as essentially a third midterm covering material after midterm two. The captions say “most material after midterm two”; use the official exam announcement for the exact scope.",
+            "Explicit exam practice: calculate a network’s output and construct a small network for a supplied Boolean function. Backpropagation is a central teaching topic and connects directly to HW3.",
+            "Core route: neurons and thresholds → forward passes → XOR and separability → perceptron updates → backpropagation → training and evaluation.",
+            "Seven study days: 1 neurons and logic gates; 2 forward passes and XOR; 3 perceptron updates; 4 output deltas; 5 hidden deltas and full updates; 6 generalization and deep-learning concepts; 7 mixed practice and correction.",
+            "Biological models and the additional deep-learning handout are included below as background or supplementary reading. The professor explicitly excludes the future ChatGPT/LLM discussion from the exam; do not extend that exclusion to all neural-network material."
+          ],
+          "takeaway": "Spend 40–60 minutes daily: 5 minutes recall, 10–15 minutes explanation, 20–30 minutes solving, and 5–10 minutes correcting. Reserve separate implementation time for HW3.",
+          "question": "Which two skills does the professor explicitly describe as exam-style tasks?",
+          "answer": "Forward calculation through a given network and constructing a network for a given function."
+        }
+      },
+      {
+        "title": "Artificial neurons: McCulloch–Pitts units, weights, and bias",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 5–7, 58–59; Discussion slides 3–4. Examples labeled “study example” are constructed practice.</p><div class=\"formula\">z = Σᵢwᵢxᵢ + b; a = g(z)<br>σ(z) = 1/(1+e^(−z)); σ′(z)=σ(z)(1−σ(z))</div><p>Excitatory/inhibitory refer here to positive/negative model weights. The sigmoid derivative applies to a sigmoid, not to a hard step. A hard step has zero derivative away from its discontinuity and no ordinary derivative at the jump.</p>",
+        "question": "Study example: x=(1,0), w=(0.8,−0.4), b=−0.5. If g(z)=1 for z≥0, what is the output?",
+        "answer": "z=0.8(1)−0.4(0)−0.5=0.3, so the output is 1.",
+        "teaching": {
+          "title": "Artificial neurons: McCulloch–Pitts units, weights, and bias",
+          "story": "A neuron combines several votes. Positive weights support firing; negative weights oppose it.",
+          "steps": [
+            "Compute the weighted sum z = Σᵢ wᵢxᵢ + b. The bias b shifts the decision boundary without depending on a changing input.",
+            "Apply the activation function: a = g(z). A threshold unit outputs either 0 or 1; a sigmoid produces a smooth value between 0 and 1.",
+            "An explicit threshold θ can be represented by b = −θ when the rule is “fire if Σwᵢxᵢ ≥ θ.” A bias link is a constant input 1 with weight b.",
+            "Check equality carefully: a rule using > differs from ≥ exactly at the threshold. McCulloch–Pitts units use simplified binary activity on discrete time steps; they are not detailed biological simulations."
+          ],
+          "takeaway": "A unit does two operations: weighted sum, then activation. Weights, threshold/bias, and the equality convention all affect the answer.",
+          "question": "Study example: x=(1,0), w=(0.8,−0.4), b=−0.5. If g(z)=1 for z≥0, what is the output?",
+          "answer": "z=0.8(1)−0.4(0)−0.5=0.3, so the output is 1."
+        }
+      },
+      {
+        "title": "Threshold logic: AND, OR, NOT, and majority",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 6, 8, 14–15. Examples labeled “study example” are constructed practice.</p><p>A network of enough threshold units can express any Boolean function on a finite set of binary inputs. That does not mean one threshold unit can express every function, or that a particular training algorithm will find the representation.</p>",
+        "question": "For four voters, should (1,1,0,0) satisfy strict majority? What threshold works?",
+        "answer": "No: it is a tie. With unit weights, threshold 2.5 accepts sums 3 and 4 only.",
+        "teaching": {
+          "title": "Threshold logic: AND, OR, NOT, and majority",
+          "story": "Choose a threshold so that only the desired input combinations turn a unit on.",
+          "steps": [
+            "For binary AND, use weights (1,1) and threshold 1.5: only the sum 2 fires.",
+            "For OR, use weights (1,1) and threshold 0.5: sums 1 and 2 fire.",
+            "For NOT, use weight −1 and bias 0.5 with a nonnegative step: input 0 gives 1; input 1 gives 0.",
+            "For strict majority of n binary inputs, set all weights to 1 and use threshold floor(n/2)+0.5. More than half must be 1.",
+            "The slide uses bias −n/2 with a ≥0 test while describing strict majority. For even n, that also accepts a tie. Repair the boundary by using >0 or the half-integer threshold above.",
+            "The majority/restaurant comparison illustrates representation choice: majority is compact as a perceptron; a suitable restaurant decision tree can express patterns that a single linear separator cannot."
+          ],
+          "takeaway": "Design the truth table first, then choose weights and thresholds. A good representation can make a function much smaller.",
+          "question": "For four voters, should (1,1,0,0) satisfy strict majority? What threshold works?",
+          "answer": "No: it is a tie. With unit weights, threshold 2.5 accepts sums 3 and 4 only."
+        }
+      },
+      {
+        "title": "Feed-forward, recurrent, Hopfield, and Boltzmann networks",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slide 9; Discussion slide 6. Examples labeled “study example” are constructed practice.</p><p>These are architecture/model distinctions, not a guarantee that any recurrent model solves every sequence task. Symmetry and update assumptions matter for Hopfield energy arguments.</p>",
+        "question": "Why can feedback let a network distinguish two identical current inputs?",
+        "answer": "The internal state may differ because the network received different inputs earlier.",
+        "teaching": {
+          "title": "Feed-forward, recurrent, Hopfield, and Boltzmann networks",
+          "story": "The connections determine whether a network simply computes a function or maintains an evolving state.",
+          "steps": [
+            "A feed-forward network is a directed acyclic graph: compute each node after its predecessors. It has no recurrent internal state in this model.",
+            "A recurrent network feeds activity back through directed cycles with delays. Its state can depend on earlier time steps, like a finite automaton or flip-flop.",
+            "A Hopfield network uses recurrent connections with symmetric weights. Under the appropriate update assumptions, its dynamics reduce an energy function toward a stable state.",
+            "A Boltzmann machine uses stochastic units and an energy-based description; the lecture connects it with simulated annealing."
+          ],
+          "takeaway": "Feed-forward means an acyclic computation; recurrent means state evolves through feedback. Hopfield and Boltzmann models organize that evolution using energy.",
+          "question": "Why can feedback let a network distinguish two identical current inputs?",
+          "answer": "The internal state may differ because the network received different inputs earlier."
+        }
+      },
+      {
+        "title": "Forward propagation: compute each layer in order",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slide 10; Discussion slide 7; captions explicit exam guidance. Examples labeled “study example” are constructed practice.</p><div class=\"formula\">a₃=g(w₁₃a₁+w₂₃a₂+b₃)<br>a₄=g(w₁₄a₁+w₂₄a₂+b₄)<br>a₅=g(w₃₅a₃+w₄₅a₄+b₅)</div><p>Here wᵢⱼ means a link from i to j. The scanned handout instead writes its indices destination-first; translate the direction before applying a formula.</p>",
+        "question": "In the study network, compute h₁, h₂, and y for input (0,0).",
+        "answer": "h₁=step(−0.5)=0, h₂=step(−1.5)=0, y=step(−0.5)=0.",
+        "teaching": {
+          "title": "Forward propagation: compute each layer in order",
+          "story": "Before learning, make sure you can run a network with its weights frozen.",
+          "steps": [
+            "Write each hidden unit’s weighted sum, including its bias, then apply its activation.",
+            "Use those hidden outputs as inputs to the next layer. Do not feed the original inputs into a later unit unless the diagram includes those direct links.",
+            "Study example: h₁=step(x₁+x₂−0.5), h₂=step(x₁+x₂−1.5), y=step(h₁−2h₂−0.5), with step(z)=1 if z≥0.",
+            "For input (1,0), h₁=1 and h₂=0. Therefore y=step(1−0−0.5)=1.",
+            "For input (1,1), both hidden units are 1. Therefore y=step(1−2−0.5)=0. This network computes XOR."
+          ],
+          "takeaway": "A forward pass predicts with the current parameters; it does not update them.",
+          "question": "In the study network, compute h₁, h₂, and y for input (0,0).",
+          "answer": "h₁=step(−0.5)=0, h₂=step(−1.5)=0, y=step(−0.5)=0."
+        }
+      },
+      {
+        "title": "Linear separability, XOR, and hidden layers",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 11–12, 16–17; Discussion slides 5, 8, 11. Examples labeled “study example” are constructed practice.</p><p>“Single layer” counts trainable connection layers, not the input terminals. The lecture’s one-hidden-unit XOR construction also includes direct input-to-output skip links; a conventional adjacent-layer-only XOR construction can use two hidden units.</p>",
+        "question": "Would adding three layers with identity activations solve XOR classification with a linear output threshold?",
+        "answer": "No. Composing affine maps is still affine, leaving a single linear classification boundary.",
+        "teaching": {
+          "title": "Linear separability, XOR, and hidden layers",
+          "story": "Plot the four binary input pairs as the corners of a square. XOR assigns 1 to opposite corners and 0 to the other two.",
+          "steps": [
+            "A single perceptron separates classes with one line in 2D, or one hyperplane in higher dimensions.",
+            "No single line separates XOR’s two positive corners from its two negative corners. Training longer cannot remove this representational limitation.",
+            "Hidden units produce intermediate features. For example, OR detects at least one active input and AND detects both; the output can keep the OR case while suppressing the AND case.",
+            "Use nonlinear activations: stacking affine layers without nonlinearities still produces only an affine transformation.",
+            "More hidden units increase capacity, but too few can underfit and too much capacity can overfit. The ability to represent a function is different from learning it reliably."
+          ],
+          "takeaway": "Hidden layers with nonlinear activations let a network combine several boundaries. A learning-rate adjustment cannot make one perceptron represent XOR.",
+          "question": "Would adding three layers with identity activations solve XOR classification with a linear output threshold?",
+          "answer": "No. Composing affine maps is still affine, leaving a single linear classification boundary."
+        }
+      },
+      {
+        "title": "Discussion XOR network: verify the threshold discrepancy",
+        "body": "<p class=\"source-info\">Source: Discussion slides 8–9 and 17; captions discussion worked example. Examples labeled “study example” are constructed practice.</p><p>The corrected equations above use step(z)=1 for z≥0. No listed binary input lands exactly on either threshold, so > versus ≥ does not change this truth table. This is a source discrepancy, not a new official correction from the instructor.</p>",
+        "question": "With the intended threshold 0.5, what do A and B output for (0,1)?",
+        "answer": "A=0 because its sum is 0.3. B=1 because its sum is 0.3, which exceeds 0.2.",
+        "teaching": {
+          "title": "Discussion XOR network: verify the threshold discrepancy",
+          "story": "The discussion uses one hidden AND detector plus direct input-to-output links. A diagram label changes whether it actually computes XOR.",
+          "steps": [
+            "The intended hidden unit is A=step(0.3X+0.3Y−0.5). Only input (1,1) turns it on.",
+            "The output is B=step(0.3X+0.3Y−0.6A−0.2). For 00,01,10,11, A is 0,0,0,1 and B is 0,1,1,0.",
+            "Example (1,1): A fires because 0.6≥0.5; B receives 0.6−0.6=0, below threshold 0.2, so B=0.",
+            "Slide 9 instead labels A’s threshold “t >0.” Taken literally, any active input turns A on, making B=0 on all four binary inputs. That diagram does not compute XOR as printed.",
+            "The spoken explanation and slide 17 use threshold 0.5. Use that corrected assumption explicitly when practicing; on an exam, follow the supplied diagram and state any ambiguity."
+          ],
+          "takeaway": "Check every truth-table row. A label that seems minor can change the entire function; the notes do not silently replace the slide’s printed threshold.",
+          "question": "With the intended threshold 0.5, what do A and B output for (0,1)?",
+          "answer": "A=0 because its sum is 0.3. B=1 because its sum is 0.3, which exceeds 0.2."
+        }
+      },
+      {
+        "title": "Perceptron learning: errors, updates, and convergence",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slide 13; Discussion slide 10. Examples labeled “study example” are constructed practice.</p><p><strong>Mathematical clarification:</strong> the slides motivate learning using squared error, but the hard-threshold perceptron rule is not ordinary differentiation through a step function. Smooth squared-error gradient descent includes the activation derivative; keep those algorithms distinct.</p>",
+        "question": "If t=0, o=1, η=0.2, and xᵢ=1, what is the weight change?",
+        "answer": "Δwᵢ=0.2(0−1)(1)=−0.2.",
+        "teaching": {
+          "title": "Perceptron learning: errors, updates, and convergence",
+          "story": "A classifier predicts 0 when the correct label is 1. Increase the weights of active inputs so that this case is more likely to fire next time.",
+          "steps": [
+            "Compute the current output o and signed error t−o. The target t is supplied by the labeled training example.",
+            "Update wᵢ ← wᵢ + η(t−o)xᵢ; with a constant bias input 1, update b ← b + η(t−o).",
+            "Study example: w=(0.2,−0.1), b=−0.3, x=(1,1), t=1, η=0.1. The preactivation is −0.2, so o=0.",
+            "The correction is +0.1 for both active input weights and the bias. New w=(0.3,0.0), b=−0.2.",
+            "For linearly separable finite training data, the standard perceptron procedure converges under its usual assumptions. XOR and conflicting labels do not satisfy that guarantee."
+          ],
+          "takeaway": "Multiply the signed error by the input and learning rate. If xᵢ=0, that example gives no correction to wᵢ.",
+          "question": "If t=0, o=1, η=0.2, and xᵢ=1, what is the weight change?",
+          "answer": "Δwᵢ=0.2(0−1)(1)=−0.2."
+        }
+      },
+      {
+        "title": "Loss and gradient descent: why backpropagation is needed",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 18–22; backprop handout pp. 115–117. Examples labeled “study example” are constructed practice.</p><p>The handout sums over training patterns μ as well as output units i. For a single-example derivation, omit the μ sum. For batch training, aggregate gradients with a declared sum or mean convention.</p>",
+        "question": "Study example: target 1 and output 0.6. What is half squared error?",
+        "answer": "E=½(1−0.6)²=0.08.",
+        "teaching": {
+          "title": "Loss and gradient descent: why backpropagation is needed",
+          "story": "You know the desired final answer, but nobody gives you the correct answer for each hidden unit. Backpropagation determines how each parameter contributed to the final loss.",
+          "steps": [
+            "For one example and squared error, use E=½Σₖ(tₖ−aₖ)². A perfect output makes this loss zero.",
+            "Gradient descent updates w ← w−η∂E/∂w. The gradient measures local sensitivity, so we step in the direction that locally decreases loss.",
+            "Backpropagation applies the chain rule backward through the computation graph to obtain all those derivatives efficiently.",
+            "It is not an input signal physically running backward, and it does not require target labels for hidden units.",
+            "Multilayer loss surfaces can have local minima and flat regions. A single step or an entire run is not guaranteed to find the global best solution."
+          ],
+          "takeaway": "Forward propagation computes predictions; backpropagation computes derivatives; the optimizer uses those derivatives to update parameters.",
+          "question": "Study example: target 1 and output 0.6. What is half squared error?",
+          "answer": "E=½(1−0.6)²=0.08."
+        }
+      },
+      {
+        "title": "Backpropagation equations: output deltas and hidden deltas",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 23–25; backprop handout pp. 117–120. Examples labeled “study example” are constructed practice.</p><div class=\"formula\">δout=(t−a)g′(z)<br>δhidden=g′(z)Σ woutgoing δdownstream<br>Δw=η asource δdestination</div><p>Some references define δ=∂E/∂z instead. That delta has the opposite sign and uses a minus update. Both conventions work if paired consistently.</p><p>The handout uses Wᵢⱼ for j→i and wⱼₖ for k→j. Its equations (6.7)–(6.10) describe the same chain rule with destination-first indices. Its local update needs endpoint activations and deltas after the backward pass, allowing all gradients to be computed with work proportional to the connection count per example.</p>",
+        "question": "If η=0.1, source activation=0.8, and destination delta=−0.2, what is Δw?",
+        "answer": "Δw=0.1×0.8×(−0.2)=−0.016.",
+        "teaching": {
+          "title": "Backpropagation equations: output deltas and hidden deltas",
+          "story": "Each unit gets a local correction signal, called delta. Output units compare against labels; hidden units combine the downstream deltas.",
+          "steps": [
+            "Use one convention consistently: wᵢⱼ connects source i to destination j, zⱼ=Σᵢwᵢⱼaᵢ+bⱼ, and aⱼ=g(zⱼ).",
+            "For squared error, define output delta δⱼ=(tⱼ−aⱼ)g′(zⱼ).",
+            "For a hidden unit j, δⱼ=g′(zⱼ)Σₖwⱼₖδₖ, summing every downstream connection, including skip connections when present.",
+            "Apply wᵢⱼ ← wᵢⱼ+ηaᵢδⱼ and bⱼ ← bⱼ+ηδⱼ. The activation comes from the source; the delta comes from the destination.",
+            "Compute all deltas using the weights from the forward pass before applying updates. Mixing updated and old weights changes the intended step."
+          ],
+          "takeaway": "Remember: output delta uses the target; hidden delta uses a weighted sum of downstream deltas. Every weight update uses source activation × destination delta × learning rate.",
+          "question": "If η=0.1, source activation=0.8, and destination delta=−0.2, what is Δw?",
+          "answer": "Δw=0.1×0.8×(−0.2)=−0.016."
+        }
+      },
+      {
+        "title": "Worked backpropagation: a complete numerical update",
+        "body": "<p class=\"source-info\">Source: Backprop handout pp. 117–120; constructed sigmoid exercise. Examples labeled “study example” are constructed practice.</p><p>All displayed values are rounded. This constructed exercise uses differentiable sigmoid units and squared error; it is not presented as the answer to the discussion’s hard-threshold exercise.</p>",
+        "question": "Reproduce every update without looking, then explain why the two bias updates differ.",
+        "answer": "The destination deltas differ. Hidden bias changes by 0.1δₕ≈0.002218, while output bias changes by 0.1δₒ≈0.008872. Bias updates still depend on the receiving unit.",
+        "teaching": {
+          "title": "Worked backpropagation: a complete numerical update",
+          "story": "Work through one small sigmoid network so that every factor in the rule has a number.",
+          "steps": [
+            "Study example: one input x=1, one hidden sigmoid h, and one sigmoid output o. Initially input→hidden weight=0, hidden bias=0, hidden→output weight=1, output bias=0. Target t=1 and η=0.1.",
+            "Forward: zₕ=0, h=0.5; zₒ=1×0.5=0.5, o≈0.622459. Loss≈0.071268.",
+            "Output delta: δₒ=(1−0.622459)×0.622459×(1−0.622459)≈0.088723.",
+            "Hidden delta: δₕ=0.5(1−0.5)×1×0.088723≈0.022181. Use the old outgoing weight 1.",
+            "Update input→hidden to 0.002218 and hidden bias to 0.002218. Update hidden→output to 1.004436 and output bias to 0.008872.",
+            "Recompute the forward pass only after the complete update. The output rises toward 1, reducing this example’s loss."
+          ],
+          "takeaway": "Practice writing forward activations, output delta, hidden delta, and weight changes as separate lines. The hidden delta is not simply target minus hidden activation.",
+          "question": "Why is the hidden→output weight change half the output-bias change?",
+          "answer": "The weight update multiplies by hidden activation 0.5; the bias has a constant source activation 1."
+        }
+      },
+      {
+        "title": "Discussion backpropagation exercise: identify missing assumptions",
+        "body": "<p class=\"source-info\">Source: Discussion slide 17; Neural-Networks slides 26–29. Examples labeled “study example” are constructed practice.</p><p>If biases are trainable under the same surrogate rule, their changes are −η at both units as well. If smooth sigmoid activations are intended, both the forward values and deltas differ. Do not infer a learning rate from a diagram weight.</p>",
+        "question": "Under the conditional derivative-1 calculation, what are the five link weights when η=0.1?",
+        "answer": "All five become 0.9. This answer assumes fixed thresholds, binary forward activations, the all-ones reset, and the derivative-1 simplification.",
+        "teaching": {
+          "title": "Discussion backpropagation exercise: identify missing assumptions",
+          "story": "The slide asks for updated weights on the XOR-shaped network after training example ((1,1),0), starting with all weights 1.",
+          "steps": [
+            "The diagram still displays 0.3 and −0.6 weights, while the question resets all weights to 1. Follow the reset when interpreting that exercise.",
+            "For a unique numerical gradient update, we also need the learning rate, activation and derivative convention, loss, and whether thresholds/biases are trainable.",
+            "Ordinary hard-step activations have zero derivative away from the jump, so standard gradient backpropagation does not train them in the way a smooth sigmoid does.",
+            "The main lecture’s illustrative backward-error diagrams explicitly assume derivative 1. If that is also the intended classroom simplification here, state it.",
+            "Conditional calculation with binary forward outputs, all five link weights=1, fixed thresholds, and derivative artificially set to 1: A=B=1, δB=−1, δA=1×(−1)=−1. All five links change to 1−η. This is a classroom surrogate calculation, not ordinary differentiation of a step."
+          ],
+          "takeaway": "State assumptions before reporting an update. The supplied slide alone does not determine one defensible numerical answer.",
+          "question": "Under the conditional derivative-1 calculation, what are the five link weights when η=0.1?",
+          "answer": "All five become 0.9. This answer assumes fixed thresholds, binary forward activations, the all-ones reset, and the derivative-1 simplification."
+        }
+      },
+      {
+        "title": "Training loops: epochs, batches, initialization, and learning rate",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 31–32, 36, 39–40; handout pp. 118–120. Examples labeled “study example” are constructed practice.</p><p>The handout contrasts incremental and batch updates and explains stochastic ordering. Its seven-step procedure is initialize → choose pattern → forward → output deltas → hidden deltas → update → repeat. A practical stopping criterion should consider validation behavior, not just whether every training example has been visited once.</p>",
+        "question": "With 100 examples and batches of 10, how many parameter updates occur per epoch?",
+        "answer": "Ten, assuming one update per complete batch.",
+        "teaching": {
+          "title": "Training loops: epochs, batches, initialization, and learning rate",
+          "story": "One pass through one example is a step. Learning a useful model means repeating many steps in a controlled loop.",
+          "steps": [
+            "Initialize hidden-unit weights to small random values, then run a forward pass, calculate loss, backpropagate, and update.",
+            "An epoch is one pass through the training set. Online/SGD updates use one example; mini-batches aggregate a subset; full-batch updates aggregate the whole set.",
+            "The learning rate η sets step size. Too large can overshoot or oscillate; too small can make learning slow. The lecture shows a decaying schedule, not a universal requirement that every run end at exactly zero.",
+            "For an implementation, cache activations and preactivations, compute gradients before mutating weights, and keep a consistent sum-versus-average convention for batches.",
+            "Equal hidden-unit initialization can preserve symmetry, preventing them from learning different features. The all-ones discussion exercise is a calculation setup, not a recommended general initialization."
+          ],
+          "takeaway": "Backpropagation is the derivative calculation inside a larger training loop. Epoch count, initialization, batch size, and step size affect learning.",
+          "question": "With 100 examples and batches of 10, how many parameter updates occur per epoch?",
+          "answer": "Ten, assuming one update per complete batch."
+        }
+      },
+      {
+        "title": "Generalization, underfitting, overfitting, and evaluation",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 17, 33–39; captions face-recognition example. Examples labeled “study example” are constructed practice.</p><p>Face recognition uses input features and labeled identity outputs; a new pose or image tests generalization. Learning from a black box means approximating its input–output mapping from examples, not recovering its actual internal mechanism.</p>",
+        "question": "Training accuracy is 99%, validation accuracy is 60%. What should you investigate?",
+        "answer": "Overfitting, distribution differences, leakage or labeling problems, and whether the evaluation setup matches the task. More training alone may worsen the gap.",
+        "teaching": {
+          "title": "Generalization, underfitting, overfitting, and evaluation",
+          "story": "A network that memorizes its training portraits can still fail on a new photograph of the same person.",
+          "steps": [
+            "Training performance measures fit to examples used for updates. Generalization measures behavior on unseen cases.",
+            "Too little representational capacity can underfit: even training error stays high. Excess capacity or excessive fitting can produce low training error but poor unseen performance.",
+            "The lecture gives a 60/40 train/test split as an example. That ratio is not a fixed rule.",
+            "Practical clarification: use validation data to select network size, learning rate, or stopping time, and reserve the test set for final evaluation. Repeatedly tuning on the test set leaks information.",
+            "Compare performance across network complexity and against other methods. Choose architecture for the task; more units are not automatically better.",
+            "The lecture’s kangaroo/self-driving story illustrates distribution shift: success on familiar data does not establish success on a new environment. Treat the anecdote as motivation, not a verified incident report."
+          ],
+          "takeaway": "Good training accuracy is necessary evidence about fit, not proof of generalization. Evaluate on data that did not drive your choices.",
+          "question": "Training accuracy is 99%, validation accuracy is 60%. What should you investigate?",
+          "answer": "Overfitting, distribution differences, leakage or labeling problems, and whether the evaluation setup matches the task. More training alone may worsen the gap."
+        }
+      },
+      {
+        "title": "TensorFlow Playground: turn architecture choices into experiments",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 4, 39–40, 70; Discussion slide 18. Examples labeled “study example” are constructed practice.</p><p><a href=\"https://playground.tensorflow.org/\" target=\"_blank\" rel=\"noopener\">Open TensorFlow Playground ↗</a>. The lecture recommends this tool. Check the actual HW3 instructions for required architecture, activation, initialization, outputs, and permitted libraries; these notes do not substitute for the assignment.</p>",
+        "question": "Why change one parameter at a time when comparing two runs?",
+        "answer": "It makes the cause of a change easier to identify, though random initialization can still affect results.",
+        "teaching": {
+          "title": "TensorFlow Playground: turn architecture choices into experiments",
+          "story": "Use the playground as a small laboratory, changing one choice at a time.",
+          "steps": [
+            "Start with linearly separable data and a simple network. Observe its decision boundary and losses.",
+            "Try XOR-style or circle data, then add hidden units with nonlinear activations. Compare what the network can represent.",
+            "Try spiral data and inspect whether capacity and training are sufficient. Do not conclude every failed run is caused by the learning rate.",
+            "Change one variable—hidden units, layers, activation, learning rate, or batch size—and record its effect on training and test behavior.",
+            "Connect the picture to equations: each boundary comes from weighted sums and activations, while training changes weights using gradients."
+          ],
+          "takeaway": "Use controlled comparisons to understand mechanisms. Clicking Train is a demonstration; HW3 requires implementing the specified learning procedure yourself.",
+          "question": "Why change one parameter at a time when comparing two runs?",
+          "answer": "It makes the cause of a change easier to identify, though random initialization can still affect results."
+        }
+      },
+      {
+        "title": "Brain modeling: anatomy, connectionism, and functional regions",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 3, 41–48, 56–59; captions brain anecdotes. Examples labeled “study example” are constructed practice.</p><p>Biology is covered here as lecture background. The course’s approximate neuron/synapse counts and historical anecdotes are preserved as contextual ideas rather than promoted to independently verified modern measurements.</p>",
+        "question": "Does successful backpropagation prove that a human brain learns by the same algorithm?",
+        "answer": "No. Engineering performance and biological plausibility are different claims.",
+        "teaching": {
+          "title": "Brain modeling: anatomy, connectionism, and functional regions",
+          "story": "Artificial neural networks borrow an organizing idea from brains without reproducing the chemistry and electrical detail of real cells.",
+          "steps": [
+            "Basic anatomy: dendrites and soma receive/integrate signals, axons carry output, and synapses mediate interactions with other cells. Real signaling is more complex than a weighted sum.",
+            "The lecture uses approximate brain-scale counts and noisy spike trains to motivate distributed computation. Those slide figures are background context, not exact quantities to derive from the ANN model.",
+            "Functional regions discussed include motor and somatosensory areas, visual and auditory processing, Broca’s area for speech production, Wernicke’s area for language comprehension, and prefrontal functions such as planning.",
+            "AI asks how to build useful intelligent behavior; cognitive psychology studies behavior and mental processes; computational neuroscience models neural mechanisms with biological constraints. Connectionism models distributed computation with networks of simplified units.",
+            "Glial cells, phantom-limb/mirror anecdotes, lesion cases, and stimulation-evoked memories motivate the gap between useful artificial models and biological explanation. Do not treat these simplified lecture stories as clinical guidance or precise scientific claims."
+          ],
+          "takeaway": "An ANN can be an effective classifier without being a faithful model of a biological neuron or a whole brain.",
+          "question": "Does successful backpropagation prove that a human brain learns by the same algorithm?",
+          "answer": "No. Engineering performance and biological plausibility are different claims."
+        }
+      },
+      {
+        "title": "Biological neuron models: cable equation, Hodgkin–Huxley, and leaky integration",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 49–55. Examples labeled “study example” are constructed practice.</p><p>In this model positive synaptic weights raise the drive and negative weights lower it. Detailed biological modeling is background; no derivation of the full Hodgkin–Huxley system is supplied in this week’s course material.</p>",
+        "question": "Without input, if h=0 and m(0)>0, what happens to a leaky integrator?",
+        "answer": "Its potential decays exponentially toward 0 for τ>0.",
+        "teaching": {
+          "title": "Biological neuron models: cable equation, Hodgkin–Huxley, and leaky integration",
+          "story": "Different models trade biological detail for mathematical and computational simplicity.",
+          "steps": [
+            "Detailed compartment/cable models represent how electrical potentials vary along dendrites and membranes. They require more structure than one scalar activation.",
+            "Hodgkin–Huxley models describe membrane voltage and ion-channel dynamics underlying action potentials. NEURON and GENESIS are simulation environments mentioned in the slides.",
+            "Integrate-and-fire models simplify dynamics while retaining a threshold-triggered spike event. The lecture also introduces a leaky integrator for continuous activity.",
+            "For the leaky integrator, τ dm/dt = −m + ΣᵢwᵢXᵢ(t)+h. The negative m term makes activity decay toward the drive rather than accumulate forever.",
+            "With constant drive h and no varying synaptic input, m(t)=h+(m(0)−h)e^(−t/τ). A positive τ controls the speed of relaxation; firing-rate output can be X=g(m)."
+          ],
+          "takeaway": "McCulloch–Pitts, integrate-and-fire, leaky integrators, and Hodgkin–Huxley sit at different levels of abstraction. Recognize what each preserves; do not equate them.",
+          "question": "Without input, if h=0 and m(0)>0, what happens to a leaky integrator?",
+          "answer": "Its potential decays exponentially toward 0 for τ>0."
+        }
+      },
+      {
+        "title": "Deep learning: learned features versus hand-designed features",
+        "body": "<p class=\"source-info\">Source: Neural-Networks slides 60–65; Discussion slides 19–28; extra DL slides 5–14. Examples labeled “study example” are constructed practice.</p><p>ImageNet results and Google network examples in these decks are historical illustrations from the cited years, not current rankings. Classification asks which class; detection/localization also asks where; scene parsing assigns semantic labels across an image.</p>",
+        "question": "What does “learned feature extraction” change in the classical vision pipeline?",
+        "answer": "It lets training adjust the representation used by the classifier instead of relying entirely on fixed human-designed descriptors.",
+        "teaching": {
+          "title": "Deep learning: learned features versus hand-designed features",
+          "story": "For image recognition, a system needs useful features before it can classify an object.",
+          "steps": [
+            "A classical pipeline extracts human-designed descriptors such as SIFT, HoG, SURF, or RIFT, then trains a classifier on them.",
+            "A deep network learns intermediate representations from data, letting the feature extractor and classifier be trained together.",
+            "Hierarchy: earlier representations may capture simple local patterns, while later combinations support more complex recognition. Learned features need not have tidy human-readable meanings.",
+            "The slides describe combining separately trained stages as one strategy. Mathematical clarification: deep learning does not require training every layer independently; end-to-end backpropagation can optimize the full network.",
+            "Human design remains involved in topology, data, objectives, and evaluation. The extra handout also discusses hybrid systems that combine hand-designed features, learned features, and other classifiers."
+          ],
+          "takeaway": "The key change is learning representations as well as the final classifier. Deep learning is not a guarantee of perfect features or generalization.",
+          "question": "What does “learned feature extraction” change in the classical vision pipeline?",
+          "answer": "It lets training adjust the representation used by the classifier instead of relying entirely on fixed human-designed descriptors."
+        }
+      },
+      {
+        "title": "Convolutional neural networks: receptive fields, sharing, and pooling",
+        "body": "<p class=\"source-info\">Source: Extra DL slides 16–19, 26; Discussion slide 29. Examples labeled “study example” are constructed practice.</p><div class=\"formula\">One spatial output size = floor((N + 2P − K)/S) + 1</div><p>The size calculation is a constructed clarification of the handout’s convolution diagrams. The displayed formula assumes unit dilation. Convolutional architecture is not restricted to supervised learning, even though the deck groups CNNs under its supervised examples.</p>",
+        "question": "If the same edge detector is used at ten positions, does it need ten independent sets of weights?",
+        "answer": "No. Weight sharing reuses one parameter set; each position produces a different activation from its local input patch.",
+        "teaching": {
+          "title": "Convolutional neural networks: receptive fields, sharing, and pooling",
+          "story": "An image feature such as an edge can occur in many positions. A convolutional layer applies the same detector across local patches.",
+          "steps": [
+            "Local receptive fields connect a unit to a small region instead of every image pixel.",
+            "Shared weights reuse the same filter across positions, producing a feature map. This reduces parameters relative to separate dense connections at every position.",
+            "An activation supplies nonlinearity. Pooling/subsampling reduces spatial resolution and can provide some tolerance to small shifts; it does not guarantee complete invariance.",
+            "A basic pipeline repeats convolution → nonlinearity → optional subsampling, then uses a classification head. The supplied historical example has convolutional layers followed by fully connected layers and softmax.",
+            "Study example: one-channel 5×5 input, 3×3 filter, stride 1, no padding gives a 3×3 output map. The filter has 9 weights plus one bias, reused at each of the nine positions."
+          ],
+          "takeaway": "CNNs exploit image structure through locality and shared filters. The additional handout provides background beyond the core forward/backward calculations.",
+          "question": "If the same edge detector is used at ten positions, does it need ten independent sets of weights?",
+          "answer": "No. Weight sharing reuses one parameter set; each position produces a different activation from its local input patch."
+        }
+      },
+      {
+        "title": "Deep-learning taxonomy: RNNs, autoencoders, RBMs, and belief nets",
+        "body": "<p class=\"source-info\">Source: Discussion slide 29; extra DL slide 15; captions discussion. Examples labeled “study example” are constructed practice.</p><p>A reconstruction objective alone does not guarantee a useful compressed representation; architecture or constraints such as a bottleneck, noise, or sparsity matter. A variational autoencoder adds a probabilistic latent-variable objective, described separately below as supplementary material.</p>",
+        "question": "Where does a basic autoencoder obtain its target output?",
+        "answer": "From the original input itself. It learns to reconstruct that input through an intermediate code.",
+        "teaching": {
+          "title": "Deep-learning taxonomy: RNNs, autoencoders, RBMs, and belief nets",
+          "story": "The week names several model families. Distinguish architecture from how the training targets are obtained.",
+          "steps": [
+            "CNNs exploit local spatial structure; recurrent neural networks maintain state through repeated computation and are useful for sequences.",
+            "An autoencoder maps input x to a latent code, then reconstructs x. The input provides the reconstruction target, so separate class labels are not required.",
+            "A denoising autoencoder reconstructs a clean input from a corrupted version. A sparse autoencoder encourages only limited latent activity.",
+            "A restricted Boltzmann machine (RBM) has visible and hidden stochastic units with restricted connectivity; stacked RBMs are associated with deep belief networks in the handout’s historical taxonomy.",
+            "Deep belief networks are layered probabilistic generative models, not simply another name for an arbitrary Bayesian network. CNN/RNN are architectural descriptions; supervised/unsupervised describe learning setups."
+          ],
+          "takeaway": "Know each family’s defining idea. The lecture introduces these names at a high level rather than deriving every training algorithm.",
+          "question": "Where does a basic autoencoder obtain its target output?",
+          "answer": "From the original input itself. It learns to reconstruct that input through an intermediate code."
+        }
+      },
+      {
+        "title": "TensorFlow computation graphs and neural-network applications",
+        "body": "<p class=\"source-info\">Source: Discussion slides 30–32; Neural-Networks slides 66–69; extra DL slides 27–33. Examples labeled “study example” are constructed practice.</p><p>The decks show framework concepts and historical research examples. They are not current TensorFlow API documentation or instructions to use a library in HW3.</p>",
+        "question": "Is “TensorFlow” a substitute for naming the loss and optimization algorithm?",
+        "answer": "No. A framework can express many models, losses, and optimizers; those choices still need to be specified.",
+        "teaching": {
+          "title": "TensorFlow computation graphs and neural-network applications",
+          "story": "A network can be represented as connected operations on arrays. The same training ideas support many different prediction tasks.",
+          "steps": [
+            "A computation graph connects operations through their input/output tensors. Parameters participate in the forward computation, and derivatives can be accumulated backward through dependencies.",
+            "TensorFlow is the framework presented in the discussion, not the name of a single learning algorithm. The slides’ graph view illustrates organizing a large computation.",
+            "Classification examples include face, handwriting, speech, and fraud recognition. Modeling examples approximate input–output relations for control, compression, and other tasks.",
+            "Forecasting predicts future values; novelty detection looks for unusual cases. Detection and localization locate objects; semantic scene labeling assigns categories across an image.",
+            "Applications need representative data and meaningful evaluation. A model trained for one distribution is not automatically reliable in a new setting."
+          ],
+          "takeaway": "Architecture, learning algorithm, framework, and application are different parts of the system. Explain each part’s role.",
+          "question": "Is “TensorFlow” a substitute for naming the loss and optimization algorithm?",
+          "answer": "No. A framework can express many models, losses, and optimizers; those choices still need to be specified."
+        }
+      },
+      {
+        "title": "Supplementary model catalog: VAE, ResNet, VGG, and Inception",
+        "body": "<p class=\"source-info\">Source: Extra DL slides 37–39, 41. Examples labeled “study example” are constructed practice.</p><p>These brief definitions are study clarifications of the paper titles. The handout supplies pointers rather than a full treatment of VAE objectives or residual-network training.</p>",
+        "question": "What is the defining residual-block operation?",
+        "answer": "Add the input through a skip connection to the transformed input: y=x+F(x), with compatible shapes or a projection.",
+        "teaching": {
+          "title": "Supplementary model catalog: VAE, ResNet, VGG, and Inception",
+          "story": "The additional handout ends with research directions. Learn a one-sentence mechanism for each instead of treating the paper list as a core derivation assignment.",
+          "steps": [
+            "A variational autoencoder (VAE) learns a probabilistic latent representation using an encoder and decoder with a reconstruction term and a distribution regularization term.",
+            "A residual network (ResNet) adds a skip path so a block learns a residual F(x) and returns x+F(x), when dimensions match. This supports optimization of deep models.",
+            "VGG uses repeated small convolutional filters in a deep architecture. Inception/GoogLeNet combines branches operating at different scales within a module.",
+            "The slides pair these papers with datasets such as MNIST, CIFAR, or ImageNet. These are supplementary historical project pointers, not required current benchmark scores."
+          ],
+          "takeaway": "Recognize the named model and its main mechanism; prioritize the core Week 11 calculations before extending into research architectures.",
+          "question": "What is the defining residual-block operation?",
+          "answer": "Add the input through a skip connection to the transformed input: y=x+F(x), with compatible shapes or a projection."
+        }
+      },
+      {
+        "title": "Supplementary applications: attention, memory, speech, RL, and detection",
+        "body": "<p class=\"source-info\">Source: Extra DL slides 20–25, 34–36, 40, 42–44; Discussion slide 22. Examples labeled “study example” are constructed practice.</p><p>The decks name Deep Speech 2, End-to-End Memory Networks, WaveNet, Fast R-CNN, SSD, R-FCN, SegNet, and Fully Convolutional Networks as reading/project directions. No implementation of these papers is implied by this review. ChatGPT/LLMs are mentioned as a future lecture explicitly excluded from the exam, rather than assigned here as a core topic.</p>",
+        "question": "Which task needs a category label for every pixel rather than one label for the image?",
+        "answer": "Semantic segmentation or scene parsing.",
+        "teaching": {
+          "title": "Supplementary applications: attention, memory, speech, RL, and detection",
+          "story": "The paper catalog shows that neural networks apply to sequences, decisions, audio, and spatial prediction as well as image labels.",
+          "steps": [
+            "Sequence-to-sequence translation encodes an input sequence and generates an output sequence. Attention lets each decoding step weight relevant input representations.",
+            "End-to-end memory networks retrieve information from a learned memory representation for a task. Deep Speech 2 is the handout’s speech-recognition example; WaveNet models raw audio autoregressively.",
+            "Deep reinforcement learning uses a neural network inside a reward-driven learning system; the catalog cites Atari, while the discussion mentions Go. Predicting a class label is not the same objective as maximizing return.",
+            "Fast R-CNN, SSD, and R-FCN are object-detection examples. SegNet and fully convolutional networks predict spatial semantic labels rather than just one label for the image.",
+            "Historical ImageNet tables illustrate the shift toward convolutional models in 2012–2013. “Top-5 error” means the correct class is absent from the five highest-ranked predictions; do not confuse it with top-1 error."
+          ],
+          "takeaway": "Use task output to distinguish classification, detection, segmentation, sequence generation, and reward-based action selection. The catalog is supplementary, not a claim that every paper is exam material.",
+          "question": "Which task needs a category label for every pixel rather than one label for the image?",
+          "answer": "Semantic segmentation or scene parsing."
+        }
+      },
+      {
+        "title": "Week 11 mixed recall: prove you can do the work",
+        "body": "<p class=\"source-info\">Source: All five Week 11 sources; constructed practice checklist. Examples labeled “study example” are constructed practice.</p><p>Additional drills: (1) strict majority for six inputs uses threshold 3.5; (2) with downstream weights 2 and −1 and deltas 0.1 and 0.2, the hidden weighted error is 2(0.1)−0.2=0; (3) a 7×7 single-channel image with a 3×3 filter, no padding, stride 2 yields a 3×3 map.</p>",
+        "question": "A sigmoid output is 0.8, target is 1, incoming activation is 0.5, and η=0.1. Find δ and Δw for half squared error.",
+        "answer": "δ=(1−0.8)×0.8×0.2=0.032. Δw=0.1×0.5×0.032=0.0016. The output bias changes by 0.0032.",
+        "teaching": {
+          "title": "Week 11 mixed recall: prove you can do the work",
+          "story": "Close your notes and use a blank page. Recognition is easier than producing a correct solution yourself.",
+          "steps": [
+            "Write z=Σwx+b and explain how to replace an explicit threshold with a bias. Construct AND, OR, NOT, and strict majority with no tie error.",
+            "Calculate all four rows of an XOR network, including its hidden outputs. Explain why one perceptron cannot do the same job.",
+            "Perform a perceptron correction and a sigmoid backpropagation step. State the sign convention, source/destination direction, derivatives, learning rate, and bias assumptions.",
+            "Explain training versus validation versus testing, one epoch versus one update, and underfitting versus overfitting. Diagnose whether a failure comes from capacity, optimization, or data.",
+            "Compare classical and learned feature pipelines. Define CNN weight sharing, recurrent state, an autoencoder target, and the abstraction gap between an ANN and a real neuron.",
+            "Aim for 80% on fresh core practice before moving on. Redo each error the next day and several days later; mark the module reviewed only when you can explain the reasoning."
+          ],
+          "takeaway": "Exam preparation means producing equations, intermediate values, and explanations without relying on the revealed answers. These checks are study targets, not a score guarantee.",
+          "question": "A sigmoid output is 0.8, target is 1, incoming activation is 0.5, and η=0.1. Find δ and Δw for half squared error.",
+          "answer": "δ=(1−0.8)×0.8×0.2=0.032. Δw=0.1×0.5×0.032=0.0016. The output bias changes by 0.0032."
+        }
+      }
+    ]
   }
 ];
